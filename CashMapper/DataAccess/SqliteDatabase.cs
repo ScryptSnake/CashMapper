@@ -10,7 +10,7 @@ namespace CashMapper.DataAccess
 {
     public class SqliteDatabase: IDatabase
     {
-        private readonly SqliteConnection connection;
+        private IDbConnection Connection { get; }
 
         public SqliteDatabase(DatabaseSettings dbSettings)
         {
@@ -20,94 +20,9 @@ namespace CashMapper.DataAccess
                 DataSource = dbSettings.Path
             };
             // Connect to new db instance.
-            connection = new SqliteConnection(builder.ConnectionString);
-            connection.Open();
-        }
-
-
-
-        public void Perform(Action<IDbConnection> action)
-        {
-            action(connection);
-        }
-
-        public void Perform(Action<IDbConnection, IDbTransaction> action)
-        {
-            using var transaction = connection.BeginTransaction();
-            action(connection, transaction);
-            transaction.Commit();
-        }
-
-        public void Perform<TArg>(Action<IDbConnection, TArg> func, TArg argument)
-        {
-            func(connection, argument);
-        }
-
-        public void Perform<TArg>(Action<IDbConnection, TArg, IDbTransaction> func, TArg argument)
-        {
-            using var transaction = connection.BeginTransaction();
-            func(connection, argument, transaction);
-            transaction.Commit();
-        }
-
-        public async Task PerformAsync(Func<IDbConnection, Task> func)
-        {
-            await func(connection);
-        }
-
-        public async Task PerformAsync<TArg>(Func<IDbConnection, TArg, Task> func, TArg argument)
-        {
-            await func(connection, argument);
-        }
-
-        public async Task PerformAsync<TArg>(Func<IDbConnection, TArg, IDbTransaction, Task> func, TArg argument)
-        {
-            await using var transaction = connection.BeginTransaction();
-            await func(connection, argument, transaction);
-            transaction.Commit();
-        }
-
-        public TResult Get<TResult>(Func<IDbConnection, TResult> func)
-        {
-            return func(connection); // Remember:  the last argument in the Func delegate is the return type of the func.
-        }
-
-        public TResult Get<TResult>(Func<IDbConnection, IDbTransaction, TResult> func)
-        {
-            using var transaction = connection.BeginTransaction();
-            var result = func(connection, transaction);
-            transaction.Commit();
-            return result;
-        }
-
-        public TResult Get<TResult, TArg>(Func<IDbConnection, TArg, TResult> func, TArg argument)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TResult Get<TResult, TArg>(Func<IDbConnection, TArg, IDbTransaction, TResult> func, TArg argument)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TResult> GetAsync<TResult>(Func<IDbConnection, Task<TResult>> func)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TResult> GetAsync<TResult>(Func<IDbConnection, IDbTransaction, Task<TResult>> func)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TResult> GetAsync<TResult, TArg>(Func<IDbConnection, TArg, Task<TResult>> func, TArg argument)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TResult> GetAsync<TResult, TArg>(Func<IDbConnection, TArg, IDbTransaction, Task<TResult>> func, TArg argument)
-        {
-            throw new NotImplementedException();
+            // Store the connection for use with dapper. 
+            Connection = new SqliteConnection(builder.ConnectionString);
+            Connection.Open();
         }
 
 
@@ -115,12 +30,53 @@ namespace CashMapper.DataAccess
 
         public void Dispose()
         {
-            connection.Dispose();
+            Connection.Dispose();
         }
 
         public ValueTask DisposeAsync()
         {
-            connection.DisposeAsync();
+            Connection.DisposeAsync();
+        }
+
+
+        public Task ExecuteAsync(string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ExecuteAsync<TParam>(string query, TParam? parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TEntity> GetAsync<TEntity>(string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TEntity> GetAsync<TEntity, TParam>(string query, TParam? parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<TEntity>> GetMultipleAsync<TEntity>(string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<TEntity>> GetMultipleAsync<TEntity, TParam>(string query, TParam? parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TEntity> AddAsync<TEntity>(TEntity entity, string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TEntity> AddAsync<TEntity, TParam>(TEntity entity, string query, TParam? parameters)
+        {
+            throw new NotImplementedException();
         }
     }
 }

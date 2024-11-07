@@ -1,0 +1,14 @@
+
+@ScryptSnake 11.4.24 DESIGN NOTES FOR APPLICATION.
+------------------------------------------------------------
+
+DTOs / Data Entities:
+- A question of whether 'lazy loading' should be used or 1:1 mapping of Records to DB table record. 
+- Type Mapper needed for Dapper
+
+Data Access Abstraction:
+- Primary requirement:  to be database agnostic.
+- A question of whether an abstracted IDatabase with delegates should be used for repositories. 
+- Or simply build generic repository classes and inject a IDBConnection for CRUD ops.
+- Another consideration is being SQL dialect agnostic. How do we achieve this? The ORMs abstract the DB usually. Dapper uses SQL statements tho. 
+- To be ORM agnostic would be difficult. 
