@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
+using Dapper;
 
 namespace CashMapper.DataAccess
 {
-    public class SqliteDatabase: IDatabase
+    public class SqliteDatabase: IDatabase, IDisposable, IAsyncDisposable
     {
         private IDbConnection Connection { get; }
 
@@ -35,13 +36,13 @@ namespace CashMapper.DataAccess
 
         public ValueTask DisposeAsync()
         {
-            Connection.DisposeAsync();
+            Connection.DisposeAsync;
         }
 
-
+        // TODO: Consider how transactions play a role and at what layer?
         public Task ExecuteAsync(string query)
         {
-            throw new NotImplementedException();
+            var result = Connection.ExecuteAsync()
         }
 
         public Task ExecuteAsync<TParam>(string query, TParam? parameters)

@@ -9,7 +9,7 @@ namespace CashMapper.DataAccess.Entities;
 /// A base class for which all DTO entities inherit. 
 /// </summary>
 /// <seealso cref="System.IEquatable&lt;CashMapper.DataAccess.Entities.EntityBase&gt;" />
-internal abstract record EntityBase
+public abstract record EntityBase
 {
     public long Id { get; init; }
     public DateTime DateCreated { get; init;}
