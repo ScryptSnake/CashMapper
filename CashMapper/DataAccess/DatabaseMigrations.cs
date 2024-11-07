@@ -17,7 +17,19 @@ namespace CashMapper.DataAccess
     {
         private const int CurrentVersion = 1;
         private const string Version1 = """
-                                        CREATE TABLE account_profiles
+                                    CREATE TABLE categories
+                                    (
+                                        id                  INTEGER PRIMARY KEY,
+                                        name                TEXT NOT NULL,
+                                        category_type       TEXT NOT NULL,
+                                        date_created        TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                        date_modified       TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                        flag                TEXT
+                                    );
+                                    CREATE UNIQUE INDEX u_idx__categories__name ON categories(name);
+                                    
+                                    
+                                    CREATE TABLE account_profiles
                                     (
                                         id              INTEGER PRIMARY KEY,
                                         name            TEXT NOT NULL,
@@ -100,17 +112,6 @@ namespace CashMapper.DataAccess
                                     CREATE UNIQUE INDEX idx__income_items__income_profile_id ON income_profiles(id);
                                     
                                     
-                                    
-                                    CREATE TABLE categories
-                                    (
-                                        id                  INTEGER PRIMARY KEY,
-                                        name                TEXT NOT NULL,
-                                        category_type       TEXT NOT NULL,
-                                        date_created        TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                        date_modified       TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                        flag                TEXT
-                                    );
-                                    CREATE UNIQUE INDEX u_idx__categories__name ON categories(name);
                                     
                                     
                                     CREATE TABLE transactions

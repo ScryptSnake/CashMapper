@@ -20,7 +20,6 @@ public class DatabaseFactory : IDatabaseFactory
         // Start migrations, store the task.
         Migration = DatabaseMigrations.Migrate(dbSettings);
     }
-
     public async Task<IDatabase> GetDatabase()
     {
         // Await migration task to finish. Return new instance of DB.

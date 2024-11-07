@@ -12,20 +12,16 @@ namespace CashMapper.DataAccess
     /// </summary>
     public interface IDatabase: IDisposable, IAsyncDisposable
     {
+        ConnectionState State { get; }
 
-        Task ExecuteAsync(string query);
+        Task ExecuteAsync(string sql, object? param = null);
 
-        Task ExecuteAsync<TParam>(string query, TParam? parameters);
+        Task<T?> ExecuteScalarAsync<T>(string sql, object? param = null);
 
-        Task<TEntity> GetAsync<TEntity>(string query);
-        Task<TEntity> GetAsync<TEntity, TParam>(string query, TParam? parameters);
+        DbTransaction BeginTransaction();
+        Task<TEntity> GetAsync<TEntity>(string sql, object? param=null);
 
-        Task<IEnumerable<TEntity>> GetMultipleAsync<TEntity>(string query);
-
-        Task<IEnumerable<TEntity>> GetMultipleAsync<TEntity,TParam>(string query, TParam? parameters);
-
-        Task<TEntity> AddAsync<TEntity>(TEntity entity, string query);
-        Task<TEntity> AddAsync<TEntity,TParam>(TEntity entity, string query, TParam? parameters);
+        Task<IEnumerable<TEntity>> GetMultipleAsync<TEntity>(string sql, object? param = null);
 
     }
 }

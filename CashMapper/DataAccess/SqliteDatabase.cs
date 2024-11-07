@@ -9,7 +9,7 @@ using Dapper;
 
 namespace CashMapper.DataAccess
 {
-    public class SqliteDatabase: IDatabase, IDisposable, IAsyncDisposable
+    public class SqliteDatabase: IDatabase
     {
         private IDbConnection Connection { get; }
 
@@ -24,10 +24,13 @@ namespace CashMapper.DataAccess
             // Store the connection for use with dapper. 
             Connection = new SqliteConnection(builder.ConnectionString);
             Connection.Open();
+            
         }
 
-
-
+        public ConnectionState State
+        {
+            get => Connection.State;
+        }
 
         public void Dispose()
         {
@@ -36,48 +39,33 @@ namespace CashMapper.DataAccess
 
         public ValueTask DisposeAsync()
         {
-            Connection.DisposeAsync;
-        }
-
-        // TODO: Consider how transactions play a role and at what layer?
-        public Task ExecuteAsync(string query)
-        {
-            var result = Connection.ExecuteAsync()
-        }
-
-        public Task ExecuteAsync<TParam>(string query, TParam? parameters)
-        {
             throw new NotImplementedException();
         }
 
-        public Task<TEntity> GetAsync<TEntity>(string query)
+        public async Task ExecuteAsync(string sql, object? param = null)
         {
-            throw new NotImplementedException();
+            await Connection.ExecuteAsync(sql, param);
         }
 
-        public Task<TEntity> GetAsync<TEntity, TParam>(string query, TParam? parameters)
+        public async Task<T?> ExecuteScalarAsync<T>(string sql, object? param = null)
         {
-            throw new NotImplementedException();
+           return await Connection.ExecuteScalarAsync<T>(sql, param);
         }
 
-        public Task<IEnumerable<TEntity>> GetMultipleAsync<TEntity>(string query)
+        public DbTransaction BeginTransaction()
         {
-            throw new NotImplementedException();
+            return new DbTransaction(Connection.BeginTransaction());
         }
 
-        public Task<IEnumerable<TEntity>> GetMultipleAsync<TEntity, TParam>(string query, TParam? parameters)
+        public async Task<TEntity> GetAsync<TEntity>(string sql, object? param = null)
         {
-            throw new NotImplementedException();
+            return await Connection.QuerySingleAsync<TEntity>(sql, param);
         }
 
-        public Task<TEntity> AddAsync<TEntity>(TEntity entity, string query)
+        public async Task<IEnumerable<TEntity>> GetMultipleAsync<TEntity>(string sql, object? param = null)
         {
-            throw new NotImplementedException();
+            return await Connection.QueryAsync<TEntity>(sql, param);
         }
 
-        public Task<TEntity> AddAsync<TEntity, TParam>(TEntity entity, string query, TParam? parameters)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
