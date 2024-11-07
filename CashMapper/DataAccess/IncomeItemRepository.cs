@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using CashMapper.DataAccess.Entities;
@@ -41,7 +43,7 @@ public class IncomeItemRepository: IRepository<IncomeItem>
     public async Task<IncomeItem> FindAsync(long id)
     {
         var db = await DatabaseTask;
-        var sql = $"SELECT * FROM {TableName} WHERE id=@id;";
+        var sql = $"SELECT Id,  FROM {TableName} WHERE id=@id;";
         var entity = await db.GetAsync<IncomeItem>(sql, new { id = id });
         return entity;
     }
@@ -62,6 +64,7 @@ public class IncomeItemRepository: IRepository<IncomeItem>
 
     public async Task<IncomeItem> AddAsync(IncomeItem entity)
     {
+        // Note:  DateCreated and DateModified fields default to current timestamp inside backend.
         var sql = @$"INSERT INTO {TableName}(name,income_profile_id,monthly_value)
                     VALUES(@Name,@IncomeProfileId,@MonthlyValue);
                     SELECT last_insert_rowId();";
@@ -70,8 +73,18 @@ public class IncomeItemRepository: IRepository<IncomeItem>
         return await FindAsync(id);
     }
 
-    public Task<IncomeItem> UpdateAsync(IncomeItem entity)
+    public async Task<IncomeItem> UpdateAsync(IncomeItem entity)
     {
-        throw new NotImplementedException();
+        if (entity.Id == default) throw new InvalidDataException("IncomeItem Id field not provided.");
+        var sql = $@"UPDATE {TableName}
+                  SET name=@Name, income_profile_id=@IncomeProfileId, 
+                  monthly_value=@MonthlyValue,
+                  @date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
+                  WHERE id=@Id;";
+        var db = await DatabaseTask;
+        await db.ExecuteAsync(sql, entity);
+        return await FindAsync(entity.Id);
+
+
     }
 }
