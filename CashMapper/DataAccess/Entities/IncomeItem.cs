@@ -6,5 +6,5 @@ public record IncomeItem : EntityBase
 {
     public string Name { get; init; }
     public long IncomeProfileId { get; init; }
-    private decimal MonthlyValue { get; init; }
+    public decimal MonthlyValue { get; init; }
 }

@@ -18,12 +18,12 @@ public class DatabaseFactory : IDatabaseFactory
     {
         options = dbSettings;
         // Start migrations, store the task.
-        Migration = DatabaseMigrations.Migrate(dbSettings);
+        //Migration = DatabaseMigrations.Migrate(dbSettings);
     }
     public async Task<IDatabase> GetDatabase()
     {
         // Await migration task to finish. Return new instance of DB.
-        await Migration;
+        //await Migration;
         return new SqliteDatabase(options.Value);
     }
 }

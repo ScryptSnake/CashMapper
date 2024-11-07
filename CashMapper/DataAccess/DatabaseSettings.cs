@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace CashMapper.DataAccess
 {
-    public sealed record DatabaseSettings(string Path)
-    {
-
+    public sealed record DatabaseSettings()
+    { 
+        // Note: keep as parameter-less constructor for DI.
+        public string Path { get; init; }
     }
 }

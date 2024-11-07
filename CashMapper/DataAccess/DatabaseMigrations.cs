@@ -105,6 +105,7 @@ namespace CashMapper.DataAccess
                                         id                  INTEGER PRIMARY KEY,
                                         name                TEXT NOT NULL,
                                         income_profile_id   NUMERIC DEFAULT 0,
+                                        monthly_value       NUMERIC DEFAULT 0,
                                         date_created        TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                         date_modified       TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                         flag                TEXT

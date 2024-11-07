@@ -15,7 +15,6 @@ namespace CashMapper.DataAccess
         Task<TEntity> GetAsync(TEntity entity);
         Task<IEnumerable<TEntity>> GetMultipleAsync(QueryFilter filter);
         Task<TEntity> AddAsync(TEntity entity);
-
         Task<TEntity> UpdateAsync(TEntity entity);
     }
 }

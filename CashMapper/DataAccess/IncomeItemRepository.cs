@@ -43,7 +43,7 @@ public class IncomeItemRepository: IRepository<IncomeItem>
     public async Task<IncomeItem> FindAsync(long id)
     {
         var db = await DatabaseTask;
-        var sql = $"SELECT Id,  FROM {TableName} WHERE id=@id;";
+        var sql = $"SELECT * FROM {TableName} WHERE id=@id;";
         var entity = await db.GetAsync<IncomeItem>(sql, new { id = id });
         return entity;
     }
