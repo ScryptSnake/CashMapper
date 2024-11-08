@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Dynamic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CashMapper.DataAccess;
@@ -26,6 +28,8 @@ public class QueryFilter()
     /// <returns></returns>
     public void AddConditional(string field, string valueOperator, string value, string logicalOperator = "")
     {
+
+
         if(IsEmpty()) logicalOperator = ""; //Ignore any logical operator passed.
         Builder.AppendFormat(" {0} {1} @{2} {3}", field, valueOperator, field, logicalOperator);
 
@@ -48,6 +52,17 @@ public class QueryFilter()
         return obj;
     }
 
+
+    private bool ValidateString(string input)
+    {
+        // A level of protection against any SQL injection attack.
+
+        // Ensure is single word.
+        if (input.Any(char.IsWhiteSpace) || 
+            (Regex.IsMatch(input, "^[a-zA-Z0-9_\\-.]+$\r\n"))) return false;
+
+        return true;
+    }
 
     public bool IsEmpty()
     {

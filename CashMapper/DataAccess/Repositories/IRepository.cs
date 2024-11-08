@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using CashMapper.DataAccess.Entities;
 
-namespace CashMapper.DataAccess
+namespace CashMapper.DataAccess.Repositories
 {
-    public interface IRepository<TEntity> where TEntity: EntityBase
+    public interface IRepository<TEntity> where TEntity : EntityBase
     {
 
         Task<bool> ExistsAsync(TEntity entity);

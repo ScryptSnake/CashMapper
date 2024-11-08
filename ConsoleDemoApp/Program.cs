@@ -2,9 +2,11 @@
 using System.Diagnostics;
 using CashMapper.DataAccess;
 using CashMapper.DataAccess.Entities;
+using CashMapper.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using CashMapper.DataAccess.Repositories;
 
 namespace ConsoleDemoApp;
 
@@ -17,6 +19,7 @@ public class Program
     {
 
         Console.WriteLine("Starting....");
+
         // Setup DI container.
         var services = RegisterServices();
 
@@ -33,10 +36,10 @@ public class Program
             MonthlyValue=0,
             
         };
-        await repo.AddAsync(newItem);
+        var item = await repo.AddAsync(newItem);
 
-        Console.WriteLine("Complete");
-
+        Console.WriteLine("Complete: " + item.ToString());
+        Console.ReadLine(); // Keep Window Open. 
 
 
     }
@@ -69,6 +72,7 @@ public class Program
             .AddSingleton<IDatabaseFactory, DatabaseFactory>()
             // Add repository.
             .AddSingleton<IRepository<IncomeItem>, IncomeItemRepository>();
+            
 
         return services;
 

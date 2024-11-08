@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CashMapper.Services;
 using Microsoft.Data.Sqlite;
 using Dapper;
 
@@ -24,6 +25,9 @@ namespace CashMapper.DataAccess
             // Store the connection for use with dapper. 
             Connection = new SqliteConnection(builder.ConnectionString);
             Connection.Open();
+
+            //Register type mappers for dapper
+            SqliteTypeMapperService.RegisterTypeMappers();
             
         }
 

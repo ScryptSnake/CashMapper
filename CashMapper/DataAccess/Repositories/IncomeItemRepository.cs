@@ -11,14 +11,11 @@ using CashMapper.DataAccess.Entities;
 using Dapper;
 
 
-namespace CashMapper.DataAccess;
+namespace CashMapper.DataAccess.Repositories;
 
-public class IncomeItemRepository: IRepository<IncomeItem>
+public class IncomeItemRepository : IRepository<IncomeItem>
 {
-    //Name of the sqlite database table:
-    private const string TableName = "income_items";
     private Task<IDatabase> DatabaseTask { get; }
-
 
     public IncomeItemRepository(IDatabaseFactory databaseFactory) //this would be the factory instead. Not the DB instance.
     {
@@ -29,8 +26,8 @@ public class IncomeItemRepository: IRepository<IncomeItem>
     public async Task<bool> ExistsAsync(IncomeItem entity)
     {
         var db = await DatabaseTask;
-        var sql = $"SELECT COUNT(id) FROM {TableName} WHERE id=@id;";
-        var count = await db.ExecuteScalarAsync<long>(sql, entity);
+        const string SQL = @"SELECT COUNT(id) FROM income_items WHERE id=@id;";
+        var count = await db.ExecuteScalarAsync<long>(SQL, entity);
         switch (count)
         {
             case 0: return false;
@@ -43,8 +40,10 @@ public class IncomeItemRepository: IRepository<IncomeItem>
     public async Task<IncomeItem> FindAsync(long id)
     {
         var db = await DatabaseTask;
-        var sql = $"SELECT * FROM {TableName} WHERE id=@id;";
-        var entity = await db.GetAsync<IncomeItem>(sql, new { id = id });
+        const string SQL = @"SELECT id, name, income_profile_id, monthly_value,
+                           date_created, date_modified, flag
+                           FROM income_items WHERE id=@id;";
+        var entity = await db.GetAsync<IncomeItem>(SQL, new { id });
         return entity;
     }
 
@@ -56,27 +55,28 @@ public class IncomeItemRepository: IRepository<IncomeItem>
     public async Task<IEnumerable<IncomeItem>> GetMultipleAsync(QueryFilter filter)
     {
         if (filter.IsEmpty()) throw new InvalidDataException("Filter provided is empty.");
-        var sql = $"SELECT * FROM {TableName} WHERE {filter.ToString()};";
+        const string SQL = @"SELECT id, name, income_profile_id, monthly_value, 
+                            date_created, date_modified, flag 
+                            FROM income_items WHERE {filter.ToString()};";
         var db = await DatabaseTask;
-        return await db.GetMultipleAsync<IncomeItem>(sql, filter.GetParameter());
-
+        return await db.GetMultipleAsync<IncomeItem>(SQL, filter.GetParameter());
     }
 
     public async Task<IncomeItem> AddAsync(IncomeItem entity)
     {
         // Note:  DateCreated and DateModified fields default to current timestamp inside backend.
-        var sql = @$"INSERT INTO {TableName}(name,income_profile_id,monthly_value)
+        const string SQL = @$"INSERT INTO income_items(name,income_profile_id,monthly_value)
                     VALUES(@Name,@IncomeProfileId,@MonthlyValue);
                     SELECT last_insert_rowId();";
         var db = await DatabaseTask;
-        var id = await db.ExecuteScalarAsync<long>(sql, entity);
+        var id = await db.ExecuteScalarAsync<long>(SQL, entity);
         return await FindAsync(id);
     }
 
     public async Task<IncomeItem> UpdateAsync(IncomeItem entity)
     {
         if (entity.Id == default) throw new InvalidDataException("IncomeItem Id field not provided.");
-        var sql = $@"UPDATE {TableName}
+        var sql = $@"UPDATE income_items
                   SET name=@Name, income_profile_id=@IncomeProfileId, 
                   monthly_value=@MonthlyValue,
                   @date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
@@ -84,7 +84,5 @@ public class IncomeItemRepository: IRepository<IncomeItem>
         var db = await DatabaseTask;
         await db.ExecuteAsync(sql, entity);
         return await FindAsync(entity.Id);
-
-
     }
 }
