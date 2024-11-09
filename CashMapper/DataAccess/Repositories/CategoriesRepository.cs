@@ -14,21 +14,21 @@ using Dapper;
 namespace CashMapper.DataAccess.Repositories;
 
 /// <summary>
-/// Provides methods for performing CRUD operations on the budget_items table. 
+/// Provides methods for performing CRUD operations on the categories table. 
 /// </summary>
-public class BudgetItemRepository : IRepository<BudgetItem>
+public class CategoryRepository : IRepository<Category>
 {
     private Task<IDatabase> DatabaseTask { get; }
 
-    public BudgetItemRepository(IDatabaseFactory databaseFactory){
+    public CategoryRepository(IDatabaseFactory databaseFactory){
         // Get the database from factory, store the task.
         DatabaseTask = databaseFactory.GetDatabase();
     }
 
-    public async Task<bool> ExistsAsync(BudgetItem entity)
+    public async Task<bool> ExistsAsync(Category entity)
     {
         var db = await DatabaseTask;
-        const string SQL = @"SELECT COUNT(id) FROM budget_items WHERE id=@id;";
+        const string SQL = @"SELECT COUNT(id) FROM categories WHERE id=@id;";
         var count = await db.ExecuteScalarAsync<long>(SQL, entity);
         switch (count)
         {
@@ -39,48 +39,47 @@ public class BudgetItemRepository : IRepository<BudgetItem>
         return false;
     }
 
-    public async Task<BudgetItem> FindAsync(long id)
+    public async Task<Category> FindAsync(long id)
     {
         var db = await DatabaseTask;
-        const string SQL = @"SELECT id, description, monthly_value, note, category_id,
+        const string SQL = @"SELECT id, name, category_type,
                            date_created, date_modified, flag
-                           FROM budget_items WHERE id=@id;";
-        var entity = await db.GetAsync<BudgetItem>(SQL, new { id });
+                           FROM categories WHERE id=@id;";
+        var entity = await db.GetAsync<Category>(SQL, new { id });
         return entity;
     }
 
-    public async Task<BudgetItem> GetAsync(BudgetItem entity)
+    public async Task<Category> GetAsync(Category entity)
     {
         return await FindAsync(entity.Id);
     }
 
-    public async Task<IEnumerable<BudgetItem>> GetMultipleAsync(QueryFilter filter)
+    public async Task<IEnumerable<Category>> GetMultipleAsync(QueryFilter filter)
     {
         if (filter.IsEmpty()) throw new InvalidDataException("Filter provided is empty.");
-        var sql = @$"SELECT id, description, monthly_value, note, category_id,
+        var sql = @$"SELECT id, name, category_type,
                     date_created, date_modified, flag 
-                    FROM budget_items WHERE {filter.ToString()};";
+                    FROM categories WHERE {filter.ToString()};";
         var db = await DatabaseTask;
-        return await db.GetMultipleAsync<BudgetItem>(sql, filter.GetParameter());
+        return await db.GetMultipleAsync<Category>(sql, filter.GetParameter());
     }
 
-    public async Task<BudgetItem> AddAsync(BudgetItem entity)
+    public async Task<Category> AddAsync(Category entity)
     {
         // Note:  DateCreated and DateModified fields default to current timestamp inside backend.
-        const string SQL = @$"INSERT INTO budget_items(description, monthly_value, note, category_id)
-                            VALUES(@Description, @MonthlyValue, @Note, @CategoryId);
+        const string SQL = @$"INSERT INTO categories(name, category_type)
+                            VALUES(@Name, @CategoryType);
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
         return await FindAsync(id);
     }
 
-    public async Task<BudgetItem> UpdateAsync(BudgetItem entity)
+    public async Task<Category> UpdateAsync(Category entity)
     {
-        if (entity.Id == default) throw new InvalidDataException("BudgetItem Id field not provided.");
-        var sql = $@"UPDATE budget_items
-                  SET description=@Description, note=@Note,
-                  monthly_value=@MonthlyValue, CategoryId=@category_id,
+        if (entity.Id == default) throw new InvalidDataException("Category Id field not provided.");
+        var sql = $@"UPDATE categories
+                  SET description=@Description, category_type=@CategoryType,
                   @date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;

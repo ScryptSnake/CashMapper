@@ -9,7 +9,6 @@ namespace CashMapper.DataAccess.Repositories
 {
     public interface IRepository<TEntity> where TEntity : EntityBase
     {
-
         Task<bool> ExistsAsync(TEntity entity);
         Task<TEntity> FindAsync(long id);
         Task<TEntity> GetAsync(TEntity entity);

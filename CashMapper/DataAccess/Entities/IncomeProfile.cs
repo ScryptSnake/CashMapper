@@ -3,7 +3,7 @@
 /// <summary>
 /// DTO for an account that generates an income.
 /// </summary>
-public record IncomeProfile
+public record IncomeProfile : EntityBase
 {
     public string Name { get; init; }
 }

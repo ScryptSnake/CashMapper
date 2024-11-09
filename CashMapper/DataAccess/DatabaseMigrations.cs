@@ -62,7 +62,9 @@ namespace CashMapper.DataAccess
                                         category_id   NUMERIC DEFAULT 0,
                                         date_created  TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                         date_modified TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                        flag          TEXT
+                                        flag          TEXT,
+                                        FOREIGN KEY(category_id) REFERENCES categories(id)
+
                                     );
                                     CREATE INDEX idx__budget_items__description ON budget_items(description);
                                     CREATE INDEX idx__budget_items__category_id ON categories(id);
@@ -78,7 +80,8 @@ namespace CashMapper.DataAccess
                                         category_id   NUMERIC DEFAULT 0,
                                         date_created  TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                         date_modified TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                        flag          TEXT
+                                        flag          TEXT,
+                                        FOREIGN KEY(category_id) REFERENCES categories(id)
                                     );
                                     CREATE INDEX idx__expense_items__description ON expense_items(description);
                                     CREATE INDEX idx__expense_items__category_id ON categories(id);
@@ -94,7 +97,8 @@ namespace CashMapper.DataAccess
                                         note                TEXT,
                                         date_created        TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                         date_modified       TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                        flag                TEXT
+                                        flag                TEXT,
+                                        FOREIGN KEY(account_id) REFERENCES account_profiles(id)
                                     );
                                     CREATE INDEX idx__cashflow_entries__account_id ON account_profiles(id);
                                     
@@ -108,7 +112,8 @@ namespace CashMapper.DataAccess
                                         monthly_value       NUMERIC DEFAULT 0,
                                         date_created        TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                         date_modified       TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                        flag                TEXT
+                                        flag                TEXT,
+                                        FOREIGN KEY(income_profile_id) REFERENCES income_profiles(id)
                                     );
                                     CREATE UNIQUE INDEX idx__income_items__income_profile_id ON income_profiles(id);
                                     
@@ -124,7 +129,10 @@ namespace CashMapper.DataAccess
                                         value               NUMERIC DEFAULT 0,
                                         category_id         NUMERIC DEFAULT 0,
                                         note                TEXT,
-                                        flag                TEXT
+                                        date_created        TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                        date_modified       TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                        flag                TEXT,
+                                        FOREIGN KEY(category_id) REFERENCES categories(id)
                                     );
                                     CREATE INDEX idx__transactions__category_id ON categories(id);
                                     

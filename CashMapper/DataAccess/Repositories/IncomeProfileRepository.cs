@@ -14,21 +14,21 @@ using Dapper;
 namespace CashMapper.DataAccess.Repositories;
 
 /// <summary>
-/// Provides methods for performing CRUD operations on the budget_items table. 
+/// Provides methods for performing CRUD operations on the income_profiles table. 
 /// </summary>
-public class BudgetItemRepository : IRepository<BudgetItem>
+public class IncomeProfileRepository : IRepository<IncomeProfile>
 {
     private Task<IDatabase> DatabaseTask { get; }
 
-    public BudgetItemRepository(IDatabaseFactory databaseFactory){
+    public IncomeProfileRepository(IDatabaseFactory databaseFactory){
         // Get the database from factory, store the task.
         DatabaseTask = databaseFactory.GetDatabase();
     }
 
-    public async Task<bool> ExistsAsync(BudgetItem entity)
+    public async Task<bool> ExistsAsync(IncomeProfile entity)
     {
         var db = await DatabaseTask;
-        const string SQL = @"SELECT COUNT(id) FROM budget_items WHERE id=@id;";
+        const string SQL = @"SELECT COUNT(id) FROM income_profiles WHERE id=@id;";
         var count = await db.ExecuteScalarAsync<long>(SQL, entity);
         switch (count)
         {
@@ -39,48 +39,47 @@ public class BudgetItemRepository : IRepository<BudgetItem>
         return false;
     }
 
-    public async Task<BudgetItem> FindAsync(long id)
+    public async Task<IncomeProfile> FindAsync(long id)
     {
         var db = await DatabaseTask;
-        const string SQL = @"SELECT id, description, monthly_value, note, category_id,
+        const string SQL = @"SELECT id, name,
                            date_created, date_modified, flag
-                           FROM budget_items WHERE id=@id;";
-        var entity = await db.GetAsync<BudgetItem>(SQL, new { id });
+                           FROM income_profiles WHERE id=@id;";
+        var entity = await db.GetAsync<IncomeProfile>(SQL, new { id });
         return entity;
     }
 
-    public async Task<BudgetItem> GetAsync(BudgetItem entity)
+    public async Task<IncomeProfile> GetAsync(IncomeProfile entity)
     {
         return await FindAsync(entity.Id);
     }
 
-    public async Task<IEnumerable<BudgetItem>> GetMultipleAsync(QueryFilter filter)
+    public async Task<IEnumerable<IncomeProfile>> GetMultipleAsync(QueryFilter filter)
     {
         if (filter.IsEmpty()) throw new InvalidDataException("Filter provided is empty.");
-        var sql = @$"SELECT id, description, monthly_value, note, category_id,
+        var sql = @$"SELECT id, name,
                     date_created, date_modified, flag 
-                    FROM budget_items WHERE {filter.ToString()};";
+                    FROM income_profiles WHERE {filter.ToString()};";
         var db = await DatabaseTask;
-        return await db.GetMultipleAsync<BudgetItem>(sql, filter.GetParameter());
+        return await db.GetMultipleAsync<IncomeProfile>(sql, filter.GetParameter());
     }
 
-    public async Task<BudgetItem> AddAsync(BudgetItem entity)
+    public async Task<IncomeProfile> AddAsync(IncomeProfile entity)
     {
         // Note:  DateCreated and DateModified fields default to current timestamp inside backend.
-        const string SQL = @$"INSERT INTO budget_items(description, monthly_value, note, category_id)
-                            VALUES(@Description, @MonthlyValue, @Note, @CategoryId);
+        const string SQL = @$"INSERT INTO income_profiles(name)
+                            VALUES(@Name);
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
         return await FindAsync(id);
     }
 
-    public async Task<BudgetItem> UpdateAsync(BudgetItem entity)
+    public async Task<IncomeProfile> UpdateAsync(IncomeProfile entity)
     {
-        if (entity.Id == default) throw new InvalidDataException("BudgetItem Id field not provided.");
-        var sql = $@"UPDATE budget_items
-                  SET description=@Description, note=@Note,
-                  monthly_value=@MonthlyValue, CategoryId=@category_id,
+        if (entity.Id == default) throw new InvalidDataException("IncomeProfile Id field not provided.");
+        var sql = $@"UPDATE income_profiles
+                  SET description=@name=Name,
                   @date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;

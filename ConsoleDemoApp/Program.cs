@@ -26,14 +26,21 @@ public class Program
         // Build a provider.
         var provider = BuildServices(services);
 
-        //Get repo service
-        var repo = provider.GetRequiredService<IRepository<IncomeItem>>();
+        //Get category repo service:
+        var catRepo = provider.GetRequiredService<IRepository<Category>>();
+        catRepo.AddAsync(new Category() { Name = "FUEL" });
 
-        var newItem = new IncomeItem
+
+        //Get repo service
+        var repo = provider.GetRequiredService<IRepository<Transaction>>();
+
+        var newItem = new Transaction()
         {
-            IncomeProfileId = default,
-            Name = "My employer",
-            MonthlyValue=0,
+            Description = "A transaction made to the account!",
+            Note = "This is where details go.",
+            Value=4.40484040m, TransactionDate=DateTime.Now,
+            CategoryId = 2
+            
             
         };
         var item = await repo.AddAsync(newItem);
@@ -70,9 +77,13 @@ public class Program
             .Configure<DatabaseSettings>(config.GetSection("DatabaseSettings"))
             // Add a DB factory.
             .AddSingleton<IDatabaseFactory, DatabaseFactory>()
-            // Add repository.
-            .AddSingleton<IRepository<IncomeItem>, IncomeItemRepository>();
-            
+            // Add repositories.
+            .AddSingleton<IRepository<Category>,CategoryRepository>()
+            .AddSingleton<IRepository<IncomeItem>, IncomeItemRepository>()
+            .AddSingleton<IRepository<BudgetItem>, BudgetItemRepository>()
+            .AddSingleton<IRepository<ExpenseItem>, ExpenseItemRepository>()
+            .AddSingleton<IRepository<Transaction>, TransactionRepository>();
+
 
         return services;
 

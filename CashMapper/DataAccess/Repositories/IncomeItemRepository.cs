@@ -21,8 +21,7 @@ public class IncomeItemRepository : IRepository<IncomeItem>
 {
     private Task<IDatabase> DatabaseTask { get; }
 
-    public IncomeItemRepository(IDatabaseFactory databaseFactory) //this would be the factory instead. Not the DB instance.
-    {
+    public IncomeItemRepository(IDatabaseFactory databaseFactory){
         // Get the database from factory, store the task.
         DatabaseTask = databaseFactory.GetDatabase();
     }
