@@ -13,6 +13,10 @@ using Dapper;
 
 namespace CashMapper.DataAccess.Repositories;
 
+/// <summary>
+/// Provides methods for performing CRUD operations on the income_items table. 
+/// </summary>
+/// <seealso cref="CashMapper.DataAccess.Repositories.IRepository&lt;CashMapper.DataAccess.Entities.IncomeItem&gt;" />
 public class IncomeItemRepository : IRepository<IncomeItem>
 {
     private Task<IDatabase> DatabaseTask { get; }
@@ -65,7 +69,7 @@ public class IncomeItemRepository : IRepository<IncomeItem>
     public async Task<IncomeItem> AddAsync(IncomeItem entity)
     {
         // Note:  DateCreated and DateModified fields default to current timestamp inside backend.
-        const string SQL = @$"INSERT INTO income_items(name,income_profile_id,monthly_value)
+        const string SQL = @"INSERT INTO income_items(name,income_profile_id,monthly_value)
                     VALUES(@Name,@IncomeProfileId,@MonthlyValue);
                     SELECT last_insert_rowId();";
         var db = await DatabaseTask;

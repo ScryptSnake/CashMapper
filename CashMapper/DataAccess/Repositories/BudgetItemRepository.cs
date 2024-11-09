@@ -59,7 +59,7 @@ public class BudgetItemRepository : IRepository<BudgetItem>
                             date_created, date_modified, flag 
                             FROM budget_items WHERE {filter.ToString()};";
         var db = await DatabaseTask;
-        return await db.GetMultipleAsync<BudgetItem>(SQL, filter.GetParameter());
+        return await db.GetMultipleAsync<BudgetItem>(sql, filter.GetParameter());
     }
 
     public async Task<BudgetItem> AddAsync(BudgetItem entity)
