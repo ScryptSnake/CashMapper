@@ -19,7 +19,7 @@ namespace CashMapper.DataAccess.Repositories;
 public class IncomeProfileRepository : IRepository<IncomeProfile>
 {
     private Task<IDatabase> DatabaseTask { get; }
-
+    
     public IncomeProfileRepository(IDatabaseFactory databaseFactory){
         // Get the database from factory, store the task.
         DatabaseTask = databaseFactory.GetDatabase();
