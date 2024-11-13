@@ -80,7 +80,7 @@ public class BudgetItemRepository : IRepository<BudgetItem>
         var sql = $@"UPDATE budget_items
                   SET description=@Description, note=@Note,
                   monthly_value=@MonthlyValue, CategoryId=@category_id,
-                  @date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
+                  date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;
         await db.ExecuteAsync(sql, entity);

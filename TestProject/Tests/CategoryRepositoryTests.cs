@@ -92,43 +92,25 @@ public class CategoryRepositoryTests : IClassFixture<RepositoryFixture>
 
 
     [Fact]
-    public async void CategoryRepository_GetMultipleAsync_ShouldMatch()
+    public async void CategoryRepository_UpdateAsync_ShouldMatch()
     {
         // Arrange.
-        var item1 = new Category()
+        var newEntity = new Category()
         {
-            Name = "TestMultiple1",
-            CategoryType = CategoryTypes.Budget,
-            Flag = "Flag!"
+            Name = "TestCategory6",
+            CategoryType = CategoryTypes.Undefined,
+            Flag = "This is a flag.",
         };
-        var item2 = new Category()
-        {
-            Name = "TestMultiple2",
-            CategoryType = CategoryTypes.Budget,
-            Flag = "Flag!"
-        };
-        var item3 = new Category()
-        {
-            Name = "TestMultiple3",
-            CategoryType = CategoryTypes.Budget,
-            Flag = "Flag!"
-        };
-
-        var control = new List<Category>();
-        control.Add(item1);
-        control.Add(item2);
-        control.Add(item3);
-         
-        var filter = new QueryFilter()
-            filter.AddCriteria("category_type");
-
-
         // Act.
-        var result = await Repository.GetMultipleAsync()
+        var addEntity = await Repository.AddAsync(newEntity);
+        var updatedEntity = await Repository.UpdateAsync(
+            addEntity with {CategoryType = CategoryTypes.Income,
+                Flag="Hello World"});
 
         // Assert.
+        Assert.NotEqual(addEntity.CategoryType, updatedEntity.CategoryType);
+        Assert.NotEqual(addEntity.Flag, updatedEntity.Flag);
     }
 
-}
 }
 

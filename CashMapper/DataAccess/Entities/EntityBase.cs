@@ -15,4 +15,5 @@ public abstract record EntityBase
     public DateTimeOffset DateModified {get; init;}
     public string? Flag { get; init; }
 
+    // TODO:  Override equals properties to exclude DB generated fields, like DateCreated, DateModified, Id.
 }

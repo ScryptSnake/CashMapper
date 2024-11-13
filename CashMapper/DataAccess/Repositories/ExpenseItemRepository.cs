@@ -79,8 +79,8 @@ public class ExpenseItemRepository : IRepository<ExpenseItem>
         if (entity.Id == default) throw new InvalidDataException("ExpenseItem Id field not provided.");
         var sql = $@"UPDATE expense_items
                   SET description=@Description, note=@Note,
-                  monthly_value=@MonthlyValue, CategoryId=@category_id,
-                  @date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
+                  monthly_value=@MonthlyValue, category_id=@CategoryId,
+                  date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;
         await db.ExecuteAsync(sql, entity);

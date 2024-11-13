@@ -80,8 +80,8 @@ public class TransactionRepository : IRepository<Transaction>
         if (entity.Id == default) throw new InvalidDataException("Transaction Id field not provided.");
         var sql = $@"UPDATE transactions
                   SET description=@Description, note=@Note,
-                  source=@Source, date=@TransactionDate, value=@Value, CategoryId=@category_id,
-                  @date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
+                  source=@Source, date=@TransactionDate, value=@Value, category_id=@CategoryId,
+                  date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;
         await db.ExecuteAsync(sql, entity);

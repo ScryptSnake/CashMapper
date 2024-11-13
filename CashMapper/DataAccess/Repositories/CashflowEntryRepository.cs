@@ -67,7 +67,7 @@ public class CashflowEntryRepository : IRepository<CashflowEntry>
     {
         // Note:  DateCreated and DateModified fields default to current timestamp inside backend.
         const string SQL = @$"INSERT INTO cashflow_entries(account_id, date, balance, note, flag)
-                            VALUES(@account_id, date, balance, note, flag);
+                            VALUES(@AccountId, @EntryDate, @Balance, @Note, @Flag);
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
@@ -78,8 +78,8 @@ public class CashflowEntryRepository : IRepository<CashflowEntry>
     {
         if (entity.Id == default) throw new InvalidDataException("CashflowEntry Id field not provided.");
         var sql = $@"UPDATE cashflow_entries,
-                  SET account_id=@AccountId, @date=@EntryDate, balance=@Balance, note=@Note,
-                  @date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
+                  SET account_id=@AccountId, date=@EntryDate, balance=@Balance, note=@Note,
+                  date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;
         await db.ExecuteAsync(sql, entity);

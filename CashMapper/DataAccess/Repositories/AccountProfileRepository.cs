@@ -80,7 +80,7 @@ public class AccountProfileRepository : IRepository<AccountProfile>
         if (entity.Id == default) throw new InvalidDataException("AccountProfile Id field not provided.");
         var sql = $@"UPDATE account_profiles
                   SET description=@name=Name,
-                  @date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
+                  date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;
         await db.ExecuteAsync(sql, entity);

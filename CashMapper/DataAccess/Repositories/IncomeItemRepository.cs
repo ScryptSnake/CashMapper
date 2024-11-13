@@ -68,7 +68,7 @@ public class IncomeItemRepository : IRepository<IncomeItem>
     {
         // Note:  DateCreated and DateModified fields default to current timestamp inside backend.
         const string SQL = @"INSERT INTO income_items(name,income_profile_id,monthly_value)
-                    VALUES(@Name,@IncomeProfileId,@MonthlyValue);
+                    VALUES(@Name, @IncomeProfileId, @MonthlyValue);
                     SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
@@ -81,7 +81,7 @@ public class IncomeItemRepository : IRepository<IncomeItem>
         var sql = $@"UPDATE income_items
                   SET name=@Name, income_profile_id=@IncomeProfileId, 
                   monthly_value=@MonthlyValue,
-                  @date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
+                  date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;
         await db.ExecuteAsync(sql, entity);

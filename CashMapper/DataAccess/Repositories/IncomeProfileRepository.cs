@@ -78,8 +78,8 @@ public class IncomeProfileRepository : IRepository<IncomeProfile>
     {
         if (entity.Id == default) throw new InvalidDataException("IncomeProfile Id field not provided.");
         var sql = $@"UPDATE income_profiles
-                  SET description=@name=Name,
-                  @date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
+                  SET name=@Name,
+                  date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;
         await db.ExecuteAsync(sql, entity);

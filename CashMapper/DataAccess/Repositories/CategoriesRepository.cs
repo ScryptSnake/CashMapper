@@ -79,7 +79,7 @@ public class CategoryRepository : IRepository<Category>
         if (entity.Id == default) throw new InvalidDataException("Category Id field not provided.");
         var sql = $@"UPDATE categories
                   SET description=@Description, category_type=@CategoryType,
-                  @date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
+                  date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;
         await db.ExecuteAsync(sql, entity);
