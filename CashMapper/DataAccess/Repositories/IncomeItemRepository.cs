@@ -55,14 +55,13 @@ public class IncomeItemRepository : IRepository<IncomeItem>
         return await FindAsync(entity.Id);
     }
 
-    public async Task<IEnumerable<IncomeItem>> GetMultipleAsync(QueryFilter filter)
+    public async Task<IEnumerable<IncomeItem>> GetAllAsync()
     {
-        if (filter.IsEmpty()) throw new InvalidDataException("Filter provided is empty.");
         const string SQL = @"SELECT id, name, income_profile_id, monthly_value, 
                             date_created, date_modified, flag 
-                            FROM income_items WHERE {filter.ToString()};";
+                            FROM income_items;";
         var db = await DatabaseTask;
-        return await db.GetMultipleAsync<IncomeItem>(SQL, filter.GetParameter());
+        return await db.GetMultipleAsync<IncomeItem>(SQL);
     }
 
     public async Task<IncomeItem> AddAsync(IncomeItem entity)

@@ -54,14 +54,13 @@ public class ExpenseItemRepository : IRepository<ExpenseItem>
         return await FindAsync(entity.Id);
     }
 
-    public async Task<IEnumerable<ExpenseItem>> GetMultipleAsync(QueryFilter filter)
+    public async Task<IEnumerable<ExpenseItem>> GetAllAsync()
     {
-        if (filter.IsEmpty()) throw new InvalidDataException("Filter provided is empty.");
-        var sql = @$"SELECT id, description, monthly_value, note, category_id,
+        const string SQL = @$"SELECT id, description, monthly_value, note, category_id,
                     date_created, date_modified, flag 
-                    FROM expense_items WHERE {filter.ToString()};";
+                    FROM expense_items;";
         var db = await DatabaseTask;
-        return await db.GetMultipleAsync<ExpenseItem>(sql, filter.GetParameter());
+        return await db.GetMultipleAsync<ExpenseItem>(SQL);
     }
 
     public async Task<ExpenseItem> AddAsync(ExpenseItem entity)

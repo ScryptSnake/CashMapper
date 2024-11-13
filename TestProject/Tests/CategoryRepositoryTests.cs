@@ -1,3 +1,4 @@
+using CashMapper.DataAccess;
 using CashMapper.DataAccess.Entities;
 using CashMapper.DataAccess.Repositories;
 using CashMapper.Enums;
@@ -41,17 +42,18 @@ public class CategoryRepositoryTests : IClassFixture<RepositoryFixture>
         // These include:  Id, DateCreated, DateModified.
         Assert.Equal(inputEntity.Name, outputEntity.Name);
         Assert.Equal(inputEntity.CategoryType, outputEntity.CategoryType);
-        Assert.Equal(inputEntity.Flag,outputEntity.Flag);
+        Console.WriteLine("Type=" + outputEntity.CategoryType.ToString());
+        Assert.Equal(inputEntity.Flag, outputEntity.Flag);
     }
 
     [Fact]
-    public async void CategoryRepository_FindAsync_ShouldMatch()
+    public async Task CategoryRepository_FindAsync_ShouldMatch()
     {
         // Arrange,
         var newEntity = new Category()
         {
             Name = "TestCategory4",
-            CategoryType = CategoryTypes.Budget,
+            CategoryType = CategoryTypes.Income,
             Flag = "FLAG",
         };
 
@@ -65,8 +67,9 @@ public class CategoryRepositoryTests : IClassFixture<RepositoryFixture>
         Assert.Equal(outputEntity.CategoryType, newEntity.CategoryType);
         Assert.Equal(outputEntity.Flag, newEntity.Flag);
         Assert.Equal(outputEntity.Name, newEntity.Name);
-
     }
+
+
 
     [Fact]
     public async void CategoryRepository_ExistsAsync_ShouldBeTrue()
@@ -87,4 +90,45 @@ public class CategoryRepositoryTests : IClassFixture<RepositoryFixture>
         Assert.True(exists);
     }
 
+
+    [Fact]
+    public async void CategoryRepository_GetMultipleAsync_ShouldMatch()
+    {
+        // Arrange.
+        var item1 = new Category()
+        {
+            Name = "TestMultiple1",
+            CategoryType = CategoryTypes.Budget,
+            Flag = "Flag!"
+        };
+        var item2 = new Category()
+        {
+            Name = "TestMultiple2",
+            CategoryType = CategoryTypes.Budget,
+            Flag = "Flag!"
+        };
+        var item3 = new Category()
+        {
+            Name = "TestMultiple3",
+            CategoryType = CategoryTypes.Budget,
+            Flag = "Flag!"
+        };
+
+        var control = new List<Category>();
+        control.Add(item1);
+        control.Add(item2);
+        control.Add(item3);
+         
+        var filter = new QueryFilter()
+            filter.AddCriteria("category_type");
+
+
+        // Act.
+        var result = await Repository.GetMultipleAsync()
+
+        // Assert.
+    }
+
 }
+}
+

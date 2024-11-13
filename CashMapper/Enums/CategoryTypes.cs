@@ -11,6 +11,12 @@ namespace CashMapper.Enums
     /// </summary>
     public enum CategoryTypes
     {
-        Budget, Expense, Income
+        // The integer value is written to the database.
+        // Dapper doesn't support type mappers for Enum. 
+        // Could use a wrapper-type. 
+        Undefined = 0,
+        Budget = 1, 
+        Expense = 2, 
+        Income = 3,
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -54,14 +55,13 @@ public class AccountProfileRepository : IRepository<AccountProfile>
         return await FindAsync(entity.Id);
     }
 
-    public async Task<IEnumerable<AccountProfile>> GetMultipleAsync(QueryFilter filter)
+    public async Task<IEnumerable<AccountProfile>> GetAllAsync()
     {
-        if (filter.IsEmpty()) throw new InvalidDataException("Filter provided is empty.");
-        var sql = @$"SELECT id, name,
+        const string SQL = @"SELECT id, name,
                     date_created, date_modified, flag 
-                    FROM account_profiles WHERE {filter.ToString()};";
+                    FROM account_profiles;";
         var db = await DatabaseTask;
-        return await db.GetMultipleAsync<AccountProfile>(sql, filter.GetParameter());
+        return await db.GetMultipleAsync<AccountProfile>(SQL);
     }
 
     public async Task<AccountProfile> AddAsync(AccountProfile entity)

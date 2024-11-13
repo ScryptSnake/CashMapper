@@ -10,5 +10,5 @@ public record Transaction : EntityBase
     public long CategoryId { get; init; }
     public string? Note { get; init; }
     public decimal Value { get; init; }
-    public DateTime TransactionDate { get; init; }
+    public DateTimeOffset TransactionDate { get; init; }
 }

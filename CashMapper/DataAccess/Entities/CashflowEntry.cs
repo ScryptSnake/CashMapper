@@ -6,7 +6,7 @@
 public record CashflowEntry: EntityBase
 {
     public long AccountId { get; init; }
-    public DateTime? EntryDate { get; init; }
+    public DateTimeOffset? EntryDate { get; init; }
     public decimal Balance { get; init; }
     public string? Note { get; init; }
 }

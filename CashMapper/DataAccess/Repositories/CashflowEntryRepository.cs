@@ -54,14 +54,13 @@ public class CashflowEntryRepository : IRepository<CashflowEntry>
         return await FindAsync(entity.Id);
     }
 
-    public async Task<IEnumerable<CashflowEntry>> GetMultipleAsync(QueryFilter filter)
+    public async Task<IEnumerable<CashflowEntry>> GetAllAsync()
     {
-        if (filter.IsEmpty()) throw new InvalidDataException("Filter provided is empty.");
-        var sql = @$"SELECT id, account_id, date AS entry_date, balance, note
+        const string sql = @$"SELECT id, account_id, date AS entry_date, balance, note
                     date_created, date_modified, flag 
-                    FROM cashflow_entries WHERE {filter.ToString()};";
+                    FROM cashflow_entries;";
         var db = await DatabaseTask;
-        return await db.GetMultipleAsync<CashflowEntry>(sql, filter.GetParameter());
+        return await db.GetMultipleAsync<CashflowEntry>(sql);
     }
 
     public async Task<CashflowEntry> AddAsync(CashflowEntry entity)

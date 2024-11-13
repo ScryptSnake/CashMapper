@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using CashMapper.DataAccess;
 using CashMapper.DataAccess.Entities;
-using CashMapper.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;

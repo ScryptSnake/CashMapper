@@ -55,14 +55,13 @@ public class TransactionRepository : IRepository<Transaction>
         return await FindAsync(entity.Id);
     }
 
-    public async Task<IEnumerable<Transaction>> GetMultipleAsync(QueryFilter filter)
+    public async Task<IEnumerable<Transaction>> GetAllAsync()
     {
-        if (filter.IsEmpty()) throw new InvalidDataException("Filter provided is empty.");
-        var sql = @$"SELECT id, description, source, date AS transaction_date, value,
+        const string SQL = @$"SELECT id, description, source, date AS transaction_date, value,
                     note, category_id, date_created, date_modified, flag 
-                    FROM transactions WHERE {filter.ToString()};";
+                    FROM transactions;";
         var db = await DatabaseTask;
-        return await db.GetMultipleAsync<Transaction>(sql, filter.GetParameter());
+        return await db.GetMultipleAsync<Transaction>(SQL);
     }
 
     public async Task<Transaction> AddAsync(Transaction entity)

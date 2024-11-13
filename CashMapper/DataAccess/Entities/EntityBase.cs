@@ -11,8 +11,8 @@ namespace CashMapper.DataAccess.Entities;
 public abstract record EntityBase
 {
     public long Id { get; init; }
-    public DateTime DateCreated { get; init;}
-    public DateTime DateModified {get; init;}
+    public DateTimeOffset DateCreated { get; init;}
+    public DateTimeOffset DateModified {get; init;}
     public string? Flag { get; init; }
 
 }

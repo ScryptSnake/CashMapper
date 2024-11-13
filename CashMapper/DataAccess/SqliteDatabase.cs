@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CashMapper.Services;
+using CashMapper.DataAccess.TypeHandlers;
 using Microsoft.Data.Sqlite;
 using Dapper;
 
@@ -26,9 +26,10 @@ namespace CashMapper.DataAccess
             Connection = new SqliteConnection(builder.ConnectionString);
             Connection.Open();
 
-            //Register type mappers for dapper
-            SqliteTypeMapperService.RegisterTypeMappers();
-            
+            ////Register type mappers for dapper
+            Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+            SqlMapper.AddTypeHandler(new DateTimeOffsetTypeHandler());
+
         }
 
         public ConnectionState State

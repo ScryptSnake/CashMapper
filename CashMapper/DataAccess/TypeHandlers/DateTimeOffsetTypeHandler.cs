@@ -10,7 +10,7 @@ namespace CashMapper.DataAccess.TypeHandlers;
 /// <summary>
 /// Allows SQLite to handle the .NET DateTime type for I/O operations. 
 /// </summary>
-public sealed class DateTimeOffsetTypeHandler : SqlMapper.TypeHandler<DateTimeOffset>
+internal class DateTimeOffsetTypeHandler : SqlMapper.TypeHandler<DateTimeOffset>
 {
     public override void SetValue(IDbDataParameter parameter, DateTimeOffset value)
     {

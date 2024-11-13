@@ -21,7 +21,7 @@ namespace CashMapper.DataAccess
                                     (
                                         id                  INTEGER PRIMARY KEY,
                                         name                TEXT NOT NULL,
-                                        category_type       TEXT NOT NULL,
+                                        category_type       INTEGER NOT NULL,
                                         date_created        TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                         date_modified       TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                         flag                TEXT

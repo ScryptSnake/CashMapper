@@ -14,7 +14,7 @@ namespace CashMapper.DataAccess;
 /// <summary>
 /// An object that dynamically assembles WHERE criteria for a SQL query. 
 /// </summary>
-public class QueryFilter()
+internal class QueryFilter()
 {
     private StringBuilder Builder { get; } = new StringBuilder();
     private Dictionary<string, string> Values { get; } = new Dictionary<string, string>();

@@ -54,14 +54,13 @@ public class CategoryRepository : IRepository<Category>
         return await FindAsync(entity.Id);
     }
 
-    public async Task<IEnumerable<Category>> GetMultipleAsync(QueryFilter filter)
+    public async Task<IEnumerable<Category>> GetAllAsync()
     {
-        if (filter.IsEmpty()) throw new InvalidDataException("Filter provided is empty.");
-        var sql = @$"SELECT id, name, category_type,
+        const string sql = @$"SELECT id, name, category_type,
                     date_created, date_modified, flag 
-                    FROM categories WHERE {filter.ToString()};";
+                    FROM categories;";
         var db = await DatabaseTask;
-        return await db.GetMultipleAsync<Category>(sql, filter.GetParameter());
+        return await db.GetMultipleAsync<Category>(sql);
     }
 
     public async Task<Category> AddAsync(Category entity)
