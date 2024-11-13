@@ -28,7 +28,7 @@ public class CategoryRepository : IRepository<Category>
     public async Task<bool> ExistsAsync(Category entity)
     {
         var db = await DatabaseTask;
-        const string SQL = @"SELECT COUNT(id) FROM categories WHERE id=@id;";
+        const string SQL = @"SELECT COUNT(id) FROM categories WHERE id=@Id;";
         var count = await db.ExecuteScalarAsync<long>(SQL, entity);
         switch (count)
         {
@@ -44,7 +44,7 @@ public class CategoryRepository : IRepository<Category>
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, name, category_type,
                            date_created, date_modified, flag
-                           FROM categories WHERE id=@id;";
+                           FROM categories WHERE id=@Id;";
         var entity = await db.GetAsync<Category>(SQL, new { id });
         return entity;
     }
@@ -78,7 +78,7 @@ public class CategoryRepository : IRepository<Category>
     {
         if (entity.Id == default) throw new InvalidDataException("Category Id field not provided.");
         var sql = $@"UPDATE categories
-                  SET description=@Description, category_type=@CategoryType,
+                  SET name=@Name, category_type=@CategoryType, flag=@Flag,
                   date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;

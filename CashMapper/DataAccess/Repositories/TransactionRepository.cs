@@ -28,7 +28,7 @@ public class TransactionRepository : IRepository<Transaction>
     public async Task<bool> ExistsAsync(Transaction entity)
     {
         var db = await DatabaseTask;
-        const string SQL = @"SELECT COUNT(id) FROM transactions WHERE id=@id;";
+        const string SQL = @"SELECT COUNT(id) FROM transactions WHERE id=@Id;";
         var count = await db.ExecuteScalarAsync<long>(SQL, entity);
         switch (count)
         {
@@ -45,7 +45,7 @@ public class TransactionRepository : IRepository<Transaction>
         const string SQL = @"SELECT id, description, source, 
                            date AS transaction_date, value, note, category_id,
                            category_id, date_created, date_modified, flag
-                           FROM transactions WHERE id=@id;";
+                           FROM transactions WHERE id=@Id;";
         var entity = await db.GetAsync<Transaction>(SQL, new { id });
         return entity;
     }
@@ -67,8 +67,8 @@ public class TransactionRepository : IRepository<Transaction>
     public async Task<Transaction> AddAsync(Transaction entity)
     {
         // Note:  DateCreated and DateModified fields default to current timestamp inside backend.
-        const string SQL = @$"INSERT INTO transactions(description, source, date, value, note, category_id)
-                            VALUES(@Description, @Source, @TransactionDate, @Value, @Note, @CategoryId);
+        const string SQL = @$"INSERT INTO transactions(description, source, date, value, note, category_id, flag)
+                            VALUES(@Description, @Source, @TransactionDate, @Value, @Note, @CategoryId, @Flag);
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
@@ -80,7 +80,7 @@ public class TransactionRepository : IRepository<Transaction>
         if (entity.Id == default) throw new InvalidDataException("Transaction Id field not provided.");
         var sql = $@"UPDATE transactions
                   SET description=@Description, note=@Note,
-                  source=@Source, date=@TransactionDate, value=@Value, category_id=@CategoryId,
+                  source=@Source, date=@TransactionDate, value=@Value, category_id=@CategoryId, flag=@Flag,
                   date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;

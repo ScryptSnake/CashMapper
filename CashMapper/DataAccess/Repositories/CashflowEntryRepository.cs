@@ -28,7 +28,7 @@ public class CashflowEntryRepository : IRepository<CashflowEntry>
     public async Task<bool> ExistsAsync(CashflowEntry entity)
     {
         var db = await DatabaseTask;
-        const string SQL = @"SELECT COUNT(id) FROM cashflow_entries WHERE id=@id;";
+        const string SQL = @"SELECT COUNT(id) FROM cashflow_entries WHERE Id=@id;";
         var count = await db.ExecuteScalarAsync<long>(SQL, entity);
         switch (count)
         {
@@ -44,7 +44,7 @@ public class CashflowEntryRepository : IRepository<CashflowEntry>
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, account_id, date AS entry_date,
                             balance, note, date_modified, flag
-                           FROM cashflow_entries WHERE id=@id;";
+                           FROM cashflow_entries WHERE id=@Id;";
         var entity = await db.GetAsync<CashflowEntry>(SQL, new { id });
         return entity;
     }
@@ -79,6 +79,7 @@ public class CashflowEntryRepository : IRepository<CashflowEntry>
         if (entity.Id == default) throw new InvalidDataException("CashflowEntry Id field not provided.");
         var sql = $@"UPDATE cashflow_entries,
                   SET account_id=@AccountId, date=@EntryDate, balance=@Balance, note=@Note,
+                  flag=@Flag,
                   date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;

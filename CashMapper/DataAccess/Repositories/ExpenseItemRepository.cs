@@ -44,7 +44,7 @@ public class ExpenseItemRepository : IRepository<ExpenseItem>
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, description, monthly_value, note, category_id,
                            category_id, date_created, date_modified, flag
-                           FROM expense_items WHERE id=@id;";
+                           FROM expense_items WHERE id=@Id;";
         var entity = await db.GetAsync<ExpenseItem>(SQL, new { id });
         return entity;
     }
@@ -66,8 +66,8 @@ public class ExpenseItemRepository : IRepository<ExpenseItem>
     public async Task<ExpenseItem> AddAsync(ExpenseItem entity)
     {
         // Note:  DateCreated and DateModified fields default to current timestamp inside backend.
-        const string SQL = @$"INSERT INTO expense_items(description, monthly_value, note, category_id)
-                            VALUES(@Description, @MonthlyValue, @Note, @CategoryId);
+        const string SQL = @$"INSERT INTO expense_items(description, monthly_value, note, category_id, flag)
+                            VALUES(@Description, @MonthlyValue, @Note, @CategoryId, @Flag);
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
@@ -79,7 +79,7 @@ public class ExpenseItemRepository : IRepository<ExpenseItem>
         if (entity.Id == default) throw new InvalidDataException("ExpenseItem Id field not provided.");
         var sql = $@"UPDATE expense_items
                   SET description=@Description, note=@Note,
-                  monthly_value=@MonthlyValue, category_id=@CategoryId,
+                  monthly_value=@MonthlyValue, category_id=@CategoryId, flag=@Flag,
                   date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;

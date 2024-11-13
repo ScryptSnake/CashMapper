@@ -29,7 +29,7 @@ public class AccountProfileRepository : IRepository<AccountProfile>
     public async Task<bool> ExistsAsync(AccountProfile entity)
     {
         var db = await DatabaseTask;
-        const string SQL = @"SELECT COUNT(id) FROM account_profiles WHERE id=@id;";
+        const string SQL = @"SELECT COUNT(id) FROM account_profiles WHERE id=@Id;";
         var count = await db.ExecuteScalarAsync<long>(SQL, entity);
         switch (count)
         {
@@ -45,7 +45,7 @@ public class AccountProfileRepository : IRepository<AccountProfile>
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, name,
                            date_created, date_modified, flag
-                           FROM account_profiles WHERE id=@id;";
+                           FROM account_profiles WHERE id=@Id;";
         var entity = await db.GetAsync<AccountProfile>(SQL, new { id });
         return entity;
     }
@@ -67,8 +67,8 @@ public class AccountProfileRepository : IRepository<AccountProfile>
     public async Task<AccountProfile> AddAsync(AccountProfile entity)
     {
         // Note:  DateCreated and DateModified fields default to current timestamp inside backend.
-        const string SQL = @$"INSERT INTO account_profiles(name)
-                            VALUES(@Name);
+        const string SQL = @$"INSERT INTO account_profiles(name, flag)
+                            VALUES(@Name, @Flag);
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
@@ -79,7 +79,7 @@ public class AccountProfileRepository : IRepository<AccountProfile>
     {
         if (entity.Id == default) throw new InvalidDataException("AccountProfile Id field not provided.");
         var sql = $@"UPDATE account_profiles
-                  SET description=@name=Name,
+                  SET description=@name=Name, flag=@Flag,
                   date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;

@@ -29,7 +29,7 @@ public class IncomeItemRepository : IRepository<IncomeItem>
     public async Task<bool> ExistsAsync(IncomeItem entity)
     {
         var db = await DatabaseTask;
-        const string SQL = @"SELECT COUNT(id) FROM income_items WHERE id=@id;";
+        const string SQL = @"SELECT COUNT(id) FROM income_items WHERE id=@Id;";
         var count = await db.ExecuteScalarAsync<long>(SQL, entity);
         switch (count)
         {
@@ -45,7 +45,7 @@ public class IncomeItemRepository : IRepository<IncomeItem>
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, name, income_profile_id, monthly_value,
                            date_created, date_modified, flag
-                           FROM income_items WHERE id=@id;";
+                           FROM income_items WHERE id=@Id;";
         var entity = await db.GetAsync<IncomeItem>(SQL, new { id });
         return entity;
     }
@@ -67,8 +67,8 @@ public class IncomeItemRepository : IRepository<IncomeItem>
     public async Task<IncomeItem> AddAsync(IncomeItem entity)
     {
         // Note:  DateCreated and DateModified fields default to current timestamp inside backend.
-        const string SQL = @"INSERT INTO income_items(name,income_profile_id,monthly_value)
-                    VALUES(@Name, @IncomeProfileId, @MonthlyValue);
+        const string SQL = @"INSERT INTO income_items(name,income_profile_id,monthly_value,flag)
+                    VALUES(@Name, @IncomeProfileId, @MonthlyValue, @Flag);
                     SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
@@ -80,7 +80,7 @@ public class IncomeItemRepository : IRepository<IncomeItem>
         if (entity.Id == default) throw new InvalidDataException("IncomeItem Id field not provided.");
         var sql = $@"UPDATE income_items
                   SET name=@Name, income_profile_id=@IncomeProfileId, 
-                  monthly_value=@MonthlyValue,
+                  monthly_value=@MonthlyValue,flag=@Flag,
                   date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;

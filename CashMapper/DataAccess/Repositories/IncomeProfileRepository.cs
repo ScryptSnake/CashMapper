@@ -28,7 +28,7 @@ public class IncomeProfileRepository : IRepository<IncomeProfile>
     public async Task<bool> ExistsAsync(IncomeProfile entity)
     {
         var db = await DatabaseTask;
-        const string SQL = @"SELECT COUNT(id) FROM income_profiles WHERE id=@id;";
+        const string SQL = @"SELECT COUNT(id) FROM income_profiles WHERE id=@Id;";
         var count = await db.ExecuteScalarAsync<long>(SQL, entity);
         switch (count)
         {
@@ -44,7 +44,7 @@ public class IncomeProfileRepository : IRepository<IncomeProfile>
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, name,
                            date_created, date_modified, flag
-                           FROM income_profiles WHERE id=@id;";
+                           FROM income_profiles WHERE id=@Id;";
         var entity = await db.GetAsync<IncomeProfile>(SQL, new { id });
         return entity;
     }
@@ -66,8 +66,8 @@ public class IncomeProfileRepository : IRepository<IncomeProfile>
     public async Task<IncomeProfile> AddAsync(IncomeProfile entity)
     {
         // Note:  DateCreated and DateModified fields default to current timestamp inside backend.
-        const string SQL = @$"INSERT INTO income_profiles(name)
-                            VALUES(@Name);
+        const string SQL = @$"INSERT INTO income_profiles(name,flag)
+                            VALUES(@Name, @Flag);
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
@@ -78,7 +78,7 @@ public class IncomeProfileRepository : IRepository<IncomeProfile>
     {
         if (entity.Id == default) throw new InvalidDataException("IncomeProfile Id field not provided.");
         var sql = $@"UPDATE income_profiles
-                  SET name=@Name,
+                  SET name=@Name, flag=@Flag,
                   date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;

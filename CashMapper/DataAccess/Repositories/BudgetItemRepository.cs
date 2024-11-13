@@ -28,7 +28,7 @@ public class BudgetItemRepository : IRepository<BudgetItem>
     public async Task<bool> ExistsAsync(BudgetItem entity)
     {
         var db = await DatabaseTask;
-        const string SQL = @"SELECT COUNT(id) FROM budget_items WHERE id=@id;";
+        const string SQL = @"SELECT COUNT(id) FROM budget_items WHERE id=@Id;";
         var count = await db.ExecuteScalarAsync<long>(SQL, entity);
         switch (count)
         {
@@ -44,7 +44,7 @@ public class BudgetItemRepository : IRepository<BudgetItem>
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, description, monthly_value, note, category_id,
                            date_created, date_modified, flag
-                           FROM budget_items WHERE id=@id;";
+                           FROM budget_items WHERE id=@Id;";
         var entity = await db.GetAsync<BudgetItem>(SQL, new { id });
         return entity;
     }
@@ -66,8 +66,8 @@ public class BudgetItemRepository : IRepository<BudgetItem>
     public async Task<BudgetItem> AddAsync(BudgetItem entity)
     {
         // Note:  DateCreated and DateModified fields default to current timestamp inside backend.
-        const string SQL = @$"INSERT INTO budget_items(description, monthly_value, note, category_id)
-                            VALUES(@Description, @MonthlyValue, @Note, @CategoryId);
+        const string SQL = @$"INSERT INTO budget_items(description, monthly_value, note, category_id, flag)
+                            VALUES(@Description, @MonthlyValue, @Note, @CategoryId, @flag);
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
@@ -78,7 +78,7 @@ public class BudgetItemRepository : IRepository<BudgetItem>
     {
         if (entity.Id == default) throw new InvalidDataException("BudgetItem Id field not provided.");
         var sql = $@"UPDATE budget_items
-                  SET description=@Description, note=@Note,
+                  SET description=@Description, note=@Note, flag=@Flag,
                   monthly_value=@MonthlyValue, CategoryId=@category_id,
                   date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
