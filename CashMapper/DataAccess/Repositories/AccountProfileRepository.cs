@@ -45,7 +45,7 @@ public class AccountProfileRepository : IRepository<AccountProfile>
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, name,
                            date_created, date_modified, flag
-                           FROM account_profiles WHERE id=@Id;";
+                           FROM account_profiles WHERE id=@id;";
         var entity = await db.GetAsync<AccountProfile>(SQL, new { id });
         return entity;
     }

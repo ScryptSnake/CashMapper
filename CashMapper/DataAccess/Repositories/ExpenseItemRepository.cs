@@ -44,7 +44,7 @@ public class ExpenseItemRepository : IRepository<ExpenseItem>
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, description, monthly_value, note, category_id,
                            category_id, date_created, date_modified, flag
-                           FROM expense_items WHERE id=@Id;";
+                           FROM expense_items WHERE id=@id;";
         var entity = await db.GetAsync<ExpenseItem>(SQL, new { id });
         return entity;
     }

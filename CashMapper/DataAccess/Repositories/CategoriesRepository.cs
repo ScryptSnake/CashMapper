@@ -44,7 +44,7 @@ public class CategoryRepository : IRepository<Category>
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, name, category_type,
                            date_created, date_modified, flag
-                           FROM categories WHERE id=@Id;";
+                           FROM categories WHERE id=@id;";
         var entity = await db.GetAsync<Category>(SQL, new { id });
         return entity;
     }

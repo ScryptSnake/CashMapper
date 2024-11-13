@@ -45,7 +45,7 @@ public class IncomeItemRepository : IRepository<IncomeItem>
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, name, income_profile_id, monthly_value,
                            date_created, date_modified, flag
-                           FROM income_items WHERE id=@Id;";
+                           FROM income_items WHERE id=@id;";
         var entity = await db.GetAsync<IncomeItem>(SQL, new { id });
         return entity;
     }

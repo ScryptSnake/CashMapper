@@ -44,7 +44,7 @@ public class CashflowEntryRepository : IRepository<CashflowEntry>
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, account_id, date AS entry_date,
                             balance, note, date_modified, flag
-                           FROM cashflow_entries WHERE id=@Id;";
+                           FROM cashflow_entries WHERE id=@id;";
         var entity = await db.GetAsync<CashflowEntry>(SQL, new { id });
         return entity;
     }

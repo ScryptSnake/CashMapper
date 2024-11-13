@@ -45,7 +45,7 @@ public class TransactionRepository : IRepository<Transaction>
         const string SQL = @"SELECT id, description, source, 
                            date AS transaction_date, value, note, category_id,
                            category_id, date_created, date_modified, flag
-                           FROM transactions WHERE id=@Id;";
+                           FROM transactions WHERE id=@id;";
         var entity = await db.GetAsync<Transaction>(SQL, new { id });
         return entity;
     }
