@@ -1,0 +1,6 @@
+@CashMapperWebApi_HostAddress = http://localhost:5069
+
+GET {{CashMapperWebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

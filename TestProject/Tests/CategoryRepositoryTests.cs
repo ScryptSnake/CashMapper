@@ -7,14 +7,13 @@ using TestProject.Fixtures;
 namespace TestProject.Tests;
 
 /// <summary>
-/// A test class for the income item repository.
+/// An integration test class for the category repository.
 /// </summary>
 
 public class CategoryRepositoryTests : IClassFixture<RepositoryFixture>
 {
     private RepositoryFixture Fixture { get; }
     private IRepository<Category> Repository { get; }
-
     public CategoryRepositoryTests(RepositoryFixture fixture)
     {
         // Set fixture.
@@ -69,8 +68,6 @@ public class CategoryRepositoryTests : IClassFixture<RepositoryFixture>
         Assert.Equal(outputEntity.Name, newEntity.Name);
     }
 
-
-
     [Fact]
     public async void CategoryRepository_ExistsAsync_ShouldBeTrue()
     {
@@ -81,7 +78,6 @@ public class CategoryRepositoryTests : IClassFixture<RepositoryFixture>
             CategoryType = CategoryTypes.Budget,
             Flag = "FLAG",
         };
-
         // Act.
         var addEntity = await Repository.AddAsync(newEntity);
         var exists = await Repository.ExistsAsync(addEntity);
@@ -89,7 +85,6 @@ public class CategoryRepositoryTests : IClassFixture<RepositoryFixture>
         // Assert.
         Assert.True(exists);
     }
-
 
     [Fact]
     public async void CategoryRepository_UpdateAsync_ShouldMatch()
@@ -111,6 +106,5 @@ public class CategoryRepositoryTests : IClassFixture<RepositoryFixture>
         Assert.NotEqual(addEntity.CategoryType, updatedEntity.CategoryType);
         Assert.NotEqual(addEntity.Flag, updatedEntity.Flag);
     }
-
 }
 
