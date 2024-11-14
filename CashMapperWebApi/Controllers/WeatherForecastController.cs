@@ -1,9 +1,10 @@
+using CashMapper.DataAccess.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CashMapperWebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
