@@ -18,30 +18,46 @@ namespace CashMapperWebApi.Controllers
         }
 
         [HttpGet("{id:long}")]
-        public async Task<Category> GetAsync(long id)
+        public async Task<ActionResult<Category>> GetAsync(long id)
         {
-            return await Repository.FindAsync(id);
+            var exists = await Repository.ExistsAsync(new Category(){Id=id});
+            if (!exists)
+            {
+                return NotFound();
+            }
+            var result = await Repository.FindAsync(id);
+            return Ok(result);
         }
 
         [HttpGet("{name}")]
-        public async Task<Category> GetAsync(string name)
+        public async Task<ActionResult<Category>> GetAsync(string name)
         {
-            return await Repository.GetByName(name);    
+            var exists = await Repository.ExistsByNameAsync(name);
+            if (!exists)
+            {
+                return NotFound();
+            }
+            var result = await Repository.GetByNameAsync(name);
+            return Ok(result);
         }
-
 
 
         [HttpGet]
-        public async Task<IEnumerable<Category>> GetAsync()
+        public async Task<ActionResult<IEnumerable<Category>>> GetAsync()
         {
-            return await Repository.GetAllAsync();
+            var result = await Repository.GetAllAsync();
+            return Ok(result);  
         }
 
         [HttpPost("{model}")]
-        public async Task<ActionResult<Category>> PostAsync(Category model)
+        public async Task<ActionResult<Category>> PostAsync([FromBody] Category model)
         {
            var result = await Repository.AddAsync(model);
-           return new ActionResult<Category>(result);
+           // Return a 201 Created response with the location of the created resource
+           var act = nameof(GetAsync);
+
+           return CreatedAtAction(act, new {id=result.Id}, result);
+
 
         }
 
@@ -49,7 +65,7 @@ namespace CashMapperWebApi.Controllers
         public async Task<ActionResult<Category>> PutAsync(Category model)
         {
             var result = await Repository.UpdateAsync(model);
-            return new ActionResult<Category>(result);
+            return Ok(result);
         }
     }
 }

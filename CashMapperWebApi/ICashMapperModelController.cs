@@ -9,10 +9,10 @@ namespace CashMapperWebApi
     public interface ICashMapperModelController<TModel> where TModel: EntityBase
     {
         // HTTP GET.
-        Task<TModel> GetAsync(long id);
+        Task<ActionResult<TModel>> GetAsync(long id);
 
         // HTTP GET.
-        Task<IEnumerable<TModel>> GetAsync();
+        Task<ActionResult<IEnumerable<TModel>>> GetAsync();
 
         // HTTP POST.
         Task<ActionResult<TModel>> PostAsync(TModel model);

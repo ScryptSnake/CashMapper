@@ -87,8 +87,7 @@ public class CategoryRepository : IRepository<Category>
         return await FindAsync(entity.Id);
     }
 
-
-    public async Task<Category> GetByName(string name)
+    public async Task<Category> GetByNameAsync(string name)
     {
         if (string.IsNullOrWhiteSpace(name)) 
             throw new ArgumentNullException("Category name required.");
@@ -98,6 +97,20 @@ public class CategoryRepository : IRepository<Category>
                     FROM categories WHERE name=@name;";
         var db = await DatabaseTask;
         return await db.GetAsync<Category>(SQL, new { name });
+    }
+
+    public async Task<bool> ExistsByNameAsync(string name)
+    {
+        var db = await DatabaseTask;
+        const string SQL = @"SELECT COUNT(id) FROM categories WHERE name=@name;";
+        var count = await db.ExecuteScalarAsync<long>(SQL, new {name});
+        switch (count)
+        {
+            case 0: return false;
+            case 1: return true;
+            case > 1: throw new DataException("Database returned multiple records. Expected 1 or 0.");
+        }
+        return false;
     }
 
 }
