@@ -10,67 +10,46 @@ namespace CashMapperWebApi.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase, ICashMapperModelController<Category>
     {
-        private IRepository<Category> Repository { get; }
+        private CategoryRepository Repository { get; }
 
         public CategoriesController(IRepository<Category> repository)
         {
-            Repository = repository;
+            Repository = (CategoryRepository)repository;
+        }
+
+        [HttpGet("{id:long}")]
+        public async Task<Category> GetAsync(long id)
+        {
+            return await Repository.FindAsync(id);
+        }
+
+        [HttpGet("{name}")]
+        public async Task<Category> GetAsync(string name)
+        {
+            return await Repository.GetByName(name);    
         }
 
 
 
-        // GET: api/<CategoriesController>
         [HttpGet]
-        public async Task<IEnumerable<Category>> Get()
+        public async Task<IEnumerable<Category>> GetAsync()
         {
             return await Repository.GetAllAsync();
         }
 
-        // GET api/<CategoriesController>/5
-        [HttpGet("{id}")]
-        public async Task<string> Get(long id)
-        {
-            var result = await Repository.FindAsync(id);
-            return result.ToString();
-        }
-
-        // POST api/<CategoriesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<CategoriesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        [HttpGet]
-        public Task<Category> GetAsync(long id)
-        {
-            throw new NotImplementedException();
-        }
-
-        [HttpGet]
-        public Task<IEnumerable<Category>> GetAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         [HttpPost("{model}")]
-        public Task<ActionResult<Category>> PostAsync(Category model)
+        public async Task<ActionResult<Category>> PostAsync(Category model)
         {
-            throw new NotImplementedException();
-
-            return new CreatedAtActionResult()
+           var result = await Repository.AddAsync(model);
+           return new ActionResult<Category>(result);
 
         }
 
         [HttpPut("{model}")]
-        public Task<ActionResult<Category>> PutAsync(Category model)
+        public async Task<ActionResult<Category>> PutAsync(Category model)
         {
-            throw new NotImplementedException();
+            var result = await Repository.UpdateAsync(model);
+            return new ActionResult<Category>(result);
         }
     }
 }

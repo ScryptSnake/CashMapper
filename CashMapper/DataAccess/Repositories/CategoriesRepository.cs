@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CashMapper.DataAccess.Entities;
 using Dapper;
+using static Dapper.SqlMapper;
 
 
 namespace CashMapper.DataAccess.Repositories;
@@ -85,4 +86,18 @@ public class CategoryRepository : IRepository<Category>
         await db.ExecuteAsync(sql, entity);
         return await FindAsync(entity.Id);
     }
+
+
+    public async Task<Category> GetByName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) 
+            throw new ArgumentNullException("Category name required.");
+
+        const string SQL = @$"SELECT id, name, category_type,
+                    date_created, date_modified, flag 
+                    FROM categories WHERE name=@name;";
+        var db = await DatabaseTask;
+        return await db.GetAsync<Category>(SQL, new { name });
+    }
+
 }
