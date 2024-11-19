@@ -5,14 +5,13 @@ using CashMapper.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Create config for appsettings.json
+// Create config for appsettings.json.
 var projectDirectory = Directory.GetParent(Environment.CurrentDirectory).FullName + "//CashMapperWebApi//";
 
 var config = new ConfigurationBuilder()
     .SetBasePath(projectDirectory)
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .Build();
-
 
 // Register backend services.
 builder.Services
@@ -25,15 +24,12 @@ builder.Services
     .AddSingleton<IRepository<ExpenseItem>, ExpenseItemRepository>()
     .AddSingleton<IRepository<Transaction>, TransactionRepository>();
 
-
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-
+// Build the app.
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,9 +40,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

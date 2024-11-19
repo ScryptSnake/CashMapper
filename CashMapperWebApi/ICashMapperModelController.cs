@@ -12,12 +12,12 @@ namespace CashMapperWebApi
         Task<ActionResult<TModel>> GetAsync(long id);
 
         // HTTP GET.
-        Task<ActionResult<IEnumerable<TModel>>> GetAsync();
+        Task<ActionResult<IEnumerable<TModel>>> GetAllAsync();
 
         // HTTP POST.
-        Task<ActionResult<TModel>> PostAsync(TModel model);
+        Task<ActionResult<TModel>> AddItemAsync(TModel model);
 
         // HTTP PUT.
-        Task<ActionResult<TModel>> PutAsync(TModel model);
+        Task<ActionResult<TModel>> UpdateItemAsync(TModel model);
     }
 }

@@ -35,7 +35,12 @@ public class CategoryRepository : IRepository<Category>
         {
             case 0: return false;
             case 1: return true;
-            case > 1: throw new DataException("Database returned multiple records. Expected 1 or 0.");
+            default:
+                throw new DataException(
+                    $"""
+                     Database returned an invalid number of records.
+                      Expected 1 or 0. Actual: {count}
+                     """);
         }
         return false;
     }
@@ -103,12 +108,17 @@ public class CategoryRepository : IRepository<Category>
     {
         var db = await DatabaseTask;
         const string SQL = @"SELECT COUNT(id) FROM categories WHERE name=@name;";
-        var count = await db.ExecuteScalarAsync<long>(SQL, new {name});
+        var count = await db.ExecuteScalarAsync<long>(SQL, new { name });
         switch (count)
         {
             case 0: return false;
             case 1: return true;
-            case > 1: throw new DataException("Database returned multiple records. Expected 1 or 0.");
+            default:
+                throw new DataException(
+                    $"""
+                     Database returned an invalid number of records.
+                      Expected 1 or 0. Actual: {count}
+                     """);
         }
         return false;
     }

@@ -34,7 +34,12 @@ public class TransactionRepository : IRepository<Transaction>
         {
             case 0: return false;
             case 1: return true;
-            case > 1: throw new DataException("Database returned multiple records. Expected 1 or 0.");
+            default:
+                throw new DataException(
+                    $"""
+                     Database returned an invalid number of records.
+                      Expected 1 or 0. Actual: {count}
+                     """);
         }
         return false;
     }

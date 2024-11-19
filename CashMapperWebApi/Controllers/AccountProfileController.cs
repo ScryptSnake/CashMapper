@@ -2,23 +2,24 @@
 using CashMapper.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace CashMapperWebApi.Controllers;
 
-[Route("api/Categories")]
+[Route("api/AccountProfiles")]
 [ApiController]
-public class CategoriesController : ControllerBase, ICashMapperModelController<Category>
+public class AccountProfilesController : ControllerBase, ICashMapperModelController<AccountProfile>
 {
-    private CategoryRepository Repository { get; }
+    private AccountProfileRepository Repository { get; }
 
-    public CategoriesController(IRepository<Category> repository)
+    public AccountProfilesController(IRepository<AccountProfile> repository)
     {
-        Repository = (CategoryRepository)repository;
+        Repository = (AccountProfileRepository)repository;
     }
 
     [HttpGet("{id:long}")]
-    public async Task<ActionResult<Category>> GetAsync(long id)
+    public async Task<ActionResult<AccountProfile>> GetAsync(long id)
     {
-        var exists = await Repository.ExistsAsync(new Category(){Id=id});
+        var exists = await Repository.ExistsAsync(new AccountProfile(){Id=id});
         if (!exists)
         {
             return NotFound();
@@ -28,7 +29,7 @@ public class CategoriesController : ControllerBase, ICashMapperModelController<C
     }
 
     [HttpGet("{name}")]
-    public async Task<ActionResult<Category>> GetByNameAsync(string name)
+    public async Task<ActionResult<AccountProfile>> GetByNameAsync(string name)
     {
         var exists = await Repository.ExistsByNameAsync(name);
         if (!exists)
@@ -40,14 +41,14 @@ public class CategoriesController : ControllerBase, ICashMapperModelController<C
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Category>>> GetAllAsync()
+    public async Task<ActionResult<IEnumerable<AccountProfile>>> GetAllAsync()
     {
         var result = await Repository.GetAllAsync();
         return Ok(result);  
     }
 
     [HttpPost]
-    public async Task<ActionResult<Category>> AddItemAsync([FromBody] Category model)
+    public async Task<ActionResult<AccountProfile>> AddItemAsync([FromBody] AccountProfile model)
     {
        var result = await Repository.AddAsync(model);
        // Return a 201 Created response with the location of the created resource
@@ -58,7 +59,7 @@ public class CategoriesController : ControllerBase, ICashMapperModelController<C
     }
 
     [HttpPut]
-    public async Task<ActionResult<Category>> UpdateItemAsync(Category model)
+    public async Task<ActionResult<AccountProfile>> UpdateItemAsync(AccountProfile model)
     {
         var result = await Repository.UpdateAsync(model);
         return Ok(result);
