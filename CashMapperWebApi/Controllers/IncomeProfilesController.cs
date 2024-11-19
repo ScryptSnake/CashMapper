@@ -5,21 +5,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CashMapperWebApi.Controllers;
 
-[Route("api/AccountProfiles")]
+[Route("api/IncomeProfiles")]
 [ApiController]
-public class AccountProfilesController : ControllerBase, ICashMapperModelController<AccountProfile>
+public class IncomeProfilesController : ControllerBase, ICashMapperModelController<IncomeProfile>
 {
-    private AccountProfileRepository Repository { get; }
-
-    public AccountProfilesController(IRepository<AccountProfile> repository)
+    private IncomeProfileRepository Repository { get; }
+    public IncomeProfilesController(IRepository<IncomeProfile> repository)
     {
-        Repository = (AccountProfileRepository)repository;
+        Repository = (IncomeProfileRepository)repository;
     }
 
     [HttpGet("{id:long}")]
-    public async Task<ActionResult<AccountProfile>> GetAsync(long id)
+    public async Task<ActionResult<IncomeProfile>> GetAsync(long id)
     {
-        var exists = await Repository.ExistsAsync(new AccountProfile(){Id=id});
+        var exists = await Repository.ExistsAsync(new IncomeProfile(){Id=id});
         if (!exists)
         {
             return NotFound();
@@ -29,7 +28,7 @@ public class AccountProfilesController : ControllerBase, ICashMapperModelControl
     }
 
     [HttpGet("{name}")]
-    public async Task<ActionResult<AccountProfile>> GetByNameAsync(string name)
+    public async Task<ActionResult<IncomeProfile>> GetByNameAsync(string name)
     {
         var exists = await Repository.ExistsByNameAsync(name);
         if (!exists)
@@ -41,25 +40,24 @@ public class AccountProfilesController : ControllerBase, ICashMapperModelControl
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AccountProfile>>> GetAllAsync()
+    public async Task<ActionResult<IEnumerable<IncomeProfile>>> GetAllAsync()
     {
         var result = await Repository.GetAllAsync();
         return Ok(result);  
     }
 
     [HttpPost]
-    public async Task<ActionResult<AccountProfile>> AddItemAsync([FromBody] AccountProfile model)
+    public async Task<ActionResult<IncomeProfile>> AddItemAsync([FromBody] IncomeProfile model)
     {
        var result = await Repository.AddAsync(model);
        // Return a 201 Created response with the location of the created resource
        // Note: The suffix 'Async' has a bug in ASP, doesn't allow CreatedAtAction to find the method.
        // Omit the suffix and explicitly provide.
        return CreatedAtAction("Get", new {id=result.Id}, result);
-
     }
 
     [HttpPut]
-    public async Task<ActionResult<AccountProfile>> UpdateItemAsync(AccountProfile model)
+    public async Task<ActionResult<IncomeProfile>> UpdateItemAsync(IncomeProfile model)
     {
         var result = await Repository.UpdateAsync(model);
         return Ok(result);

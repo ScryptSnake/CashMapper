@@ -90,4 +90,37 @@ public class IncomeProfileRepository : IRepository<IncomeProfile>
         await db.ExecuteAsync(sql, entity);
         return await FindAsync(entity.Id);
     }
+
+    public async Task<Category> GetByNameAsync(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentNullException("Account name required.");
+
+        const string SQL = @$"SELECT id, name,
+                    date_created, date_modified, flag 
+                    FROM income_profiles WHERE name=@name;";
+        var db = await DatabaseTask;
+        return await db.GetAsync<Category>(SQL, new { name });
+    }
+
+    public async Task<bool> ExistsByNameAsync(string name)
+    {
+        var db = await DatabaseTask;
+        const string SQL = @"SELECT COUNT(id) FROM income_profiles WHERE name=@name;";
+        var count = await db.ExecuteScalarAsync<long>(SQL, new { name });
+        switch (count)
+        {
+            case 0: return false;
+            case 1: return true;
+            default:
+                throw new DataException(
+                    $"""
+                     Database returned an invalid number of records.
+                      Expected 1 or 0. Actual: {count}
+                     """);
+        }
+        return false;
+    }
+
+
 }

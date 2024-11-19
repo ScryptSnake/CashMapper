@@ -22,7 +22,9 @@ builder.Services
     .AddSingleton<IRepository<IncomeItem>, IncomeItemRepository>()
     .AddSingleton<IRepository<BudgetItem>, BudgetItemRepository>()
     .AddSingleton<IRepository<ExpenseItem>, ExpenseItemRepository>()
-    .AddSingleton<IRepository<Transaction>, TransactionRepository>();
+    .AddSingleton<IRepository<Transaction>, TransactionRepository>()
+    .AddSingleton<IRepository<IncomeProfile>, IncomeProfileRepository>()
+    .AddSingleton<IRepository<AccountProfile>, AccountProfileRepository>(); ;
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

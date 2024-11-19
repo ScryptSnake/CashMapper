@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CashMapper.DataAccess.Entities;
 using Dapper;
+using static Dapper.SqlMapper;
 
 
 namespace CashMapper.DataAccess.Repositories;
@@ -64,7 +65,7 @@ public class IncomeItemRepository : IRepository<IncomeItem>
     {
         const string SQL = @"SELECT id, name, income_profile_id, monthly_value, 
                             date_created, date_modified, flag 
-                            FROM income_items;";
+                            FROM income_items ORDER BY income_profile_id;";
         var db = await DatabaseTask;
         return await db.GetMultipleAsync<IncomeItem>(SQL);
     }
@@ -91,5 +92,20 @@ public class IncomeItemRepository : IRepository<IncomeItem>
         var db = await DatabaseTask;
         await db.ExecuteAsync(sql, entity);
         return await FindAsync(entity.Id);
+    }
+
+    public async Task<IEnumerable<IncomeItem>> GetByIncomeProfile(IncomeProfile profile)
+    {
+        if (profile.Id == default) throw new InvalidDataException("Income profile Id field not provided.");
+        return await GetByIncomeProfileId(profile.Id);
+    }
+    public async Task<IEnumerable<IncomeItem>> GetByIncomeProfileId(long profileId)
+    {
+        const string SQL = $@"SELECT id, name, income_profile_id, 
+                            monthly_value, date_created, date_modified, flag
+                            FROM income_items WHERE income_profile_id=@Id 
+                            ORDER BY date_created;";
+        var db = await DatabaseTask;
+        return await db.GetMultipleAsync<IncomeItem>(SQL,new {Id=profileId});
     }
 }
