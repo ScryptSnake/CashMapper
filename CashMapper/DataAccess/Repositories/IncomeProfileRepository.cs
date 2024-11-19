@@ -25,11 +25,11 @@ public class IncomeProfileRepository : IRepository<IncomeProfile>
         DatabaseTask = databaseFactory.GetDatabase();
     }
 
-    public async Task<bool> ExistsAsync(IncomeProfile entity)
+    public async Task<bool> ExistsAsync(long id)
     {
         var db = await DatabaseTask;
         const string SQL = @"SELECT COUNT(id) FROM income_profiles WHERE id=@Id;";
-        var count = await db.ExecuteScalarAsync<long>(SQL, entity);
+        var count = await db.ExecuteScalarAsync<long>(SQL, new {Id=id});
         switch (count)
         {
             case 0: return false;
@@ -44,7 +44,7 @@ public class IncomeProfileRepository : IRepository<IncomeProfile>
         return false;
     }
 
-    public async Task<IncomeProfile> FindAsync(long id)
+    public async Task<IncomeProfile?> FindAsync(long id)
     {
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, name,
@@ -56,7 +56,8 @@ public class IncomeProfileRepository : IRepository<IncomeProfile>
 
     public async Task<IncomeProfile> GetAsync(IncomeProfile entity)
     {
-        return await FindAsync(entity.Id);
+        var result = await FindAsync(entity.Id);
+        return result ?? throw new DataException("Provided entity does not exist.");
     }
 
     public async Task<IEnumerable<IncomeProfile>> GetAllAsync()
@@ -76,7 +77,7 @@ public class IncomeProfileRepository : IRepository<IncomeProfile>
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
-        return await FindAsync(id);
+        return await GetAsync(entity);
     }
 
     public async Task<IncomeProfile> UpdateAsync(IncomeProfile entity)
@@ -88,7 +89,7 @@ public class IncomeProfileRepository : IRepository<IncomeProfile>
                   WHERE id=@Id;";
         var db = await DatabaseTask;
         await db.ExecuteAsync(sql, entity);
-        return await FindAsync(entity.Id);
+        return await GetAsync(entity);
     }
 
     public async Task<Category> GetByNameAsync(string name)
@@ -100,7 +101,7 @@ public class IncomeProfileRepository : IRepository<IncomeProfile>
                     date_created, date_modified, flag 
                     FROM income_profiles WHERE name=@name;";
         var db = await DatabaseTask;
-        return await db.GetAsync<Category>(SQL, new { name });
+        return await db.GetSingleAsync<Category>(SQL, new { name });
     }
 
     public async Task<bool> ExistsByNameAsync(string name)

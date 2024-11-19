@@ -18,12 +18,8 @@ public class IncomeProfilesController : ControllerBase, ICashMapperModelControll
     [HttpGet("{id:long}")]
     public async Task<ActionResult<IncomeProfile>> GetAsync(long id)
     {
-        var exists = await Repository.ExistsAsync(new IncomeProfile(){Id=id});
-        if (!exists)
-        {
-            return NotFound();
-        }
         var result = await Repository.FindAsync(id);
+        if (result == null) return NotFound();
         return Ok(result);
     }
 

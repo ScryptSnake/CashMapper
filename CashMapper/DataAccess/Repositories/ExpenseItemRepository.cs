@@ -25,11 +25,11 @@ public class ExpenseItemRepository : IRepository<ExpenseItem>
         DatabaseTask = databaseFactory.GetDatabase();
     }
 
-    public async Task<bool> ExistsAsync(ExpenseItem entity)
+    public async Task<bool> ExistsAsync(long id)
     {
         var db = await DatabaseTask;
-        const string SQL = @"SELECT COUNT(id) FROM expense_items WHERE id=@id;";
-        var count = await db.ExecuteScalarAsync<long>(SQL, entity);
+        const string SQL = @"SELECT COUNT(id) FROM expense_items WHERE id=@Id;";
+        var count = await db.ExecuteScalarAsync<long>(SQL, new{Id=id});
         switch (count)
         {
             case 0: return false;
@@ -44,7 +44,7 @@ public class ExpenseItemRepository : IRepository<ExpenseItem>
         return false;
     }
 
-    public async Task<ExpenseItem> FindAsync(long id)
+    public async Task<ExpenseItem?> FindAsync(long id)
     {
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, description, monthly_value, note, category_id,
@@ -56,7 +56,8 @@ public class ExpenseItemRepository : IRepository<ExpenseItem>
 
     public async Task<ExpenseItem> GetAsync(ExpenseItem entity)
     {
-        return await FindAsync(entity.Id);
+        var result = await FindAsync(entity.Id);
+        return result ?? throw new DataException("Provided entity does not exist.");
     }
 
     public async Task<IEnumerable<ExpenseItem>> GetAllAsync()
@@ -76,7 +77,7 @@ public class ExpenseItemRepository : IRepository<ExpenseItem>
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
-        return await FindAsync(id);
+        return await GetAsync(entity with { Id = id });
     }
 
     public async Task<ExpenseItem> UpdateAsync(ExpenseItem entity)
@@ -89,6 +90,6 @@ public class ExpenseItemRepository : IRepository<ExpenseItem>
                   WHERE id=@Id;";
         var db = await DatabaseTask;
         await db.ExecuteAsync(sql, entity);
-        return await FindAsync(entity.Id);
+        return await GetAsync(entity);
     }
 }

@@ -20,7 +20,7 @@ public class IncomeItemsController : ControllerBase, ICashMapperModelController<
     [HttpGet("{id:long}")]
     public async Task<ActionResult<IncomeItem>> GetAsync(long id)
     {
-        var exists = await Repository.ExistsAsync(new IncomeItem(){Id=id});
+        var exists = await Repository.ExistsAsync(id);
         if (!exists) return NotFound();
         var result = await Repository.FindAsync(id);
         return Ok(result);
@@ -29,7 +29,7 @@ public class IncomeItemsController : ControllerBase, ICashMapperModelController<
     [HttpGet("by-profile/{incomeProfileId:long}")]
     public async Task<ActionResult<IEnumerable<IncomeItem>>> GetByIncomeProfileAsync(long incomeProfileId)
     {
-        var exists = await ProfileRepository.ExistsAsync(new IncomeProfile(){Id=incomeProfileId});
+        var exists = await ProfileRepository.ExistsAsync(incomeProfileId);
         if (!exists) 
             return NotFound(new {message=$"IncomeProfile with ID not found: {incomeProfileId}"});
         var result = await Repository.GetByIncomeProfileId(incomeProfileId);
@@ -47,7 +47,7 @@ public class IncomeItemsController : ControllerBase, ICashMapperModelController<
     [HttpPost]
     public async Task<ActionResult<IncomeItem>> AddItemAsync([FromBody] IncomeItem model)
     {
-        var profileExists = await ProfileRepository.ExistsAsync()
+        var profileExists = await ProfileRepository.ExistsAsync(model.IncomeProfileId);
         var result = await Repository.AddAsync(model);
         // Return a 201 Created response with the location of the created resource
         // Note: The suffix 'Async' has a bug in ASP, doesn't allow CreatedAtAction to find the method.

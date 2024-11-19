@@ -27,11 +27,11 @@ public class IncomeItemRepository : IRepository<IncomeItem>
         DatabaseTask = databaseFactory.GetDatabase();
     }
 
-    public async Task<bool> ExistsAsync(IncomeItem entity)
+    public async Task<bool> ExistsAsync(long id)
     {
         var db = await DatabaseTask;
         const string SQL = @"SELECT COUNT(id) FROM income_items WHERE id=@Id;";
-        var count = await db.ExecuteScalarAsync<long>(SQL, entity);
+        var count = await db.ExecuteScalarAsync<long>(SQL, new {Id=id});
         switch (count)
         {
             case 0: return false;
@@ -46,7 +46,7 @@ public class IncomeItemRepository : IRepository<IncomeItem>
         return false;
     }
 
-    public async Task<IncomeItem> FindAsync(long id)
+    public async Task<IncomeItem?> FindAsync(long id)
     {
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, name, income_profile_id, monthly_value,
@@ -58,7 +58,8 @@ public class IncomeItemRepository : IRepository<IncomeItem>
 
     public async Task<IncomeItem> GetAsync(IncomeItem entity)
     {
-        return await FindAsync(entity.Id);
+        var result = await FindAsync(entity.Id);
+        return result ?? throw new DataException("Provided entity does not exist.");
     }
 
     public async Task<IEnumerable<IncomeItem>> GetAllAsync()
@@ -78,7 +79,7 @@ public class IncomeItemRepository : IRepository<IncomeItem>
                     SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
-        return await FindAsync(id);
+        return await GetAsync(entity);
     }
 
     public async Task<IncomeItem> UpdateAsync(IncomeItem entity)
@@ -91,7 +92,7 @@ public class IncomeItemRepository : IRepository<IncomeItem>
                   WHERE id=@Id;";
         var db = await DatabaseTask;
         await db.ExecuteAsync(sql, entity);
-        return await FindAsync(entity.Id);
+        return await GetAsync(entity);
     }
 
     public async Task<IEnumerable<IncomeItem>> GetByIncomeProfile(IncomeProfile profile)

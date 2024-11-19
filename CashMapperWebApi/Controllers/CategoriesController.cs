@@ -17,12 +17,8 @@ public class CategoriesController : ControllerBase, ICashMapperModelController<C
     [HttpGet("{id:long}")]
     public async Task<ActionResult<Category>> GetAsync(long id)
     {
-        var exists = await Repository.ExistsAsync(new Category(){Id=id});
-        if (!exists)
-        {
-            return NotFound();
-        }
         var result = await Repository.FindAsync(id);
+        if (result == null) return NotFound();
         return Ok(result);
     }
 

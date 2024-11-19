@@ -19,7 +19,9 @@ namespace CashMapper.DataAccess
         Task<T?> ExecuteScalarAsync<T>(string sql, object? param = null);
 
         DbTransaction BeginTransaction();
-        Task<TEntity> GetAsync<TEntity>(string sql, object? param=null);
+        Task<TEntity?> GetAsync<TEntity>(string sql, object? param=null,TEntity? defaultValue=default);
+
+        Task<TEntity> GetSingleAsync<TEntity>(string sql, object? param = null);
 
         Task<IEnumerable<TEntity>> GetMultipleAsync<TEntity>(string sql, object? param = null);
 

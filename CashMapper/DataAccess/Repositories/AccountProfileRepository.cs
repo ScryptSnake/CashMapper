@@ -26,11 +26,11 @@ public class AccountProfileRepository : IRepository<AccountProfile>
         DatabaseTask = databaseFactory.GetDatabase();
     }
 
-    public async Task<bool> ExistsAsync(AccountProfile entity)
+    public async Task<bool> ExistsAsync(long id)
     {
         var db = await DatabaseTask;
         const string SQL = @"SELECT COUNT(id) FROM account_profiles WHERE id=@Id;";
-        var count = await db.ExecuteScalarAsync<long>(SQL, entity);
+        var count = await db.ExecuteScalarAsync<long>(SQL, new {Id=id});
         switch (count)
         {
             case 0: return false;
@@ -45,7 +45,7 @@ public class AccountProfileRepository : IRepository<AccountProfile>
         return false;
     }
 
-    public async Task<AccountProfile> FindAsync(long id)
+    public async Task<AccountProfile?> FindAsync(long id)
     {
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, name,
@@ -57,7 +57,8 @@ public class AccountProfileRepository : IRepository<AccountProfile>
 
     public async Task<AccountProfile> GetAsync(AccountProfile entity)
     {
-        return await FindAsync(entity.Id);
+        var result = await FindAsync(entity.Id);
+        return result ?? throw new DataException("Provided entity does not exist.");
     }
 
     public async Task<IEnumerable<AccountProfile>> GetAllAsync()
@@ -77,7 +78,7 @@ public class AccountProfileRepository : IRepository<AccountProfile>
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
-        return await FindAsync(id);
+        return await GetAsync(entity with { Id = id });
     }
 
     public async Task<AccountProfile> UpdateAsync(AccountProfile entity)
@@ -89,7 +90,7 @@ public class AccountProfileRepository : IRepository<AccountProfile>
                   WHERE id=@Id;";
         var db = await DatabaseTask;
         await db.ExecuteAsync(sql, entity);
-        return await FindAsync(entity.Id);
+        return await GetAsync(entity);
     }
     public async Task<Category> GetByNameAsync(string name)
     {
@@ -100,7 +101,7 @@ public class AccountProfileRepository : IRepository<AccountProfile>
                     date_created, date_modified, flag 
                     FROM account_profiles WHERE name=@name;";
         var db = await DatabaseTask;
-        return await db.GetAsync<Category>(SQL, new { name });
+        return await db.GetSingleAsync<Category>(SQL, new { name });
     }
 
     public async Task<bool> ExistsByNameAsync(string name)

@@ -41,7 +41,6 @@ public class CategoryRepositoryTests : IClassFixture<RepositoryFixture>
         // These include:  Id, DateCreated, DateModified.
         Assert.Equal(inputEntity.Name, outputEntity.Name);
         Assert.Equal(inputEntity.CategoryType, outputEntity.CategoryType);
-        Console.WriteLine("Type=" + outputEntity.CategoryType.ToString());
         Assert.Equal(inputEntity.Flag, outputEntity.Flag);
     }
 
@@ -80,7 +79,7 @@ public class CategoryRepositoryTests : IClassFixture<RepositoryFixture>
         };
         // Act.
         var addEntity = await Repository.AddAsync(newEntity);
-        var exists = await Repository.ExistsAsync(addEntity);
+        var exists = await Repository.ExistsAsync(addEntity.Id);
 
         // Assert.
         Assert.True(exists);

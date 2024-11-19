@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -62,8 +63,17 @@ namespace CashMapper.DataAccess
             return new DbTransaction(Connection.BeginTransaction());
         }
 
-        public async Task<TEntity> GetAsync<TEntity>(string sql, object? param = null)
+        public async Task<TEntity?> GetAsync<TEntity>(string sql, object? param = null, TEntity? defaultValue=default)
         {
+            // Does not throw exception if dapper returns nothing.
+            var result = await Connection.QuerySingleOrDefaultAsync<TEntity>(sql, param);
+            if (result == null) return defaultValue;
+            return result;
+        }
+
+        public async Task<TEntity> GetSingleAsync<TEntity>(string sql, object? param = null)
+        {
+            // Expects 1 record. Throws exception if no matches.
             return await Connection.QuerySingleAsync<TEntity>(sql, param);
         }
 

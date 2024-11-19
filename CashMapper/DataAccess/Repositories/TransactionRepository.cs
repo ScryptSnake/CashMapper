@@ -25,11 +25,11 @@ public class TransactionRepository : IRepository<Transaction>
         DatabaseTask = databaseFactory.GetDatabase();
     }
 
-    public async Task<bool> ExistsAsync(Transaction entity)
+    public async Task<bool> ExistsAsync(long id)
     {
         var db = await DatabaseTask;
         const string SQL = @"SELECT COUNT(id) FROM transactions WHERE id=@Id;";
-        var count = await db.ExecuteScalarAsync<long>(SQL, entity);
+        var count = await db.ExecuteScalarAsync<long>(SQL, new{Id=id});
         switch (count)
         {
             case 0: return false;
@@ -44,7 +44,7 @@ public class TransactionRepository : IRepository<Transaction>
         return false;
     }
 
-    public async Task<Transaction> FindAsync(long id)
+    public async Task<Transaction?> FindAsync(long id)
     {
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, description, source, 
@@ -57,7 +57,8 @@ public class TransactionRepository : IRepository<Transaction>
 
     public async Task<Transaction> GetAsync(Transaction entity)
     {
-        return await FindAsync(entity.Id);
+        var result = await FindAsync(entity.Id);
+        return result ?? throw new DataException("Provided entity does not exist.");
     }
 
     public async Task<IEnumerable<Transaction>> GetAllAsync()

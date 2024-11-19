@@ -27,7 +27,8 @@ public class Program
 
         //Get category repo service:
         var catRepo = provider.GetRequiredService<IRepository<Category>>();
-        catRepo.AddAsync(new Category() { Name = "FUEL" });
+        var category = await catRepo.AddAsync(new Category() { Name = "FUEL9" });
+        category = await catRepo.GetAsync(category);
 
 
         //Get repo service
