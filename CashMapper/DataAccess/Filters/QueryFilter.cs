@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CashMapper.Enums;
 
-namespace CashMapper.DataAccess;
+namespace CashMapper.DataAccess.Filters;
 
 /// <summary>
 /// An object that dynamically assembles WHERE criteria for a SQL query. 
@@ -53,7 +53,7 @@ internal class QueryFilter()
         Builder.AppendFormat(" {0} {1} @{2} {3}", field, evaluatorString, field, logicalString);
 
         // Add value to dictionary.
-        Values.Add(field, value);   
+        Values.Add(field, value);
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ internal class QueryFilter()
     /// </summary>
     private static string ParseQueryOperators(QueryOperators? value)
     {
-        switch(value)
+        switch (value)
         {
             case null: return string.Empty;
             case QueryOperators.And: return "AND";
@@ -91,7 +91,7 @@ internal class QueryFilter()
                 throw new ArgumentException("Failed to parse. Value not found.");
 
         }
-}
+    }
     private static bool ValidateString(string input)
     {
         // A level of protection against any SQL injection attack.
@@ -99,8 +99,8 @@ internal class QueryFilter()
         // Therefore, dot notation for field names will not work with this class.
         // Ensure is single word, no whitespace.
         // Only allows underscore special char. 
-        if (input.Any(char.IsWhiteSpace) || 
-            (Regex.IsMatch(input, "^[a-zA-Z0-9_\\-]+$\r\n"))) return false;
+        if (input.Any(char.IsWhiteSpace) ||
+            Regex.IsMatch(input, "^[a-zA-Z0-9_\\-]+$\r\n")) return false;
         return true;
     }
 

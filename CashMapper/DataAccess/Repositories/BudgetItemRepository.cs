@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CashMapper.DataAccess.Entities;
 using Dapper;
+using static Dapper.SqlMapper;
 
 
 namespace CashMapper.DataAccess.Repositories;
@@ -62,7 +63,7 @@ public class BudgetItemRepository : IRepository<BudgetItem>
 
     public async Task<IEnumerable<BudgetItem>> GetAllAsync()
     {
-        const string SQL = @$"SELECT id, description, monthly_value, note, category_id,
+        const string SQL = @"SELECT id, description, monthly_value, note, category_id,
                     date_created, date_modified, flag 
                     FROM budget_items;";
         var db = await DatabaseTask;
@@ -72,7 +73,7 @@ public class BudgetItemRepository : IRepository<BudgetItem>
     public async Task<BudgetItem> AddAsync(BudgetItem entity)
     {
         // Note:  DateCreated and DateModified fields default to current timestamp inside backend.
-        const string SQL = @$"INSERT INTO budget_items(description, monthly_value, note, category_id, flag)
+        const string SQL = @"INSERT INTO budget_items(description, monthly_value, note, category_id, flag)
                             VALUES(@Description, @MonthlyValue, @Note, @CategoryId, @flag);
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
@@ -92,4 +93,27 @@ public class BudgetItemRepository : IRepository<BudgetItem>
         await db.ExecuteAsync(sql, entity);
         return await GetAsync(entity);
     }
+
+    public async Task<IEnumerable<BudgetItem>> GetByCategoryId(long categoryId)
+    {
+        const string SQL = @"SELECT id, description, monthly_value,
+                    note, category_id, date_created, date_modified, flag
+                    FROM budget_items WHERE category_id=@Id ORDER BY description;";
+        var db = await DatabaseTask;
+        var result = await db.GetMultipleAsync<BudgetItem>(SQL, new { Id = categoryId });
+        return result;
+    }
+
+    public async Task<IEnumerable<BudgetItem>> GetByCategoryName(string categoryName)
+    {
+        var db = await DatabaseTask;
+        const string categorySQL = @"SELECT id, name, date_created, date_modified, flag
+                                    FROM categories WHERE name=@Name;";
+        var category = await db.GetAsync<Category>(categorySQL, new { Name = categoryName });
+        if (category == null) return Enumerable.Empty<BudgetItem>();
+
+        return await GetByCategoryId(category.Id);
+    }
+
+
 }

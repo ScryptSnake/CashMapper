@@ -93,4 +93,7 @@ public class TransactionRepository : IRepository<Transaction>
         await db.ExecuteAsync(sql, entity);
         return await FindAsync(entity.Id);
     }
+
+    public async Task<IEnumerable<Transaction>> GetByCategory
+
 }
