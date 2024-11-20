@@ -78,7 +78,7 @@ public class TransactionRepository : IRepository<Transaction>
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
-        return await FindAsync(id);
+        return await GetAsync(entity with {Id=id});
     }
 
     public async Task<Transaction> UpdateAsync(Transaction entity)

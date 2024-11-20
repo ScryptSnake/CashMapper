@@ -77,7 +77,7 @@ public class IncomeProfileRepository : IRepository<IncomeProfile>
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
-        return await GetAsync(entity);
+        return await GetAsync(entity with {Id=id});
     }
 
     public async Task<IncomeProfile> UpdateAsync(IncomeProfile entity)

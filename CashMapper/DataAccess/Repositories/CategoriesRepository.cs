@@ -31,7 +31,6 @@ public class CategoryRepository : IRepository<Category>
         var db = await DatabaseTask;
         const string SQL = @"SELECT COUNT(id) FROM categories WHERE id=@Id;";
         var count = await db.ExecuteScalarAsync<long>(SQL, new {Id=id});
-        Console.WriteLine($"=============================================================================Executing SQL: {SQL} with Id = {id}");
         switch (count)
         {
             case 0: return false;
