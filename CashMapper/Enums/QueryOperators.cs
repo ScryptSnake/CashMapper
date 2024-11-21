@@ -18,6 +18,7 @@ namespace CashMapper.Enums
         LessThanOrEqual,
         GreaterThanOrEqual,
         And,
-        Or
+        Or,
+        Like
     }
 }

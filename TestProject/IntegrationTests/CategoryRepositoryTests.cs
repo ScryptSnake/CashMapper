@@ -62,9 +62,9 @@ public class CategoryRepositoryTests : IClassFixture<RepositoryFixture>
 
         // Assert.
         Assert.Equal(addEntity.Id, outputEntity.Id);
-        Assert.Equal(outputEntity.CategoryType, newEntity.CategoryType);
-        Assert.Equal(outputEntity.Flag, newEntity.Flag);
-        Assert.Equal(outputEntity.Name, newEntity.Name);
+        Assert.Equal(newEntity.CategoryType, outputEntity.CategoryType);
+        Assert.Equal(newEntity.Flag, outputEntity.Flag);
+        Assert.Equal(newEntity.Name, outputEntity.Name);
     }
 
     [Fact]

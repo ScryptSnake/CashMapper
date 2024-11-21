@@ -8,6 +8,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using CashMapper.DataAccess.Entities;
+using CashMapper.DataAccess.Filters;
+using CashMapper.Enums;
 using Dapper;
 
 
@@ -94,6 +96,20 @@ public class TransactionRepository : IRepository<Transaction>
         return await FindAsync(entity.Id);
     }
 
-    public async Task<IEnumerable<Transaction>> GetByCategory
+    //public async Task<IEnumerable<Transaction>> Query(TransactionQueryFilter filter)
+    //{
+    //    var builder = new QueryBuilder();
+    //    builder.AddCriteria("description", filter.DescriptionLike, QueryOperators.Like);
+    //    builder.AddCriteria("value", filter.StartValue, QueryOperators.GreaterThanOrEqual);
+    //    builder.AddCriteria("value",filter.EndValue,QueryOperators.LessThanOrEqual);
+    //    builder.AddCriteria("date", filter.EndTime, QueryOperators.GreaterThanOrEqual);
+    //    builder.AddCriteria("date",filter.EndTime,QueryOperators.LessThanOrEqual);
+    //    builder.AddCriteria("note", filter.NoteLike, QueryOperators.Like);
+    //    builder.AddCriteria("flag",filter.Flag,QueryOperators.Equals);
+
+
+    //    return;
+
+    //}
 
 }
