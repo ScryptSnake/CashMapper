@@ -79,6 +79,7 @@ namespace CashMapper.DataAccess
 
         public async Task<IEnumerable<TEntity>> GetMultipleAsync<TEntity>(string sql, object? param = null)
         {
+            // Dapper will return an empty enumerable if no results are returned.
             return await Connection.QueryAsync<TEntity>(sql, param);
         }
 

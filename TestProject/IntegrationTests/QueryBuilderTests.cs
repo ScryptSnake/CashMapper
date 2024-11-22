@@ -84,7 +84,7 @@ namespace TestProject.IntegrationTests
             builder.AddCriteria("id", expectedObj.id, QueryOperators.Equals);
             builder.AddMultiCriteria("name", expectedObj.name, QueryOperators.NotIn);
             builder.AddCriteria("category", expectedObj.category, QueryOperators.NotEquals);
-            builder.AddRangeCriteria("price", expectedObj.price1, expectedObj.price2, null, false);
+            builder.AddRangeCriteria("price", (expectedObj.price1, expectedObj.price2), null, false);
 
             var outputSql = builder.BuildWhereClause();
             var outputObj = builder.GetParameter();
@@ -115,13 +115,9 @@ namespace TestProject.IntegrationTests
             Console.WriteLine("---------------------------------------");
             Console.WriteLine(jsonB);
 
-
             // Compare the serialized strings
             return jsonA == jsonB;
         }
-
-
-
 
     }
 }

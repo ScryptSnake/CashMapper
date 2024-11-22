@@ -122,7 +122,6 @@ public class CategoryRepository : IRepository<Category>
                       Expected 1 or 0. Actual: {count}
                      """);
         }
-        return false;
     }
 
 }

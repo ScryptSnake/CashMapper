@@ -22,7 +22,8 @@ public class TransactionRepository : IRepository<Transaction>
 {
     private Task<IDatabase> DatabaseTask { get; }
 
-    public TransactionRepository(IDatabaseFactory databaseFactory){
+    public TransactionRepository(IDatabaseFactory databaseFactory)
+    {
         // Get the database from factory, store the task.
         DatabaseTask = databaseFactory.GetDatabase();
     }
@@ -31,7 +32,7 @@ public class TransactionRepository : IRepository<Transaction>
     {
         var db = await DatabaseTask;
         const string SQL = @"SELECT COUNT(id) FROM transactions WHERE id=@Id;";
-        var count = await db.ExecuteScalarAsync<long>(SQL, new{Id=id});
+        var count = await db.ExecuteScalarAsync<long>(SQL, new { Id = id });
         switch (count)
         {
             case 0: return false;
@@ -43,6 +44,7 @@ public class TransactionRepository : IRepository<Transaction>
                       Expected 1 or 0. Actual: {count}
                      """);
         }
+
         return false;
     }
 
@@ -80,7 +82,7 @@ public class TransactionRepository : IRepository<Transaction>
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
-        return await GetAsync(entity with {Id=id});
+        return await GetAsync(entity with { Id = id });
     }
 
     public async Task<Transaction> UpdateAsync(Transaction entity)
@@ -96,20 +98,25 @@ public class TransactionRepository : IRepository<Transaction>
         return await FindAsync(entity.Id);
     }
 
-    //public async Task<IEnumerable<Transaction>> Query(TransactionQueryFilter filter)
-    //{
-    //    var builder = new QueryBuilder();
-    //    builder.AddCriteria("description", filter.DescriptionLike, QueryOperators.Like);
-    //    builder.AddCriteria("value", filter.StartValue, QueryOperators.GreaterThanOrEqual);
-    //    builder.AddCriteria("value",filter.EndValue,QueryOperators.LessThanOrEqual);
-    //    builder.AddCriteria("date", filter.EndTime, QueryOperators.GreaterThanOrEqual);
-    //    builder.AddCriteria("date",filter.EndTime,QueryOperators.LessThanOrEqual);
-    //    builder.AddCriteria("note", filter.NoteLike, QueryOperators.Like);
-    //    builder.AddCriteria("flag",filter.Flag,QueryOperators.Equals);
+    public async Task<IEnumerable<Transaction>> Query(TransactionQueryFilter filter)
+    {
+        var builder = new QueryBuilder();
+        builder.AddCriteria("category_id", filter.CategoryId, QueryOperators.Equals);
+        builder.AddCriteria("description", filter.DescriptionLike, QueryOperators.Like);
+        builder.AddCriteria("source", filter.source, QueryOperators.Equals);
+        builder.AddRangeCriteria("value", filter.ValueRange);
+        builder.AddRangeCriteria("date", filter.DateRange);
+        builder.AddCriteria("note", filter.NoteLike, QueryOperators.Like);
+        builder.AddCriteria("flag", filter.Flag, QueryOperators.Equals);
 
+        var sqlWhere = builder.BuildWhereClause(false);
+        var paramObj = builder.GetParameter();
 
-    //    return;
+        var sql = $@"SELECT id, description, source, date, 
+                    value, category_id, note, date_created, date_modified, flag
+                    FROM transactions {sqlWhere} ORDER BY date;";
 
-    //}
-
+        var db = await DatabaseTask;
+        return await db.GetMultipleAsync<Transaction>(sql, paramObj);
+    }
 }

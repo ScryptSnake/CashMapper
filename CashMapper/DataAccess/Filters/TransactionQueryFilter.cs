@@ -10,14 +10,13 @@ namespace CashMapper.DataAccess.Filters
     /// Used as a parameter to the TransactionRepository for more sophisticated querying.
     /// </summary>
     public record TransactionQueryFilter(
-        string? CategoryName = null,
-        DateTime? StartTime=null,
-        DateTime? EndTime=null,
+        long? CategoryId = null,
         string? DescriptionLike = null,
+        string? source = null,
         string? NoteLike = null,
         string? Flag = null,
-        decimal? StartValue = null,
-        decimal? EndValue = null)
+        (DateTimeOffset min, DateTimeOffset max)? DateRange = null,
+        (int min, int max)? ValueRange = null)
     {
 
     }

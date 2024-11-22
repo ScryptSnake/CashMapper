@@ -27,32 +27,29 @@ internal class QueryBuilder()
     /// Adds two criteria to test whether a field's value is within two values. 
     /// </summary>
     /// <param name="field">The field name.</param>
-    /// <param name="startValue">The start value.</param>
-    /// <param name="endValue">The end value.</param>
+    /// <param name="valueRange">A ValueTuple describing the range. If null, criteria is not added.</param>
     /// <param name="inclusive"> When true, the start and end value are included in the range.</param>
     /// <param name="paramName">This is a prefix in which an integer is appended and incremented for each value.
     /// When null, defaults to field name.</param>
-    public void AddRangeCriteria(string field, object startValue, 
-                                object endValue, string? paramName = null, bool inclusive=true)
+    public void AddRangeCriteria(string field, (object min, object max)? valueRange, string? paramName = null, bool inclusive=true)
     {
         if (paramName == null) paramName = field;
-
-
+        if (valueRange == null) return;
         if (inclusive)
         {
-            AddCriteria(field, startValue, 
+            AddCriteria(field, valueRange.Value.min, 
                 QueryOperators.GreaterThanOrEqual,
                 QueryOperators.And,paramName + "1");
-            AddCriteria(field, endValue,
+            AddCriteria(field, valueRange.Value.max,
                 QueryOperators.LessThanOrEqual,
                 QueryOperators.And, paramName + "2");
         }
         else
         {
-            AddCriteria(field, startValue,
+            AddCriteria(field, valueRange.Value.min,
                 QueryOperators.GreaterThan,
                 QueryOperators.And, paramName + "1");
-            AddCriteria(field, endValue,
+            AddCriteria(field, valueRange.Value.max,
                 QueryOperators.LessThan,
                 QueryOperators.And, paramName + "2");
         }
