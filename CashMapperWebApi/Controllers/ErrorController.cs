@@ -13,7 +13,7 @@ public class ErrorController : ControllerBase
     public IActionResult HandleError()
     {
         return Problem(
-            detail: "An unexpected error occurred at the endpoint.",
+            detail: "An unexpected server error occurred.",
             statusCode: 500
         );
     }

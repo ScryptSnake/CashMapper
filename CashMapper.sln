@@ -8,13 +8,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7B936663-8A4E-405C-B06D-5D5EB8846E8F}"
 	ProjectSection(SolutionItems) = preProject
 		DesignNotes.txt = DesignNotes.txt
+		ReadMe.md = ReadMe.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleDemoApp", "ConsoleDemoApp\ConsoleDemoApp.csproj", "{05CA4E68-A1FC-4421-8B84-73C1546DBEC0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject", "TestProject\TestProject.csproj", "{F1D2B3C8-4D01-4106-8178-1C8998B4D136}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashMapperWebApi", "CashMapperWebApi\CashMapperWebApi.csproj", "{8B488EDD-E043-4499-AD6C-ADB52F6286DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashMapperWebApi", "CashMapperWebApi\CashMapperWebApi.csproj", "{8B488EDD-E043-4499-AD6C-ADB52F6286DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
