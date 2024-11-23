@@ -1,6 +1,9 @@
 ﻿using CashMapper.DataAccess.Entities;
 using CashMapper.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Immutable;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 
 
 namespace CashMapperWebApi.Controllers;
@@ -48,6 +51,7 @@ public class BudgetItemsController : ControllerBase, ICashMapperModelController<
     public async Task<ActionResult<IEnumerable<BudgetItem>>> GetByCategoryNameAsync(string categoryName)
     {
         var result = await Repository.GetByCategoryName(categoryName);
+
         if (!result.Any()) return NoContent();
         return Ok(result);
     }
@@ -55,9 +59,7 @@ public class BudgetItemsController : ControllerBase, ICashMapperModelController<
     [HttpPost]
     public async Task<ActionResult<BudgetItem>> AddItemAsync([FromBody] BudgetItem model)
     {
-        var profileExists = await CategoryRepository.ExistsAsync(model.CategoryId);
         var result = await Repository.AddAsync(model);
-        // Return a 201 Created response with the location of the created resource
         // Note: The suffix 'Async' has a bug in ASP, doesn't allow CreatedAtAction to find the method.
         // Omit the suffix and explicitly provide.
         return CreatedAtAction("Get", new { id = result.Id }, result);
@@ -69,4 +71,5 @@ public class BudgetItemsController : ControllerBase, ICashMapperModelController<
         var result = await Repository.UpdateAsync(model);
         return Ok(result);
     }
+
 }

@@ -74,7 +74,7 @@ public class BudgetItemRepository : IRepository<BudgetItem>
     {
         // Note:  DateCreated and DateModified fields default to current timestamp inside backend.
         const string SQL = @"INSERT INTO budget_items(description, monthly_value, note, category_id, flag)
-                            VALUES(@Description, @MonthlyValue, @Note, @CategoryId, @flag);
+                            VALUES(@Description, @MonthlyValue, @Note, @CategoryId, @Flag);
                             SELECT last_insert_rowId();";
         var db = await DatabaseTask;
         var id = await db.ExecuteScalarAsync<long>(SQL, entity);
@@ -86,7 +86,7 @@ public class BudgetItemRepository : IRepository<BudgetItem>
         if (entity.Id == default) throw new InvalidDataException("BudgetItem Id field not provided.");
         var sql = $@"UPDATE budget_items
                   SET description=@Description, note=@Note, flag=@Flag,
-                  monthly_value=@MonthlyValue, CategoryId=@category_id,
+                  monthly_value=@MonthlyValue, category_id=@CategoryId,
                   date_modified='{DateTimeOffset.Now.UtcDateTime.ToString("s", CultureInfo.InvariantCulture)}'
                   WHERE id=@Id;";
         var db = await DatabaseTask;
@@ -111,7 +111,6 @@ public class BudgetItemRepository : IRepository<BudgetItem>
                                     FROM categories WHERE name=@Name;";
         var category = await db.GetAsync<Category>(categorySQL, new { Name = categoryName });
         if (category == null) return Enumerable.Empty<BudgetItem>();
-
         return await GetByCategoryId(category.Id);
     }
 

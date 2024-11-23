@@ -4,7 +4,7 @@ using CashMapper.DataAccess.Repositories;
 using CashMapper.Enums;
 using TestProject.Fixtures;
 
-namespace TestProject.Tests;
+namespace TestProject.IntegrationTests.WebApi;
 
 /// <summary>
 /// An integration test class for the category repository.
@@ -98,8 +98,11 @@ public class CategoryRepositoryTests : IClassFixture<RepositoryFixture>
         // Act.
         var addEntity = await Repository.AddAsync(newEntity);
         var updatedEntity = await Repository.UpdateAsync(
-            addEntity with {CategoryType = CategoryTypes.Income,
-                Flag="Hello World"});
+            addEntity with
+            {
+                CategoryType = CategoryTypes.Income,
+                Flag = "Hello World"
+            });
 
         // Assert.
         Assert.NotEqual(addEntity.CategoryType, updatedEntity.CategoryType);

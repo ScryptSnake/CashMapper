@@ -16,7 +16,7 @@ using FluentAssertions.Execution;
 using Microsoft.Data.Sqlite;
 using Microsoft.VisualStudio.TestPlatform.Common.Utilities;
 
-namespace TestProject.IntegrationTests
+namespace TestProject.IntegrationTests.Backend
 {
     /// <summary>
     ///  This class tests the QueryBuilder class, which dynamically assembles a SELECT query.
