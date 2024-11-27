@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject", "TestProject\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashMapperWebApi", "CashMapperWebApi\CashMapperWebApi.csproj", "{8B488EDD-E043-4499-AD6C-ADB52F6286DA}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "CashMapperReactApp", "CashMapperReactApp\CashMapperReactApp.esproj", "{2457F30A-620B-48FB-9A08-F607FFB7785E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,12 @@ Global
 		{8B488EDD-E043-4499-AD6C-ADB52F6286DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B488EDD-E043-4499-AD6C-ADB52F6286DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B488EDD-E043-4499-AD6C-ADB52F6286DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2457F30A-620B-48FB-9A08-F607FFB7785E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2457F30A-620B-48FB-9A08-F607FFB7785E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2457F30A-620B-48FB-9A08-F607FFB7785E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2457F30A-620B-48FB-9A08-F607FFB7785E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2457F30A-620B-48FB-9A08-F607FFB7785E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2457F30A-620B-48FB-9A08-F607FFB7785E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
