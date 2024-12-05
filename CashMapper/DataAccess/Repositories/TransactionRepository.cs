@@ -100,10 +100,13 @@ public class TransactionRepository : IRepository<Transaction>
 
     public async Task<IEnumerable<Transaction>> Query(TransactionQueryFilter filter)
     {
+        // Check if filter contains data. If not, return empty.
+        if (filter.IsEmpty()) { return Enumerable.Empty<Transaction>(); }
+
         var builder = new QueryBuilder();
         builder.AddCriteria("category_id", filter.CategoryId, QueryOperators.Equals);
         builder.AddCriteria("description", filter.DescriptionLike, QueryOperators.Like);
-        builder.AddCriteria("source", filter.source, QueryOperators.Equals);
+        builder.AddCriteria("source", filter.Source, QueryOperators.Equals);
         builder.AddRangeCriteria("value", filter.ValueRange);
         builder.AddRangeCriteria("date", filter.DateRange);
         builder.AddCriteria("note", filter.NoteLike, QueryOperators.Like);

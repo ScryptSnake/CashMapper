@@ -31,7 +31,7 @@ internal class QueryBuilder()
     /// <param name="inclusive"> When true, the start and end value are included in the range.</param>
     /// <param name="paramName">This is a prefix in which an integer is appended and incremented for each value.
     /// When null, defaults to field name.</param>
-    public void AddRangeCriteria(string field, (object min, object max)? valueRange, string? paramName = null, bool inclusive=true)
+    public void AddRangeCriteria(string field, (object? min, object? max)? valueRange, string? paramName = null, bool inclusive=true)
     {
         if (paramName == null) paramName = field;
         if (valueRange == null) return;
