@@ -2,6 +2,7 @@ import './App.css';
 import './styles/Page.css'
 import Sidebar from './components/Sidebar';
 import HomePage from './components/HomePage';
+import TransactionsPage from './components/TransactionsPage';
 import React, { useState } from 'react';
 
 
@@ -12,8 +13,6 @@ function App() {
     const handleSidebarClick = (contentName: string) => {
         setContent(contentName);
     };
-
-
 
     return (
         <div className="Main-Window">
@@ -27,7 +26,7 @@ function App() {
                 <Sidebar onButtonClick={handleSidebarClick} />
                 <div className="Content">
                         {content === 'Home' && <HomePage />}
-                        {content === 'Transactions' && <div>Transactions Content</div>}
+                        {content === 'Transactions' && <TransactionsPage />}
                         {content === 'Income' && <div>Income Content</div>}
                         {content === 'Cash Flow' && <div>Cash Flow Content</div>}
                         {content === 'Budget' && <div>Budget Content</div>}
