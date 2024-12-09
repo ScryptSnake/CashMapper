@@ -7,3 +7,8 @@
     height: 100%;
     padding: 20px;
 }
+
+.Page .table{
+    color: black;
+    background: #808080;
+}

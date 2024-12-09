@@ -12,23 +12,44 @@ const TransactionsPage = () => {
     useEffect(() => {
         fetch('http://localhost:5009/api/Transactions') // Replace with your actual API URL
             .then((response) => response.json()) // Convert response to JSON
-            .then((data) => getTransactions(data)) // Set the fetched data into state
+            .then((data) => {
+                console.log(data);
+                getTransactions(data);     // Set the fetched data into state
+            })
             .catch((error) => console.error('Error fetching data:', error)); // Handle errors
     }, []);
 
 
+ 
     return (
         <div className="Page">
-        <h1>hello world</h1>
-            <ul>
-                {transactions.map((transaction,index) => (
-                    <li key={index}>{transaction.id}</li> // Replace 'name' with the actual property of the transaction object
+            <h1>Transactions List</h1>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Value</th>
+                        <th>Description</th>
+                        <th>Source</th>
+                        <th>Category</th>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {transactions.map((transaction) => (
+                    <tr key={transaction.id}>
+                        <td>{transaction.id}</td>
+                        <td>{transaction.value}</td>
+                        <td>{transaction.description}</td>
+                        <td>{transaction.source ?? 'Empty'}</td>
+                        <td>{transaction.categoryId}</td>
+                    </tr>
                 ))}
-            </ul>
-
-
+                </tbody>
+            </table>
         </div>
     );
+
 };
 
 export default TransactionsPage;

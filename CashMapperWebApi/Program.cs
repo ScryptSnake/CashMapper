@@ -2,6 +2,7 @@
 using CashMapper.DataAccess.Entities;
 using CashMapper.DataAccess.Repositories;
 using CashMapper.DataAccess;
+using Microsoft.AspNetCore.Cors;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,18 @@ builder.Services
     .AddSingleton<IRepository<ExpenseItem>, ExpenseItemRepository>()
     .AddSingleton<IRepository<Transaction>, TransactionRepository>()
     .AddSingleton<IRepository<IncomeProfile>, IncomeProfileRepository>()
-    .AddSingleton<IRepository<AccountProfile>, AccountProfileRepository>(); ;
+    .AddSingleton<IRepository<AccountProfile>, AccountProfileRepository>()
+
+    // Enable CORS
+    .AddCors(options =>
+    {
+        options.AddPolicy("AllowReactApp", policy =>
+        {
+            policy.WithOrigins("http://localhost:5173") // React app port
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        });
+    });
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -39,6 +51,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors("AllowReactApp");
 }
 else
 {
