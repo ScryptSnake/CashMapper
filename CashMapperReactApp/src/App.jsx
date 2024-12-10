@@ -9,14 +9,14 @@ import React, { useState } from 'react';
 
 function App() {
 
-    const [content, setContent] = useState<string>('Home');
+    const [content, setContent] = useState('Home');
 
-    const handleSidebarClick = (contentName: string) => {
+    const handleSidebarClick = (contentName) => {
         setContent(contentName);
     };
 
 
-    const [showModal, setModalShow] = useState<boolean>(false);
+    const [showModal, setModalShow] = useState(false);
     const openModal = () => {
         setModalShow(true);
     }
