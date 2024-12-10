@@ -1,3 +1,4 @@
+import './custom.scss';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
 import './App.css';
 import './styles/Page.css'

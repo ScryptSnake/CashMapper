@@ -15,6 +15,7 @@
 }
 
 .Sidebar-Button {
+    background-color: #1f2329;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -22,7 +23,13 @@
     font-family: Calibri;
     border-radius: 5px;
     width: 100%;
+    height: 40px;
     margin: 3px;
+}
+
+.Sidebar-Button:hover {
+    background-color: #3e4551;
+    color: white;
 }
 
 .Sidebar-Button-Icon {
