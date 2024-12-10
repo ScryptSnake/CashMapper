@@ -1,12 +1,19 @@
 .modal-body .form-control {
     font-size: 14px;
-    padding: 0.375rem 0.75rem; /* Adjust input padding */
+    padding: 20px;
     height: 30px;
 }
+
+
 
 .modal-footer .btn {
     font-size: 0.875rem; /* Adjust button size */
     padding: 0.375rem 0.75rem; /* Adjust button padding */
 
+}
+
+.modal-header {
+    height: 40px;
+    background-color: #e0e0e0;
 }
 

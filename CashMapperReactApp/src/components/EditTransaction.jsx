@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/modal.css';
 
 const EditTransaction = ({ showModal, closeModal, transaction }) => {
     if (!showModal) return null; // Don't render if showModal is false
+
+    const [categories, setCategories] = useState([]);
+
+    // Grab categories from API.
+    useEffect(() => {
+        fetch('http://localhost:5009/api/Categories') // Replace with your actual API URL
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setCategoriesHandler(data); // Set the fetched data into state
+            })
+            .catch((error) => console.error('Error fetching data:', error));
+    }, []);
+
+    const setCategoriesHandler = (data) => {
+        setCategories(data);
+    }
+
 
     return (
         <div>
@@ -19,15 +37,24 @@ const EditTransaction = ({ showModal, closeModal, transaction }) => {
                         </div>
                         <div className="modal-body">
                             <form>
-                                <div className="input-group mb-3">
-                                    <input type="text" className="form-control-sm bg-light" placeholder="Transaction ID"
-                                        aria-label="Recipient's username" aria-describedby="basic-addon2" />
+                                <div class="input-group">
+                                    <span class="input-group-text">Transaction ID</span>
+                                    <input type="text" for="transactionId" className="form-control-sm bg-light" />
                                 </div>
 
-                                <div className="input-group mb-3">
-                                    <input type="text" className="form-control-sm" placeholder="Transaction ID"
-                                        aria-label="Recipient's username" aria-describedby="basic-addon2" />
+                                {/* Load categories list*/}
+                                <div class="mb-3">
+                                    <label htmlFor="categorySelect" className="form-label">Category</label>
+                                    <select className="form-select form-select-sm" id="categorySelect">
+                                        {categories.map((category) => (
+                                            <option key={category.id} value={category.id}>
+                                                {category.name}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
+
+               
 
 
                             </form>
