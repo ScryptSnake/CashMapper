@@ -1,30 +1,20 @@
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
 import './App.css';
 import './styles/Page.css'
 import Sidebar from './components/Sidebar';
 import HomePage from './components/HomePage';
-import EditTransaction from './components/EditTransaction';
 import TransactionsPage from './components/TransactionsPage';
 import React, { useState } from 'react';
 
 
 function App() {
 
+    // Display page content with sidebar.
     const [content, setContent] = useState('Home');
 
     const handleSidebarClick = (contentName) => {
         setContent(contentName);
     };
-
-
-    const [showModal, setModalShow] = useState(false);
-    const openModal = () => {
-        setModalShow(true);
-    }
-    // Function to close the modal
-    const closeModal = () => {
-        setShowModal(false); // Set showModal to false to hide the modal
-    };
-
 
     return (
         <div className="Main-Window">

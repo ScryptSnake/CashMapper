@@ -32,7 +32,7 @@ builder.Services
     {
         options.AddPolicy("AllowReactApp", policy =>
         {
-            policy.WithOrigins("http://localhost:5173") // React app port
+            policy.WithOrigins("http://localhost:5175") // React app port
                   .AllowAnyMethod()
                   .AllowAnyHeader();
         });
