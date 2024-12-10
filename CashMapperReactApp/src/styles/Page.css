@@ -8,7 +8,9 @@
     padding: 20px;
 }
 
-.Page .table{
-    color: black;
-    background: #808080;
+.table-custom th, .table-custom td {
+    font-size: 13px; /* Adjust text size */
+    height: 30px; /* Adjust row height */
+    padding: 10px; /* Control spacing */
+    font-family: Calibri;
 }

@@ -1,7 +1,6 @@
 
 import '../styles/Sidebar.css';
-import React, { useState } from 'react';
-import TransactionsPage from './TransactionsPage';
+import '../index.css';
 
 interface SidebarProps {
     onButtonClick: (buttonName: string) => void;
