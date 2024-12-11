@@ -82,19 +82,22 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
                             <form onSubmit={submitFormData}>
                                 <div class="input-group input-group-sm mb-3 w-100">
                                     <span class="input-group-text">Description</span>
-                                    <input type="text" class="form-control" id="description" value={formData.description} onChange={handleFormChange} />
+                                    <input type="text" class="form-control" id="description"
+                                        value={formData.description} onChange={handleFormChange} />
                                 </div>
 
 
                                 <div className="input-group input-group-sm mb-3 w-50">
                                     <span class="input-group-text">Date</span>
-                                    <input type="text" class="form-control" id="source" value={formData.transactionDate} onChange={handleFormChange} />
+                                    <input type="text" class="form-control" id="source"
+                                        value={formData.transactionDate} onChange={handleFormChange} />
                                 </div>
 
                                 <div className="mb-3 w-50">
                                     <div className="input-group input-group-sm">
                                         <label htmlFor="categorySelect" className="input-group-text">Category</label>
-                                        <select className="form-select" id="categoryId" value={formData.categoryId} onChange={handleFormChange}>
+                                        <select className="form-select" id="categoryId"
+                                            value={formData.categoryId} onChange={handleFormChange}>
                                             {categories.map((category) => (
                                                 <option key={category.id} value={category.id}>
                                                     {category.name}
@@ -106,7 +109,8 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
 
                                 <div className="input-group input-group-sm mb-3 w-25">
                                     <span class="input-group-text">Source</span>
-                                    <input type="text" class="form-control" id="source" value={formData.source} onChange={handleFormChange} />
+                                    <input type="text" class="form-control" id="source"
+                                        value={formData.source} onChange={handleFormChange} />
                                 </div>
 
                                 <div className="input-group input-group-sm mb-3 w-25">
@@ -119,7 +123,8 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
 
                                 <div className="input-group input-group-sm mb-3 w-100">
                                     <span class="input-group-text">Notes</span>
-                                    <input type="text" class="form-control" id="note" value={formData.note} onChange={handleFormChange} />
+                                    <input type="text" class="form-control" id="note"
+                                        value={formData.note} onChange={handleFormChange} />
                                 </div>
 
                                 <hr></hr>

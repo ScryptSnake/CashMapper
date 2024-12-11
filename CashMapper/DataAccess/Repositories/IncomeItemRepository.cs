@@ -49,7 +49,7 @@ public class IncomeItemRepository : IRepository<IncomeItem>
     public async Task<IncomeItem?> FindAsync(long id)
     {
         var db = await DatabaseTask;
-        const string SQL = @"SELECT id, name, income_profile_id, monthly_value,
+        const string SQL = @"SELECT id, name, income_profile_id, CAST(monthly_value AS DECIMAL),
                            date_created, date_modified, flag
                            FROM income_items WHERE id=@id;";
         var entity = await db.GetAsync<IncomeItem>(SQL, new { id });
@@ -64,7 +64,7 @@ public class IncomeItemRepository : IRepository<IncomeItem>
 
     public async Task<IEnumerable<IncomeItem>> GetAllAsync()
     {
-        const string SQL = @"SELECT id, name, income_profile_id, monthly_value, 
+        const string SQL = @"SELECT id, name, income_profile_id, CAST(monthly_value AS DECIMAL), 
                             date_created, date_modified, flag 
                             FROM income_items ORDER BY income_profile_id;";
         var db = await DatabaseTask;
@@ -103,7 +103,7 @@ public class IncomeItemRepository : IRepository<IncomeItem>
     public async Task<IEnumerable<IncomeItem>> GetByIncomeProfileId(long profileId)
     {
         const string SQL = $@"SELECT id, name, income_profile_id, 
-                            monthly_value, date_created, date_modified, flag
+                            CAST(monthly_value AS DECIMAL), date_created, date_modified, flag
                             FROM income_items WHERE income_profile_id=@Id 
                             ORDER BY date_created;";
         var db = await DatabaseTask;

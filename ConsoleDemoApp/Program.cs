@@ -25,28 +25,31 @@ public class Program
         // Build a provider.
         var provider = BuildServices(services);
 
-        //Get category repo service:
-        var catRepo = provider.GetRequiredService<IRepository<Category>>();
-        var category = await catRepo.AddAsync(new Category() { Name = "FUEL9" });
-        category = await catRepo.GetAsync(category);
+        ////Get category repo service:
+        //var catRepo = provider.GetRequiredService<IRepository<Category>>();
+        //var category = await catRepo.AddAsync(new Category() { Name = "FUEL9" });
+        //category = await catRepo.GetAsync(category);
 
 
         //Get repo service
         var repo = provider.GetRequiredService<IRepository<Transaction>>();
 
-        var newItem = new Transaction()
-        {
-            Description = "A transaction made to the account!",
-            Note = "This is where details go.",
-            Value=4.40484040m, TransactionDate=DateTime.Now,
-            CategoryId = 2
-            
-            
-        };
-        var item = await repo.AddAsync(newItem);
+        var transactions = repo.GetAllAsync();
 
-        Console.WriteLine("Complete: " + item.ToString());
-        Console.ReadLine(); // Keep Window Open. 
+
+        //var newItem = new Transaction()
+        //{
+        //    Description = "A transaction made to the account!",
+        //    Note = "This is where details go.",
+        //    Value=4.40484040m, TransactionDate=DateTime.Now,
+        //    CategoryId = 2
+            
+            
+        //};
+        //var item = await repo.AddAsync(newItem);
+
+        //Console.WriteLine("Complete: " + item.ToString());
+        //Console.ReadLine(); // Keep Window Open. 
 
 
     }
