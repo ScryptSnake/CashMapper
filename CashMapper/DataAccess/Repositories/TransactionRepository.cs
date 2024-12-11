@@ -52,7 +52,7 @@ public class TransactionRepository : IRepository<Transaction>
     {
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, description, source, 
-                           date AS transaction_date, CAST(value AS DECIMAL), note, category_id,
+                           date AS transaction_date, CAST(value AS REAL) AS value, note, category_id,
                            category_id, date_created, date_modified, flag
                            FROM transactions WHERE id=@id;";
         var entity = await db.GetAsync<Transaction>(SQL, new { id });
@@ -67,7 +67,7 @@ public class TransactionRepository : IRepository<Transaction>
 
     public async Task<IEnumerable<Transaction>> GetAllAsync()
     {
-        const string SQL = @$"SELECT id, description, source, date AS transaction_date, CAST(value AS DECIMAL),
+        const string SQL = @$"SELECT id, description, source, date AS transaction_date, CAST(value AS REAL) AS value,
                     note, category_id, date_created, date_modified, flag 
                     FROM transactions;";
         var db = await DatabaseTask;
@@ -116,7 +116,7 @@ public class TransactionRepository : IRepository<Transaction>
         var paramObj = builder.GetParameter();
 
         var sql = $@"SELECT id, description, source, date, 
-                    CAST(value AS DECIMAL), category_id, note, date_created, date_modified, flag
+                    CAST(value AS REAL) AS value, category_id, note, date_created, date_modified, flag
                     FROM transactions {sqlWhere} ORDER BY date;";
 
         var db = await DatabaseTask;

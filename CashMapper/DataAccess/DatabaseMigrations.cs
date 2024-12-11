@@ -126,7 +126,7 @@ namespace CashMapper.DataAccess
                                         description         TEXT,
                                         source              TEXT,
                                         date                TEXT NOT NULL,
-                                        value               DECIMAL DEFAULT 0,
+                                        value               NUMERIC DEFAULT 0,
                                         category_id         NUMERIC DEFAULT 0,
                                         note                TEXT,
                                         date_created        TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,

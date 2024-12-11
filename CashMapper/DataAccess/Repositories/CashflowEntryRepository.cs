@@ -48,7 +48,7 @@ public class CashflowEntryRepository : IRepository<CashflowEntry>
     {
         var db = await DatabaseTask;
         const string SQL = @"SELECT id, account_id, date AS entry_date,
-                            CAST(balance AS DECIMAL), note, date_modified, flag
+                            CAST(balance AS REAL) AS value, note, date_modified, flag
                            FROM cashflow_entries WHERE id=@id;";
         var entity = await db.GetAsync<CashflowEntry>(SQL, new { id });
         return entity;
@@ -62,7 +62,7 @@ public class CashflowEntryRepository : IRepository<CashflowEntry>
 
     public async Task<IEnumerable<CashflowEntry>> GetAllAsync()
     {
-        const string sql = @$"SELECT id, account_id, date AS entry_date, CAST(balance AS DECIMAL), note
+        const string sql = @$"SELECT id, account_id, date AS entry_date, CAST(balance AS REAL) AS value, note
                     date_created, date_modified, flag 
                     FROM cashflow_entries;";
         var db = await DatabaseTask;

@@ -47,7 +47,7 @@ public class ExpenseItemRepository : IRepository<ExpenseItem>
     public async Task<ExpenseItem?> FindAsync(long id)
     {
         var db = await DatabaseTask;
-        const string SQL = @"SELECT id, description, CAST(monthly_value AS DECIMAL), note, category_id,
+        const string SQL = @"SELECT id, description, CAST(monthly_value AS REAL) AS value, note, category_id,
                            category_id, date_created, date_modified, flag
                            FROM expense_items WHERE id=@id;";
         var entity = await db.GetAsync<ExpenseItem>(SQL, new { id });
@@ -62,7 +62,7 @@ public class ExpenseItemRepository : IRepository<ExpenseItem>
 
     public async Task<IEnumerable<ExpenseItem>> GetAllAsync()
     {
-        const string SQL = @$"SELECT id, description, CAST(monthly_value AS DECIMAL), note, category_id,
+        const string SQL = @$"SELECT id, description, CAST(monthly_value AS REAL) AS value, note, category_id,
                     date_created, date_modified, flag 
                     FROM expense_items;";
         var db = await DatabaseTask;
