@@ -28,11 +28,11 @@ const TransactionsPage = () => {
 
     const setSelectedTransactionHandler = (transaction) => {
         setSelectedTransaction(transaction);
-    }
+    };
 
 
-    // Fetch data when the component mounts.
-    useEffect(() => {
+    // This is also a callback from the EditTransaction page.
+    const fetchTransactions = () => {
         fetch('http://localhost:5009/api/Transactions') // Replace with your actual API URL
             .then((response) => response.json())
             .then((data) => {
@@ -40,7 +40,14 @@ const TransactionsPage = () => {
                 setTransactionsHandler(data); // Set the fetched data into state
             })
             .catch((error) => console.error('Error fetching data:', error));
+    };
+
+
+    // Fetch data when the component mounts.
+    useEffect(() => {
+        fetchTransactions();
     }, []);
+
 
     // Create a formatter for currency.
     const formatter = new Intl.NumberFormat('en-US', {
@@ -85,6 +92,8 @@ const TransactionsPage = () => {
                 showModal={showEdit}
                 closeModal={closeEditHandler}
                 transaction={selectedTransaction}
+                updateTransactions={fetchTransactions}
+
             />
 
 

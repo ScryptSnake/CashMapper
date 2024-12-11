@@ -41,8 +41,18 @@ body {
 }
 
 .btn-primary:hover{
+    color: white !important;
+}
+
+.btn-secondary {
+    background-color: #1f2329 !important; /* Override background color */
+    color: white !important;
+}
+
+.btn-secondary:hover {
     border-color: white !important;
 }
+
 
 
 .modal-header {

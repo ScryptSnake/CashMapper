@@ -1,11 +1,60 @@
 import React, { useState, useEffect } from 'react';
 
-const EditTransaction = ({ showModal, closeModal, transaction }) => {
+const EditTransaction = ({ showModal, closeModal, transaction, updateTransactions}) => {
     if (!showModal) return null; // Don't render if showModal is false
 
+    // States
+    const [formData, setFormData] = useState(transaction);
     const [categories, setCategories] = useState([]);
 
-    // Grab categories from API.
+    // Handlers
+    const setCategoriesHandler = (data) => {
+        setCategories(data);
+    }
+
+    const handleFormChange = (e) => {
+        const fieldName = e.target.id; // prop name
+        const fieldValue = e.target.value; // value of prop
+        const updatedTransaction = { ...formData }; // copy all properties in current state
+
+        // Update specified field with value
+        updatedTransaction[fieldName] = fieldValue;
+
+        // Commit to state.
+        setFormData(updatedTransaction);
+    };
+
+    // Submit data
+    const submitFormData = async (e) => {
+        e.preventDefault(); //prevent app from re-rendering.
+
+        let method = 'PUT';
+        if (formData.Id == null) {
+            method = 'POST';
+        };
+
+
+        try {
+            const response = await fetch('http://localhost:5009/api/Transactions', {
+                method: method, // Use 'POST' to create a new resource, 'PUT' to update
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData), // Convert form data to JSON
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+            closeModal();
+            updateTransactions(); // Re update transactions page after submit.
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            alert('Failed to update transaction.');
+        }
+    };
+
+    // Grab categories from API to fill dropdown.
     useEffect(() => {
         fetch('http://localhost:5009/api/Categories') // Replace with your actual API URL
             .then((response) => response.json())
@@ -16,12 +65,6 @@ const EditTransaction = ({ showModal, closeModal, transaction }) => {
             .catch((error) => console.error('Error fetching data:', error));
     }, []);
 
-    const setCategoriesHandler = (data) => {
-        setCategories(data);
-    }
-
-
-
     return (
         <div>
             {/* Backdrop overlay */}
@@ -31,22 +74,27 @@ const EditTransaction = ({ showModal, closeModal, transaction }) => {
                 <div className="modal-dialog modal-dialog-centered modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h1 className="modal-title">Edit Transaction: [{transaction.id}]</h1>
+                            <h1 className="modal-title">Edit Transaction: [{formData.id}]</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModal}></button>
                         </div>
 
                         <div className="modal-body">
-                            <form>
+                            <form onSubmit={submitFormData}>
                                 <div class="input-group input-group-sm mb-3 w-100">
-                                    <span class="input-group-text" id="description">Description</span>
-                                    <input type="text" class="form-control" value={transaction.description} />
+                                    <span class="input-group-text">Description</span>
+                                    <input type="text" class="form-control" id="description" value={formData.description} onChange={handleFormChange} />
                                 </div>
 
-                                {/* Load categories list*/}
+
+                                <div className="input-group input-group-sm mb-3 w-50">
+                                    <span class="input-group-text">Date</span>
+                                    <input type="text" class="form-control" id="source" value={formData.transactionDate} onChange={handleFormChange} />
+                                </div>
+
                                 <div className="mb-3 w-50">
                                     <div className="input-group input-group-sm">
                                         <label htmlFor="categorySelect" className="input-group-text">Category</label>
-                                        <select className="form-select" id="categorySelect">
+                                        <select className="form-select" id="categoryId" value={formData.categoryId} onChange={handleFormChange}>
                                             {categories.map((category) => (
                                                 <option key={category.id} value={category.id}>
                                                     {category.name}
@@ -54,31 +102,43 @@ const EditTransaction = ({ showModal, closeModal, transaction }) => {
                                             ))}
                                         </select>
                                     </div>
-
-                                </div>
-                                <div class="input-group input-group-sm mb-3 w-25">
-                                    <span class="input-group-text" id="source">Source</span>
-                                    <input type="text" class="form-control" value={transaction.source} />
                                 </div>
 
-
-                                <div class="input-group input-group-sm mb-3 w-100">
-                                    <span class="input-group-text" id="notes">Notes</span>
-                                    <input type="text" class="form-control" value={transaction.note} />
+                                <div className="input-group input-group-sm mb-3 w-25">
+                                    <span class="input-group-text">Source</span>
+                                    <input type="text" class="form-control" id="source" value={formData.source} onChange={handleFormChange} />
                                 </div>
 
-                                <div class="input-group input-group-sm mb-3 w-25">
-                                    <span class="input-group-text" id="value">Value</span>
-                                    <input type="text" class="form-control" value={transaction.value.toLocaleString("en-US", { style: "currency", currency: "USD", signDisplay: "always", })} />
+                                <div className="input-group input-group-sm mb-3 w-25">
+                                    <span class="input-group-text">Value</span>
+                                    <input type="number" class="form-control" id="value"
+                                        value={formData.value}
+                                        onChange={handleFormChange}
+                                    />
                                 </div>
 
+                                <div className="input-group input-group-sm mb-3 w-100">
+                                    <span class="input-group-text">Notes</span>
+                                    <input type="text" class="form-control" id="note" value={formData.note} onChange={handleFormChange} />
+                                </div>
 
-                                 
+                                <hr></hr>
+                                <div className="input-group input-group-sm mb-3 w-50">
+                                    <span class="input-group-text">Date Created</span>
+                                    <input type="text" class="form-control" id="dateCreated"
+                                        value={formData.dateCreated} onChange={handleFormChange} disabled />
+                                </div>
+                                <div className="input-group input-group-sm mb-3 w-50">
+                                    <span class="input-group-text">Date Modified</span>
+                                    <input type="text" class="form-control" id="dateModified"
+                                        value={formData.dateModified} onChange={handleFormChange} disabled />
+                                </div>
 
+                                <div className="modal-footer">
+                                    <button type="cancel" className="btn btn-secondary" onClick={closeModal}>Cancel</button>
+                                    <button type="submit" className="btn btn-primary">Save</button>
+                                </div>
                             </form>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-primary">Save</button> {/* Button aligned to the right */}
                         </div>
 
 
