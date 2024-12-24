@@ -1,14 +1,15 @@
 import '../styles/Page.css';
+import '../styles/TransactionsPage.css';
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EditTransaction from '../components/EditTransaction';
+import '../styles/Table.css';
 
 const TransactionsPage = () => {
     const [transactions, setTransactions] = useState([]);
     const [showEdit, setShowEdit] = useState(false);
     const [closeEdit, setCloseEdit] = useState(true);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
-
 
     // State setter functions.
     // Note: if these contain arguments, they no longer are referenced as a pointer, but update state and cause overflow.
@@ -59,20 +60,32 @@ const TransactionsPage = () => {
     return (
         <div className="Page">
             <h1>Transactions</h1>
-            <table className="table table-hover table-custom">
-                <thead>
-                    <tr className="fs-5 table-bordered">
-                        <th>Id</th>
-                        <th>Description</th>
-                        <th>Source</th>
-                        <th>Note</th>
-                        <th>Category</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
+            <div className="Menu-Bar">
+                <button className="btn-primary menu">Import</button>
+                <div class="vr"></div>
+                <button className="btn-primary">Add</button>
+
+            </div>
+            <div className="tbl-header">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Description</th>
+                            <th>Source</th>
+                            <th>Note</th>
+                            <th>Category Id</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div className="tbl-content">
+                <table className="table-custom">
                 <tbody>
                     {transactions.map((transaction) => (
-                        <tr key={transaction.id}
+                        <tr className="tbl-row" key={transaction.id}
                             onClick={() => {setSelectedTransactionHandler(transaction)}}
                             onDoubleClick={openEditHandler}>
                             <td>{transaction.id}</td>
@@ -83,8 +96,9 @@ const TransactionsPage = () => {
                             <td>{formatter.format(transaction.value)}</td>
                         </tr>
                     ))}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
 
 
             {/* Render EditTransaction if showEdit is true. */}

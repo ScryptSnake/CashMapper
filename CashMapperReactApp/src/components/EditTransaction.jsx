@@ -33,7 +33,6 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
             method = 'POST';
         };
 
-
         try {
             const response = await fetch('http://localhost:5009/api/Transactions', {
                 method: method, // Use 'POST' to create a new resource, 'PUT' to update
@@ -54,7 +53,7 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
         }
     };
 
-    // Grab categories from API to fill dropdown.
+    // Grab categories from API to fill dropdown when form renders.
     useEffect(() => {
         fetch('http://localhost:5009/api/Categories') // Replace with your actual API URL
             .then((response) => response.json())

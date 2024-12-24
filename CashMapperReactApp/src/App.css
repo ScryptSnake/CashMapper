@@ -66,9 +66,10 @@ body, html {
     background-color: #1f2329;
     height: 100vh;
     padding: 10px;
+    overflow: hidden;
 }
 
-
+/* A 'page' lives here. See /styles */
 .Content {
     display: flex;
     flex-direction: column;
@@ -78,9 +79,8 @@ body, html {
     width: 100%;
     height: 100%;
     padding-left: 15px;
-
+    overflow: hidden;
 }
-
 
 .Textbox {
     background-color: #1f2329;
