@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import '../styles/Modal.css';
 
 const EditTransaction = ({ showModal, closeModal, transaction, updateTransactions}) => {
+
     if (!showModal) return null; // Don't render if showModal is false
 
     // States
@@ -11,7 +13,7 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
     const setCategoriesHandler = (data) => {
         setCategories(data);
     }
-
+    
     const handleFormChange = (e) => {
         const fieldName = e.target.id; // prop name
         const fieldValue = e.target.value; // value of prop
@@ -67,85 +69,72 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
     return (
         <div>
             {/* Backdrop overlay */}
-            <div className="modal-backdrop fade show" style={{ backgroundColor: 'rgba(0, 0, 0, )' }}></div>
+            <div className="modal-backdrop" onClick={closeModal}></div>
 
-            <div className="modal fade show" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
-                <div className="modal-dialog modal-dialog-centered modal-lg">
-                    <div className="modal-content">
+            <div className="modal">
+                <div className="modal-dialog">
+                    <div>
                         <div className="modal-header">
-                            <h1 className="modal-title">Edit Transaction: [{formData.id}]</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModal}></button>
+                            <h1>Edit Transaction: [{formData.id}]</h1>
+                            <button type="button" onClick={closeModal}>×</button>
                         </div>
 
-                        <div className="modal-body">
+                        <div>
                             <form onSubmit={submitFormData}>
-                                <div class="input-group input-group-sm mb-3 w-100">
-                                    <span class="input-group-text">Description</span>
-                                    <input type="text" class="form-control" id="description"
-                                        value={formData.description} onChange={handleFormChange} />
+                                <div className="input-group">
+                                    <label className="input-group-label" htmlFor="description">Description</label>
+                                    <input className="input-group-input" type="text" id="description" value={formData.description} onChange={handleFormChange} />
                                 </div>
 
-
-                                <div className="input-group input-group-sm mb-3 w-50">
-                                    <span class="input-group-text">Date</span>
-                                    <input type="text" class="form-control" id="source"
-                                        value={formData.transactionDate} onChange={handleFormChange} />
+                                <div className="input-group">
+                                    <label htmlFor="transactionDate">Date</label>
+                                    <input type="text" id="transactionDate" value={formData.transactionDate} onChange={handleFormChange} />
                                 </div>
 
-                                <div className="mb-3 w-50">
-                                    <div className="input-group input-group-sm">
-                                        <label htmlFor="categorySelect" className="input-group-text">Category</label>
-                                        <select className="form-select" id="categoryId"
-                                            value={formData.categoryId} onChange={handleFormChange}>
-                                            {categories.map((category) => (
-                                                <option key={category.id} value={category.id}>
-                                                    {category.name}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
+                                <div className="input-group">
+                                    <label htmlFor="categoryId">Category</label>
+                                    <select id="categoryId" value={formData.categoryId} onChange={handleFormChange}>
+                                        {categories.map((category) => (
+                                            <option key={category.id} value={category.id}>
+                                                {category.name}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
 
-                                <div className="input-group input-group-sm mb-3 w-25">
-                                    <span class="input-group-text">Source</span>
-                                    <input type="text" class="form-control" id="source"
-                                        value={formData.source} onChange={handleFormChange} />
+                                <div className="input-group">
+                                    <label htmlFor="source">Source</label>
+                                    <input type="text" id="source" value={formData.source} onChange={handleFormChange} />
                                 </div>
 
-                                <div className="input-group input-group-sm mb-3 w-25">
-                                    <span class="input-group-text">Value</span>
-                                    <input type="number" class="form-control" id="value"
-                                        value={formData.value}
-                                        onChange={handleFormChange}
-                                    />
+                                <div className="input-group">
+                                    <label htmlFor="value">Value</label>
+                                    <input type="number" id="value" value={formData.value} onChange={handleFormChange} />
                                 </div>
 
-                                <div className="input-group input-group-sm mb-3 w-100">
-                                    <span class="input-group-text">Notes</span>
-                                    <input type="text" class="form-control" id="note"
-                                        value={formData.note} onChange={handleFormChange} />
+                                <div className="input-group">
+                                    <label htmlFor="note">Notes</label>
+                                    <input type="text" id="note" value={formData.note} onChange={handleFormChange} />
                                 </div>
 
-                                <hr></hr>
-                                <div className="input-group input-group-sm mb-3 w-50">
-                                    <span class="input-group-text">Date Created</span>
-                                    <input type="text" class="form-control" id="dateCreated"
-                                        value={formData.dateCreated} onChange={handleFormChange} disabled />
+                                <hr />
+
+                                <div className="input-group">
+                                    <label htmlFor="dateCreated">Date Created</label>
+                                    <input type="text" id="dateCreated" value={formData.dateCreated} onChange={handleFormChange} disabled />
                                 </div>
-                                <div className="input-group input-group-sm mb-3 w-50">
-                                    <span class="input-group-text">Date Modified</span>
-                                    <input type="text" class="form-control" id="dateModified"
-                                        value={formData.dateModified} onChange={handleFormChange} disabled />
+
+                                <div className="input-group">
+                                    <label htmlFor="dateModified">Date Modified</label>
+                                    <input type="text" id="dateModified" value={formData.dateModified} onChange={handleFormChange} disabled />
                                 </div>
 
                                 <div className="modal-footer">
-                                    <button type="cancel" className="btn btn-secondary" onClick={closeModal}>Cancel</button>
-                                    <button type="submit" className="btn btn-primary">Save</button>
+                                    <button type="button" className="btn-secondary" onClick={closeModal}>Cancel</button>
+                                    <button type="submit" className="btn-primary">Save</button>
                                 </div>
                             </form>
                         </div>
-
-
                     </div>
                 </div>
             </div>

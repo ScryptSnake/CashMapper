@@ -22,8 +22,14 @@ a:hover {
 }
 
 
+label{
+    color: white;
+}
+
+
 h1 {
-    font-size: 20px !important; /* Bootstrap overrides. */
+    color: black;
+    font-size: 24px;
 }
 
 body {
@@ -33,6 +39,8 @@ body {
     min-width: 600px;
     min-height: 100vh;
 }
+
+
 
 .btn-primary {
     background-color: #a7f5b5 !important; /* Override background color */
@@ -46,10 +54,11 @@ body {
     box-shadow: none !important;
 }
 
+
+
 .btn-primary:hover {
     border-color: white !important;
 }
-
 .btn-primary:active {
     transform: translateY(1px);
 }
@@ -59,33 +68,11 @@ body {
     background-color: #1f2329 !important; /* Override background color */
     color: white !important;
 }
-
 .btn-secondary:hover {
     border-color: white !important;
 }
 
-/*Allows scrollable table content, keep header fixed*/
-
-.table-header{
-    table-layout: fixed;
-    margin: 0px;
-}
 
 
-.table-content{
-    height: 85%;
-    overflow: auto;
-}
-
-
-.modal-header {
-    height: 40px;
-    background-color: #e0e0e0;
-}
-
-
-.modal-footer {
-    background-color: #e0e0e0;
-}
 
 

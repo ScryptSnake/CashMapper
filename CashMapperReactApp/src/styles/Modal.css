@@ -1,0 +1,92 @@
+
+/* Modal backdrop */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+/* Modal */
+.modal {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    background-image: linear-gradient(to bottom,#1f2329,#343b44);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 800px;
+    justify-content: center;
+}
+
+/* Modal content */
+.modal-dialog {
+    padding: 30px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    height: 30px;
+
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: row;
+}
+
+.modal-footer {
+    display: flex;
+    align-content: center;
+    justify-content: flex-end;
+}
+
+
+.input-group{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: flex-start;
+}
+
+.input-group-label{
+    padding: 2px 5px 2px 5px;
+    background-color: #cacaca;
+    color: black;
+    border: 1px solid black;
+    border-radius: 2px;
+    font-weight: bold;
+}
+
+.input-group-input {
+    padding: 5px;
+    margin-left: 5px;
+    border: 1px solid #ccc;
+    border-radius: 0 4px 4px 0;
+    flex: 1; /* This ensures the input grows to fill available space */
+    font-size: 14px;
+    min-width: 100px; /* Minimum width for the input */
+}
+
+.input-group-input.small {
+    max-width: 150px; /* Max width for small fields */
+}
+
+.input-group-input.large {
+    max-width: 500px; /* Max width for large fields */
+}
+
+.input-group-input:hover {
+    border-color: #252a31;
+}

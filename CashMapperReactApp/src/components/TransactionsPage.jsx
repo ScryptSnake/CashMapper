@@ -107,7 +107,6 @@ const TransactionsPage = () => {
                 closeModal={closeEditHandler}
                 transaction={selectedTransaction}
                 updateTransactions={fetchTransactions}
-
             />
 
 
