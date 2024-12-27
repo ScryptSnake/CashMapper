@@ -75,8 +75,8 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
                 <div className="modal-dialog">
                     <div>
                         <div className="modal-header">
-                            <h1>Edit Transaction: [{formData.id}]</h1>
-                            <button type="button" onClick={closeModal}>×</button>
+                            <h2>Edit Transaction: [{formData.id}]</h2>
+                            <button type="button" onClick={closeModal}>X</button>
                         </div>
 
                         <div>
@@ -87,13 +87,13 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
                                 </div>
 
                                 <div className="input-group">
-                                    <label htmlFor="transactionDate">Date</label>
-                                    <input type="text" id="transactionDate" value={formData.transactionDate} onChange={handleFormChange} />
+                                    <label className="input-group-label" htmlFor="transactionDate">Date</label>
+                                    <input className="input-group-input small" type="text" id="transactionDate" value={formData.transactionDate} onChange={handleFormChange} />
                                 </div>
 
                                 <div className="input-group">
-                                    <label htmlFor="categoryId">Category</label>
-                                    <select id="categoryId" value={formData.categoryId} onChange={handleFormChange}>
+                                    <label className="input-group-label" htmlFor="categoryId">Category</label>
+                                    <select className="input-group-input medium" id="categoryId" value={formData.categoryId} onChange={handleFormChange}>
                                         {categories.map((category) => (
                                             <option key={category.id} value={category.id}>
                                                 {category.name}
@@ -103,30 +103,30 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
                                 </div>
 
                                 <div className="input-group">
-                                    <label htmlFor="source">Source</label>
-                                    <input type="text" id="source" value={formData.source} onChange={handleFormChange} />
+                                    <label className="input-group-label" htmlFor="source">Source</label>
+                                    <input className="input-group-input medium" type="text" id="source" value={formData.source} onChange={handleFormChange} />
                                 </div>
 
                                 <div className="input-group">
-                                    <label htmlFor="value">Value</label>
-                                    <input type="number" id="value" value={formData.value} onChange={handleFormChange} />
+                                    <label className="input-group-label" htmlFor="value">Value</label>
+                                    <input className="input-group-input small" type="number" id="value" value={formData.value} onChange={handleFormChange} />
                                 </div>
 
                                 <div className="input-group">
-                                    <label htmlFor="note">Notes</label>
-                                    <input type="text" id="note" value={formData.note} onChange={handleFormChange} />
+                                    <label className="input-group-label" htmlFor="note">Notes</label>
+                                    <input className="input-group-input" type="text" id="note" value={formData.note} onChange={handleFormChange} />
                                 </div>
 
-                                <hr />
+                                <hr className="modal-divider" />
 
                                 <div className="input-group">
-                                    <label htmlFor="dateCreated">Date Created</label>
-                                    <input type="text" id="dateCreated" value={formData.dateCreated} onChange={handleFormChange} disabled />
+                                    <label className="input-group-label" htmlFor="dateCreated">Date Created</label>
+                                    <input className="input-group-input small" type="text" id="dateCreated" value={formData.dateCreated} onChange={handleFormChange} disabled />
                                 </div>
 
                                 <div className="input-group">
-                                    <label htmlFor="dateModified">Date Modified</label>
-                                    <input type="text" id="dateModified" value={formData.dateModified} onChange={handleFormChange} disabled />
+                                    <label className="input-group-label" htmlFor="dateModified">Date Modified</label>
+                                    <input className="input-group-input small" type="text" id="dateModified" value={formData.dateModified} onChange={handleFormChange} disabled />
                                 </div>
 
                                 <div className="modal-footer">
@@ -134,6 +134,7 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
                                     <button type="submit" className="btn-primary">Save</button>
                                 </div>
                             </form>
+
                         </div>
                     </div>
                 </div>

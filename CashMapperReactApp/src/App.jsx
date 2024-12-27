@@ -29,7 +29,7 @@ function App() {
                 <div className="Content">
                         {content === 'Home' && <HomePage />}
                         {content === 'Transactions' && <TransactionsPage />}
-                        {content === 'Income' && <div>fuck</div>}
+                        {content === 'Income' && <div> Income </div>}
                         {content === 'Cash Flow' && <div>Cash Flow Content</div>}
                         {content === 'Budget' && <div>Budget Content</div>}
                         {content === 'Expenses' && <div>Expenses Content</div>}

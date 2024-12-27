@@ -8,30 +8,30 @@ const Sidebar = ({ onButtonClick }) => {
                 <img className="Icon" src="./logo.png" alt="logo" />
             </div>
             <h1>CashMapper</h1>
-            <button className="Sidebar-Button" onClick={() => onButtonClick('Home')}>
+            <Link to="/home" className="Sidebar-Button" onClick={() => onButtonClick('Home')}>
                 <img src="./icons/home-4-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Home</label>
-            </button>
-            <button className="Sidebar-Button" onClick={() => onButtonClick('Transactions')}>
+            </Link>
+            <Link to="transaction" className="Sidebar-Button" onClick={() => onButtonClick('Transactions')}>
                 <img src="./icons/list-2-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Transactions</label>
-            </button>
-            <button className="Sidebar-Button" onClick={() => onButtonClick('Income')}>
+            </Link>
+            <Link to="income" className="Sidebar-Button" onClick={() => onButtonClick('Income')}>
                 <img src="./icons/money-2-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Income</label>
-            </button>
-            <button className="Sidebar-Button" onClick={() => onButtonClick('Cash Flow')}>
+            </Link>
+            <Link to="cashflow" className="Sidebar-Button" onClick={() => onButtonClick('Cash Flow')}>
                 <img src="./icons/line-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Cash Flow</label>
-            </button>
-            <button className="Sidebar-Button" onClick={() => onButtonClick('Budget')}>
+            </>
+            <Link to="budget" className="Sidebar-Button" onClick={() => onButtonClick('Budget')}>
                 <img src="./icons/minus-6-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Budget</label>
-            </button>
-            <button className="Sidebar-Button" onClick={() => onButtonClick('Expenses')}>
+            </Link>
+            <Link to="expenses" className="Sidebar-Button" onClick={() => onButtonClick('Expenses')}>
                 <img src="./icons/negative-dynamic-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Expenses</label>
-            </button>
+            </Link>
         </div>
     );
 };

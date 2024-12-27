@@ -55,14 +55,16 @@ const TransactionsPage = () => {
     });
 
 
+
+
     return (
         <div className="Page">
             <div className="Menu-Bar">
                 <h1>Transactions</h1>
                 <div className="Menu-Bar-Items">
-                    <button className="btn-primary menu">Import</button>
-                    <hr></hr>
-                    <button className="btn-primary">Add</button>
+                    <button className="btn-secondary menu">Import</button>
+                    <hr />
+                    <button className="btn-secondary">Add</button>
                 </div>
 
             </div>
