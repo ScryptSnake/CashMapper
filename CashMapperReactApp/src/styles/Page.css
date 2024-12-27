@@ -9,12 +9,18 @@
     overflow:hidden;
 }
 
-.Page-Header {
+.Menu-Bar {
     display: flex;
-    flex-direction: column;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 20px;
+    flex-direction: row;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0 10px;
+}
+
+.Menu-Bar-Items {
+    display: flex;
+    align-items: center; /* Vertically align items */
+    gap: 10px; /* Items spacing */
 }
 
 

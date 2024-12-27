@@ -1,5 +1,4 @@
 import '../styles/Page.css';
-import '../styles/TransactionsPage.css';
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EditTransaction from '../components/EditTransaction';
@@ -59,11 +58,13 @@ const TransactionsPage = () => {
 
     return (
         <div className="Page">
-            <h1>Transactions</h1>
             <div className="Menu-Bar">
-                <button className="btn-primary menu">Import</button>
-                <div class="vr"></div>
-                <button className="btn-primary">Add</button>
+                <h1>Transactions</h1>
+                <div className="Menu-Bar-Items">
+                    <button className="btn-primary menu">Import</button>
+                    <div class="vr"></div>
+                    <button className="btn-primary">Add</button>
+                </div>
 
             </div>
             <div className="tbl-header">
