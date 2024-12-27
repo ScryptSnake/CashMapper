@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import EditTransaction from '../components/EditTransaction';
 import '../styles/Table.css';
 
+
 const TransactionsPage = () => {
     const [transactions, setTransactions] = useState([]);
     const [showEdit, setShowEdit] = useState(false);

@@ -1,5 +1,7 @@
 import '../styles/Sidebar.css';
 import '../index.css';
+import { Link } from 'react-router-dom';
+
 
 const Sidebar = ({ onButtonClick }) => {
     return (
@@ -12,23 +14,23 @@ const Sidebar = ({ onButtonClick }) => {
                 <img src="./icons/home-4-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Home</label>
             </Link>
-            <Link to="transaction" className="Sidebar-Button" onClick={() => onButtonClick('Transactions')}>
+            <Link to="/transactions" className="Sidebar-Button" onClick={() => onButtonClick('Transactions')}>
                 <img src="./icons/list-2-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Transactions</label>
             </Link>
-            <Link to="income" className="Sidebar-Button" onClick={() => onButtonClick('Income')}>
+            <Link to="/income" className="Sidebar-Button" onClick={() => onButtonClick('Income')}>
                 <img src="./icons/money-2-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Income</label>
             </Link>
-            <Link to="cashflow" className="Sidebar-Button" onClick={() => onButtonClick('Cash Flow')}>
+            <Link to="/cashflow" className="Sidebar-Button" onClick={() => onButtonClick('Cash Flow')}>
                 <img src="./icons/line-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Cash Flow</label>
-            </>
-            <Link to="budget" className="Sidebar-Button" onClick={() => onButtonClick('Budget')}>
+            </Link>
+            <Link to="/budget" className="Sidebar-Button" onClick={() => onButtonClick('Budget')}>
                 <img src="./icons/minus-6-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Budget</label>
             </Link>
-            <Link to="expenses" className="Sidebar-Button" onClick={() => onButtonClick('Expenses')}>
+            <Link to="/expenses" className="Sidebar-Button" onClick={() => onButtonClick('Expenses')}>
                 <img src="./icons/negative-dynamic-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Expenses</label>
             </Link>
