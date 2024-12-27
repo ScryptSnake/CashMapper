@@ -1,6 +1,5 @@
 import '../styles/Page.css';
 import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import EditTransaction from '../components/EditTransaction';
 import '../styles/Table.css';
 
@@ -62,7 +61,7 @@ const TransactionsPage = () => {
                 <h1>Transactions</h1>
                 <div className="Menu-Bar-Items">
                     <button className="btn-primary menu">Import</button>
-                    <div class="vr"></div>
+                    <hr></hr>
                     <button className="btn-primary">Add</button>
                 </div>
 
