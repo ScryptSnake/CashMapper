@@ -27,7 +27,7 @@ function App() {
                             <Route path="/cashflow" element={<div>Cash Flow Content</div>} />
                             <Route path="/budget" element={<div>Budget Content</div>} />
                             <Route path="/expenses" element={<div>Expenses Content</div>} />
-                            {/* Default route if no match */}
+                            {/* Default route */}
                             <Route path="/" element={<HomePage />} />
                         </Routes>
                     </div>

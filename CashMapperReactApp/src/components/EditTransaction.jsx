@@ -103,21 +103,21 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
                                 </div>
 
                                 <div className="input-group">
-                                    <label className="input-group-label" htmlFor="source">Source</label>
-                                    <input className="input-group-input medium" type="text" id="source" value={formData.source} onChange={handleFormChange} />
-                                </div>
-
-                                <div className="input-group">
                                     <label className="input-group-label" htmlFor="value">Value</label>
                                     <input className="input-group-input small" type="number" id="value" value={formData.value} onChange={handleFormChange} />
                                 </div>
 
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="note">Notes</label>
-                                    <input className="input-group-input" type="text" id="note" value={formData.note} onChange={handleFormChange} />
+                                    <textarea className="input-group-input" id="note" value={formData.note} onChange={handleFormChange} />
                                 </div>
 
                                 <hr className="modal-divider" />
+
+                                <div className="input-group">
+                                    <label className="input-group-label" htmlFor="source">Source</label>
+                                    <input className="input-group-input medium" type="text" id="source" value={formData.source} onChange={handleFormChange} />
+                                </div>
 
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="dateCreated">Date Created</label>

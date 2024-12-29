@@ -1,39 +1,54 @@
 import '../styles/Sidebar.css';
 import '../index.css';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 
 const Sidebar = ({ onButtonClick }) => {
+
+    const [activeButton, setActiveButton] = useState('');
+
+    const handleButtonClick = (buttonName) => {
+        setActiveButton(buttonName);
+        onButtonClick(buttonName);
+    }
+
     return (
         <div className="Sidebar">
             <div className="Icon-Container">
                 <img className="Icon" src="./logo.png" alt="logo" />
             </div>
             <h1>CashMapper</h1>
-            <Link to="/home" className="Sidebar-Button" onClick={() => onButtonClick('Home')}>
+            <NavLink to="/home" className="Sidebar-Button" activeClassName="input-group-input"
+                onClick={() => handleButtonClick('Home')}>
                 <img src="./icons/home-4-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Home</label>
-            </Link>
-            <Link to="/transactions" className="Sidebar-Button" onClick={() => onButtonClick('Transactions')}>
+            </NavLink>
+            <NavLink to="/transactions" className="Sidebar-Button" activeClassName="active"
+                onClick={() => handleButtonClick('Transactions')}>
                 <img src="./icons/list-2-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Transactions</label>
-            </Link>
-            <Link to="/income" className="Sidebar-Button" onClick={() => onButtonClick('Income')}>
+            </NavLink>
+            <NavLink to="/income" className="Sidebar-Button" activeClassName="active"
+                onClick={() => handleButtonClick('Income')}>
                 <img src="./icons/money-2-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Income</label>
-            </Link>
-            <Link to="/cashflow" className="Sidebar-Button" onClick={() => onButtonClick('Cash Flow')}>
+            </NavLink>
+            <NavLink to="/cashflow" className="Sidebar-Button" activeClassName="active"
+                onClick={() => handleButtonClick('Cash Flow')}>
                 <img src="./icons/line-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Cash Flow</label>
-            </Link>
-            <Link to="/budget" className="Sidebar-Button" onClick={() => onButtonClick('Budget')}>
+            </NavLink>
+            <NavLink to="/budget" className="Sidebar-Button" activeClassName="active"
+                onClick={() => handleButtonClick('Budget')}>
                 <img src="./icons/minus-6-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Budget</label>
-            </Link>
-            <Link to="/expenses" className="Sidebar-Button" onClick={() => onButtonClick('Expenses')}>
+            </NavLink>
+            <NavLink to="/expenses" className="Sidebar-Button" activeClassName="active"
+                onClick={() => handleButtonClick('Expenses')}>
                 <img src="./icons/negative-dynamic-32.png" alt="icon" className="Sidebar-Button-Icon" />
                 <label>Expenses</label>
-            </Link>
+            </NavLink>
         </div>
     );
 };

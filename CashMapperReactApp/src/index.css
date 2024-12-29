@@ -37,8 +37,6 @@ h2 {
     font-size: 20px;
 }
 
-
-
 body {
     margin: 0;
     display: flex;
@@ -46,8 +44,6 @@ body {
     min-width: 600px;
     min-height: 100vh;
 }
-
-
 
 .btn-primary {
     font-size: 14px;
@@ -88,6 +84,64 @@ body {
     transform: translateY(2px);
 }
 
+.input-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: flex-start;
+}
+
+.input-group-label {
+    padding: 2px 5px 2px 5px;
+    width: 120px;
+    text-align: left;
+    background-color: #cacaca;
+    color: black;
+    border: 1px solid black;
+    border-radius: 4px 0 0 4px;
+    font-weight: bold;
+}
+
+.input-group-label.small {
+    max-width: 40px; /* Max width for small fields */
+}
+
+.input-group-label.medium {
+    max-width: 120px; /* Max width for large fields */
+}
+
+.input-group-label.large {
+    max-width: 180px; /* Max width for large fields */
+}
+
+
+
+
+.input-group-input {
+    padding: 5px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 0 4px 4px 0;
+    flex: 1; /* This ensures the input grows to fill available space */
+    font-size: 14px;
+    min-width: 100px; /* Minimum width for the input */
+}
+
+    .input-group-input.small {
+        max-width: 150px; /* Max width for small fields */
+    }
+
+    .input-group-input.medium {
+        max-width: 250px; /* Max width for large fields */
+    }
+
+    .input-group-input.large {
+        max-width: 500px; /* Max width for large fields */
+    }
+
+    .input-group-input:hover {
+        border-color: white;
+    }
 
 
 

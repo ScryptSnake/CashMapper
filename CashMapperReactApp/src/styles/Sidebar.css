@@ -28,14 +28,18 @@
 }
 
 .Sidebar-Button:hover {
-    background-color: #3e4551;
+    background-color: #383e45;
     color: white;
+}
+
+.Sidebar-Button.active {
+    border: 2px solid white;
 }
 
 .Sidebar-Button-Icon {
     height: 15px;
     width: 15px;
-    margin-right: 10px;
+    margin: 10px;
 }
 .Icon-Container {
     width: 50px;
