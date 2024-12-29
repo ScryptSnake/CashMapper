@@ -5,8 +5,21 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
 
     if (!showModal) return null; // Don't render if showModal is false
 
+    // default transaction
+    const defaultTransaction = {
+        id: 0,
+        description: "sdasdf",
+        source: "manual",
+        note: "",
+        categoryId: null,
+        value: 0,
+        transactionDate: `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`,
+        flag: ""
+    };
+
     // States
-    const [formData, setFormData] = useState(transaction);
+    const [editMode, setEditMode] = useState(false); // True = edit, false = new record.
+    const [formData, setFormData] = useState(defaultTransaction);
     const [categories, setCategories] = useState([]);
 
     // Handlers
@@ -26,22 +39,34 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
         setFormData(updatedTransaction);
     };
 
+    // Check if user is editing or adding, set form data accordingly.
+    useEffect(() => {
+        if (transaction) {
+            setEditMode(true);
+            setFormData(transaction);
+        } else {
+            setEditMode(false);
+            setFormData(defaultTransaction);
+        }
+    }, [transaction]);
+
+
     // Submit data
     const submitFormData = async (e) => {
         e.preventDefault(); //prevent app from re-rendering.
 
-        let method = 'PUT';
-        if (formData.Id == null) {
-            method = 'POST';
+        let method = 'POST';
+        if (editMode) {
+            method = 'PUT';
         };
 
         try {
             const response = await fetch('http://localhost:5009/api/Transactions', {
-                method: method, // Use 'POST' to create a new resource, 'PUT' to update
+                method: method,
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData), // Convert form data to JSON
+                body: JSON.stringify(formData),
             });
 
             if (!response.ok) {
@@ -50,8 +75,8 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
             closeModal();
             updateTransactions(); // Re update transactions page after submit.
         } catch (error) {
-            console.error('Error submitting form:', error);
-            alert('Failed to update transaction.');
+            console.error(`Error submitting form:\r\n${error}\r\n${JSON.stringify(formData)}`);
+            alert('Error submitting transaction.' + JSON.stringify(formData));
         }
     };
 
@@ -75,7 +100,7 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
                 <div className="modal-dialog">
                     <div>
                         <div className="modal-header">
-                            <h2>Edit Transaction: [{formData.id}]</h2>
+                            <h2>{editMode ? `Edit Transaction [${formData.id}]` : 'New Transaction'}</h2>
                             <button type="button" onClick={closeModal}>X</button>
                         </div>
 
@@ -83,17 +108,20 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
                             <form onSubmit={submitFormData}>
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="description">Description</label>
-                                    <input className="input-group-input" type="text" id="description" value={formData.description} onChange={handleFormChange} />
+                                    <input className="input-group-input" type="text"
+                                        id="description" value={formData.description} onChange={handleFormChange} />
                                 </div>
 
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="transactionDate">Date</label>
-                                    <input className="input-group-input small" type="text" id="transactionDate" value={formData.transactionDate} onChange={handleFormChange} />
+                                    <input className="input-group-input small" type="text"
+                                        id="transactionDate" value={formData.transactionDate} onChange={handleFormChange} />
                                 </div>
 
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="categoryId">Category</label>
-                                    <select className="input-group-input medium" id="categoryId" value={formData.categoryId} onChange={handleFormChange}>
+                                    <select className="input-group-input medium"
+                                        id="categoryId" value={formData.categoryId} onChange={handleFormChange}>
                                         {categories.map((category) => (
                                             <option key={category.id} value={category.id}>
                                                 {category.name}
@@ -104,34 +132,45 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
 
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="value">Value</label>
-                                    <input className="input-group-input small" type="number" id="value" value={formData.value} onChange={handleFormChange} />
+                                    <input className="input-group-input small" type="number"
+                                        id="value" value={formData.value} onChange={handleFormChange} />
                                 </div>
 
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="note">Notes</label>
-                                    <textarea className="input-group-input" id="note" value={formData.note} onChange={handleFormChange} />
+                                    <textarea className="input-group-input"
+                                        id="note" value={formData.note} onChange={handleFormChange} />
                                 </div>
 
                                 <hr className="modal-divider" />
 
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="source">Source</label>
-                                    <input className="input-group-input medium" type="text" id="source" value={formData.source} onChange={handleFormChange} />
+                                    <input className="input-group-input medium" type="text"
+                                        id="source" value={formData.source} onChange={handleFormChange} />
+                                </div>
+
+                                <div className="input-group">
+                                    <label className="input-group-label" htmlFor="source">Flag</label>
+                                    <input className="input-group-input small" type="text"
+                                        id="flag" value={formData.flag} onChange={handleFormChange} />
                                 </div>
 
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="dateCreated">Date Created</label>
-                                    <input className="input-group-input small" type="text" id="dateCreated" value={formData.dateCreated} onChange={handleFormChange} disabled />
+                                    <input className="input-group-input small" type="text"
+                                        id="dateCreated" value={formData.dateCreated} onChange={handleFormChange} disabled />
                                 </div>
 
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="dateModified">Date Modified</label>
-                                    <input className="input-group-input small" type="text" id="dateModified" value={formData.dateModified} onChange={handleFormChange} disabled />
+                                    <input className="input-group-input small" type="text"
+                                        id="dateModified" value={formData.dateModified} onChange={handleFormChange} disabled />
                                 </div>
 
                                 <div className="modal-footer">
                                     <button type="button" className="btn-secondary" onClick={closeModal}>Cancel</button>
-                                    <button type="submit" className="btn-primary">Save</button>
+                                    <button type="submit" className="btn-primary">{editMode ? 'Save' : 'Add'}</button>
                                 </div>
                             </form>
 

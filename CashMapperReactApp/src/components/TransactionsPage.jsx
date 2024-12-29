@@ -64,12 +64,14 @@ const TransactionsPage = () => {
                 <h1>Transactions</h1>
                 <div className="input-group">
                     <label className="input-group-label" htmlFor="description">Search:</label>
-                    <input className="input-group-input large" type="text" id="description"/>
+                    <input className="input-group-input large" type="text" id="description" />
                 </div>
                 <div className="Menu-Bar-Items">
                     <button className="btn-secondary menu">Import</button>
                     <hr />
-                    <button className="btn-secondary">Add</button>
+                    <button className="btn-secondary"
+                        onClick={() => { setSelectedTransactionHandler(null); openEditHandler(); }}>Add
+                    </button>
                 </div>
 
             </div>
