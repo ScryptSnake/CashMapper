@@ -5,16 +5,19 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
 
     if (!showModal) return null; // Don't render if showModal is false
 
-    // default transaction
+    // default transaction - Some fields are ignore by the endpoint (auto generated in backend).
+    // However, the API requires them. 
     const defaultTransaction = {
         id: 0,
-        description: "sdasdf",
-        source: "manual",
+        dateCreated: "2024-12-30T05:04:30.421Z",
+        dateModified: "2024-12-30T05:04:30.421Z",
+        flag: null,
+        description: "[No description]",
+        source: "",
+        categoryId: 1,
         note: "",
-        categoryId: null,
-        value: 0,
-        transactionDate: `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`,
-        flag: ""
+        value: 0.00,
+        transactionDate: "2024-12-30T05:04:30.421Z"
     };
 
     // States
@@ -60,11 +63,16 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
             method = 'PUT';
         };
 
+        console.log(JSON.stringify(formData));
+        console.log("----------------------------");
+        console.log(JSON.stringify(defaultTransaction));
+
         try {
             const response = await fetch('http://localhost:5009/api/Transactions', {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
+                    'accept': 'text/plain'
                 },
                 body: JSON.stringify(formData),
             });
