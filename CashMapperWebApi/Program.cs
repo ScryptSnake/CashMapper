@@ -1,14 +1,25 @@
 // Create app builder.
+using CashMapper.DataAccess;
 using CashMapper.DataAccess.Entities;
 using CashMapper.DataAccess.Repositories;
-using CashMapper.DataAccess;
-using Microsoft.AspNetCore.Cors;
+using Serilog;
+using System.Security.Cryptography.X509Certificates;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Create config for appsettings.json.
+
+// Find current dir.
 var projectDirectory = Directory.GetParent(Environment.CurrentDirectory).FullName + "//CashMapperWebApi//";
 
+// Enable logging
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File(projectDirectory + "/log.txt")
+    .CreateLogger();
+builder.Host.UseSerilog();
+
+
+// Create config for appsettings.json.
 var config = new ConfigurationBuilder()
     .SetBasePath(projectDirectory)
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
