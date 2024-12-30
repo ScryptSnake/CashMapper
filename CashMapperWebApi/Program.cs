@@ -7,15 +7,19 @@ using System.Security.Cryptography.X509Certificates;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 // Find current dir.
 var projectDirectory = Directory.GetParent(Environment.CurrentDirectory).FullName + "//CashMapperWebApi//";
 
 // Enable logging
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
-    .WriteTo.File(projectDirectory + "/log.txt")
+    .WriteTo.File(
+        path:projectDirectory + "logs/log.txt",
+        rollingInterval:RollingInterval.Day,
+        restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information
+        )
     .CreateLogger();
+builder.Logging.ClearProviders();
 builder.Host.UseSerilog();
 
 
@@ -50,12 +54,18 @@ builder.Services
     });
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Build the app.
 var app = builder.Build();
+
+// Default endpoint
+app.MapGet("/", () =>
+{
+    return "Hello, CashMapper.";
+});
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -67,6 +77,7 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/error");
+    app.UseSerilogRequestLogging();
 }
 
 app.UseHttpsRedirection();

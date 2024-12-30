@@ -8,6 +8,7 @@ namespace CashMapperWebApi.Controllers;
 [Route("error")]
 public class ErrorController : ControllerBase
 {
+
     [HttpGet]
     [HttpPost]
     public IActionResult HandleError()
