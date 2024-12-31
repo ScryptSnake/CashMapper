@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Modal.css';
-import DataFactory from '../data/DataFactory.js';
+import CashMapperDataProvider from '../data/CashMapperDataProvider.js';
 
 const EditTransaction = ({ showModal, closeModal, transaction, updateTransactions}) => {
 
@@ -55,7 +55,7 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
     }, [transaction]);
 
 
-    // Submit data
+    // Submit data from form
     const submitFormData = async (e) => {
         e.preventDefault(); //prevent app from re-rendering.
 
@@ -94,17 +94,15 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
         // Note: wrap the DataFactory call inside async function (useEffect doesnt support async)
         const fetch = async () => {
             try {
-                const data = await DataFactory.Categories.getAll();
+                const data = await CashMapperDataProvider.Categories.getAll();
                 setCategoriesHandler(data); //update state
                 console.log(data); 
             } catch (error) {
                 console.error('Error fetching categories:', error);
             }
         }
-
         // Call async function
         fetch();
-
     }, []);
 
     return (

@@ -1,4 +1,5 @@
 import '../styles/Page.css';
+import CashMapperDataProvider from '../data/CashMapperDataProvider.js';
 import React, { useState, useEffect } from 'react';
 import EditTransaction from '../components/EditTransaction';
 import '../styles/Table.css';
@@ -32,20 +33,29 @@ const TransactionsPage = () => {
 
 
     // This is also a callback from the EditTransaction page.
-    const fetchTransactions = () => {
-        fetch('http://localhost:5009/api/Transactions') // Replace with your actual API URL
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                setTransactionsHandler(data); // Set the fetched data into state
-            })
-            .catch((error) => console.error('Error fetching data:', error));
+    // filter params - optional kvp to filter
+    const loadTransactions = async (filterParams) => {
+        try {
+            let data;
+            if (filterParams) {
+                data = await CashMapperDataProvider.Transactions.getMultiple(filterParams);
+            } else {
+                data = await CashMapperDataProvider.Transactions.getAll();
+            }
+            setTransactionsHandler(data);
+        }
+        catch (error) {
+            console.log('fetchTransactions failed. ', error);
+        }
     };
 
 
     // Fetch data when the component mounts.
     useEffect(() => {
-        fetchTransactions();
+        const load = async () => {
+            loadTransactions();
+        }
+        load();
     }, []);
 
 
@@ -54,8 +64,6 @@ const TransactionsPage = () => {
         style: 'currency',
         currency: 'USD',
     });
-
-
 
 
     return (
@@ -115,9 +123,8 @@ const TransactionsPage = () => {
                 showModal={showEdit}
                 closeModal={closeEditHandler}
                 transaction={selectedTransaction}
-                updateTransactions={fetchTransactions}
+                updateTransactions={loadTransactions}
             />
-
 
         </div>
     );
