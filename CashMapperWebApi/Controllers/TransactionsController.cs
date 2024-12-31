@@ -49,7 +49,6 @@ public class TransactionsController : ControllerBase, ICashMapperModelController
     }
 
 
-
     [HttpGet("filter")]
     public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactionsAsync(
         [FromQuery] string? description,

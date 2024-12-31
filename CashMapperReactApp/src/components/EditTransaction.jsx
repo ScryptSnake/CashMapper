@@ -26,6 +26,7 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
     const [formData, setFormData] = useState(defaultTransaction);
     const [categories, setCategories] = useState([]);
 
+
     // Handlers
     const setCategoriesHandler = (data) => {
         setCategories(data);
@@ -57,37 +58,39 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
 
     // Submit data from form
     const submitFormData = async (e) => {
-        e.preventDefault(); //prevent app from re-rendering.
 
-        let method = 'POST';
-        if (editMode) {
-            method = 'PUT';
-        };
+        e.preventDefault(); // prevent app from re-render.
 
-        console.log(JSON.stringify(formData));
-        console.log("----------------------------");
-        console.log(JSON.stringify(defaultTransaction));
-
-        try {
-            const response = await fetch('http://localhost:5009/api/Transactions', {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'accept': 'text/plain'
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status}`);
-            }
-            closeModal();
-            updateTransactions(); // Re update transactions page after submit.
-        } catch (error) {
-            console.error(`Error submitting form:\r\n${error}\r\n${JSON.stringify(formData)}`);
-            alert('Error submitting transaction.' + JSON.stringify(formData));
+        // Validate the form data
+        const formErrors = validateInputs();
+        if (formErrors.length > 0) {
+            alert(formErrors.join("\n"));
+            return;
         }
+
+        var method = CashMapperDataProvider.Transactions.addItem;
+        if (editMode) {
+            method = CashMapperDataProvider.Transactions.updateItem;
+        }
+        // Execute delegate.
+        var data = await method(formData);
+
+        closeModal();  // HIDE form.
+        updateTransactions(); // Update list on TransactionsPage
     };
+
+    // Validate form data
+    const validateInputs = () => {
+
+        var errors = [];
+
+        //if (formData.note == undefined || formData.note == "" || formData.note == null ) {
+        //    errors.push("note required.");
+        //    console.log('note is empty');
+        //}
+
+        return errors;
+    }
 
     // Grab categories from data factory.
     useEffect(() => {

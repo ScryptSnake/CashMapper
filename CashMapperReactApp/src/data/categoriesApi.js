@@ -13,7 +13,7 @@ const CategoriesApi = {
         }
     },
 
-    get: async (idOrName) => {
+    getSingle: async (idOrName) => {
         // idOrName: int id, or string name of category.
         try {
             const response = await fetch(`http://localhost:5009/api/Categories/${idOrName}`);
