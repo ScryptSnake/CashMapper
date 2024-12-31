@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Modal.css';
+import DataFactory from '../data/DataFactory.js';
 
 const EditTransaction = ({ showModal, closeModal, transaction, updateTransactions}) => {
 
@@ -88,15 +89,22 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
         }
     };
 
-    // Grab categories to fill dropdown when form renders.
+    // Grab categories from data factory.
     useEffect(() => {
-        fetch('http://localhost:5009/api/Categories') // Replace with your actual API URL
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                setCategoriesHandler(data); // Set the fetched data into state
-            })
-            .catch((error) => console.error('Error fetching data:', error));
+        // Note: wrap the DataFactory call inside async function (useEffect doesnt support async)
+        const fetch = async () => {
+            try {
+                const data = await DataFactory.Categories.getAll();
+                setCategoriesHandler(data); //update state
+                console.log(data); 
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        }
+
+        // Call async function
+        fetch();
+
     }, []);
 
     return (
