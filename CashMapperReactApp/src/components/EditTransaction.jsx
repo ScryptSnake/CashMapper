@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/Modal.css';
 import CashMapperDataProvider from '../data/CashMapperDataProvider.js';
 import moment from 'moment';
+import CurrencyInput from 'react-currency-input-field'
 
 const EditTransaction = ({ showModal, closeModal, transaction, updateTransactions}) => {
 
@@ -30,7 +31,9 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
     const setCategoriesHandler = (data) => {
         setCategories(data);
     }
-    
+
+
+    // set the formDara state. Called from Input changed event. 
     const handleFormChange = (e) => {
         const fieldName = e.target.id; // prop name
         const fieldValue = e.target.value; // value of prop
@@ -148,8 +151,20 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
 
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="value">Value</label>
-                                    <input className="input-group-input small" type="number"
-                                        id="value" value={formData.value} onChange={handleFormChange} />
+                                    <CurrencyInput
+                                        id="value"
+                                        className="input-group-input small"
+                                        prefix="$"
+                                        name="input-name"
+                                        value={formData.value}
+                                        defaultValue={0}
+                                        decimalsLimit={2}
+                                        fixedDecimalLength={2}
+                                        decimalScale={2}
+                                        allowNegativeValue={true}
+                                        onValueChange={(value) => handleFormChange({ target: { id: 'value', value } })}
+                                    />;
+                                    {/*Note:  onValueChange for this control requires use to pass a mock 'target' event arg*/}
                                 </div>
 
                                 <div className="input-group">
