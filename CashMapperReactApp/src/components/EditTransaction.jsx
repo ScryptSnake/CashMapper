@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Modal.css';
 import CashMapperDataProvider from '../data/CashMapperDataProvider.js';
+import moment from 'moment';
 
 const EditTransaction = ({ showModal, closeModal, transaction, updateTransactions}) => {
 
     if (!showModal) return null; // Don't render if showModal is false
 
-    // default transaction - Some fields are ignore by the endpoint (auto generated in backend).
-    // However, the API requires them. 
+    // Default transaction for a blank form
     const defaultTransaction = {
         id: 0,
-        dateCreated: "2024-12-30T05:04:30.421Z",
-        dateModified: "2024-12-30T05:04:30.421Z",
         flag: null,
         description: "[No description]",
         source: "",
         categoryId: 1,
         note: "",
         value: 0.00,
-        transactionDate: "2024-12-30T05:04:30.421Z"
+        transactionDate: moment().format('YYYY-MM-DD').toString()
+
     };
 
     // States
@@ -131,7 +130,7 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
 
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="transactionDate">Date</label>
-                                    <input className="input-group-input small" type="text"
+                                    <input className="input-group-input small" type="date"
                                         id="transactionDate" value={formData.transactionDate} onChange={handleFormChange} />
                                 </div>
 
