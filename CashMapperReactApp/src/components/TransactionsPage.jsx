@@ -3,19 +3,18 @@ import CashMapperDataProvider from '../data/CashMapperDataProvider.js';
 import React, { useState, useEffect } from 'react';
 import EditTransaction from '../components/EditTransaction';
 import '../styles/Table.css';
-
+import moment from 'moment';
 
 const TransactionsPage = () => {
-    const [transactions, setTransactions] = useState([]);
+    const [transactions, setTransactions] = useState([]); // From database.
+    const [transactionsFiltered, setTransactionsFiltered] = useState([]); // Filtered local.
     const [showEdit, setShowEdit] = useState(false);
     const [closeEdit, setCloseEdit] = useState(true);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
 
     // State setter functions.
     // Note: if these contain arguments, they no longer are referenced as a pointer, but update state and cause overflow.
-    const setTransactionsHandler = (data) => {
-        setTransactions(data)
-    }
+
 
     const openEditHandler = () => {
         setCloseEdit(true);
@@ -27,27 +26,30 @@ const TransactionsPage = () => {
         setCloseEdit(true);
     }
 
-    const setSelectedTransactionHandler = (transaction) => {
-        setSelectedTransaction(transaction);
-    };
-
 
     // This is also a callback from the EditTransaction page.
-    // filter params - optional kvp to filter
     const loadTransactions = async (filterParams) => {
         try {
-            let data;
-            if (filterParams) {
-                data = await CashMapperDataProvider.Transactions.getMultiple(filterParams);
-            } else {
-                data = await CashMapperDataProvider.Transactions.getAll();
+            // pull from database if not loaded
+            if (transactions.length === 0) {
+                const data = await CashMapperDataProvider.Transactions.getAll();
+                setTransactions(data);
             }
-            setTransactionsHandler(data);
+            // if no filter, the filterItems method ignores. 
+            const data = await CashMapperDataProvider.Transactions.filterItems(transactions, filterParams);
+            setTransactionsFiltered(data);
         }
         catch (error) {
             console.log('fetchTransactions failed. ', error);
         }
     };
+
+    //const filterTransactions = async(filter) = > {
+    //    data = await CashMapperDataProvider.Transactions.filterItems(data, filterParams);
+    //    setTransactionsHandler(data);
+    //}
+
+
 
 
     // Fetch data when the component mounts.
@@ -88,6 +90,7 @@ const TransactionsPage = () => {
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Date</th>
                             <th>Description</th>
                             <th>Source</th>
                             <th>Note</th>
@@ -101,11 +104,15 @@ const TransactionsPage = () => {
             <div className="tbl-content">
                 <table className="table-custom">
                 <tbody>
-                    {transactions.map((transaction) => (
+                        {
+                            
+
+                            transactionsFiltered.map((transaction) => (
                         <tr className="tbl-row" key={transaction.id}
-                            onClick={() => {setSelectedTransactionHandler(transaction)}}
+                            onClick={() => {setSelectedTransaction(transaction)}}
                             onDoubleClick={openEditHandler}>
                             <td>{transaction.id}</td>
+                            <td>{moment(transaction.transactionDate).format('M/D/YY')}</td>
                             <td>{transaction.description}</td>
                             <td>{transaction.source || 'Empty'}</td>
                             <td>{transaction.note}</td>

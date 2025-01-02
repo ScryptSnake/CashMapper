@@ -34,6 +34,7 @@ const TransactionsApi = {
 
     getMultiple: async (filterParams) => {
         // filterParams is a kvp.
+        // SEE filter for local filtering.
         try {
             const baseUrl = 'http://localhost:5009/api/transactions/filter';
             const url = new URL(baseUrl);
@@ -105,6 +106,35 @@ const TransactionsApi = {
             throw error;
         }
     },
+
+    filterItems: async (data, filter) => {
+        // Filters a local array of transactions
+        // data: the array
+        // filter: the filter object
+
+        // Make a copy
+        const results = data.slice();
+
+        //sort by date ascending
+        results.sort((a, b) => new Date(a.transactionDate) - new Date(b.transactionDate));
+
+        //if (!filter) {
+
+        //    if (filter.descriptionLike) {
+        //        results.filter(transaction => {
+        //            return transaction.description.toLowerCase().includes(descriptionLike)
+        //        });
+        //    }
+        //}
+
+        return results;
+
+
+    }
+
+
+
+
 };
 
 export default TransactionsApi;

@@ -6,7 +6,7 @@ import CurrencyInput from 'react-currency-input-field'
 
 const EditTransaction = ({ showModal, closeModal, transaction, updateTransactions}) => {
 
-    if (!showModal) return null; // Don't render if showModal is false
+    if (!showModal) return null; // Don't show if showModal is false
 
     // Default transaction for a blank form
     const defaultTransaction = {
@@ -25,7 +25,6 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
     const [editMode, setEditMode] = useState(false); // True = edit, false = new record.
     const [formData, setFormData] = useState(defaultTransaction);
     const [categories, setCategories] = useState([]);
-
 
     // Handlers
     const setCategoriesHandler = (data) => {
@@ -134,7 +133,7 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="transactionDate">Date</label>
                                     <input className="input-group-input small" type="date"
-                                        id="transactionDate" value={formData.transactionDate} onChange={handleFormChange} />
+                                        id="transactionDate" value={moment(formData.transactionDate).format('YYYY-MM-DD')} onChange={handleFormChange} />
                                 </div>
 
                                 <div className="input-group">

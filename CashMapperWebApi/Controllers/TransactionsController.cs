@@ -36,7 +36,6 @@ public class TransactionsController : ControllerBase, ICashMapperModelController
     [HttpGet("filter-by-object")]
     public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactionsAsync([FromQuery] TransactionQueryFilter filter)
     {
-
         Logger.LogInformation("GET request made with filter: {filter}",filter.ToString());
 
         // Query the backend with the filter.
