@@ -82,14 +82,12 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
 
     // Validate form data
     const validateInputs = () => {
-
         var errors = [];
 
         //if (formData.note == undefined || formData.note == "" || formData.note == null ) {
         //    errors.push("note required.");
         //    console.log('note is empty');
         //}
-
         return errors;
     }
 

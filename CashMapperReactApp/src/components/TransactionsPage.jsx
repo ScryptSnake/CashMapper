@@ -7,7 +7,8 @@ import moment from 'moment';
 
 const TransactionsPage = () => {
     const [transactions, setTransactions] = useState([]); // From database.
-    const [transactionsFiltered, setTransactionsFiltered] = useState([]); // Filtered local.
+    const [transactionsFiltered, setTransactionsFiltered] = useState([]); // Displayed transactions
+    const [filter, setFilter] = useState();
     const [showEdit, setShowEdit] = useState(false);
     const [closeEdit, setCloseEdit] = useState(true);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
@@ -26,6 +27,30 @@ const TransactionsPage = () => {
         setCloseEdit(true);
     }
 
+    const handleFilterChange = (e) => {
+        const fieldName = e.target.id; // prop name
+        const fieldValue = e.target.value; // value of prop
+
+        console.log(`FIRE!: ${fieldName} = ${fieldValue}`);
+
+        if (!filter) {
+            // Create a blank filter object.
+            setFilter(CashMapperDataProvider.Transactions.createFilter()) // Update state.
+        }
+        //// copy all properties in current state
+        var updatedFilter = { ...filter }; 
+
+        // Update specified field with value
+        updatedFilter[fieldName] = fieldValue;
+
+        // Commit to state - SEE BELOW
+        setFilter(updatedFilter)
+
+        // Requery table - Note cannot pass the state variable. It doesn't update at the same time. (async)
+        loadTransactions(updatedFilter);
+    };
+
+
 
     // This is also a callback from the EditTransaction page.
     const loadTransactions = async (filterParams) => {
@@ -35,22 +60,14 @@ const TransactionsPage = () => {
                 const data = await CashMapperDataProvider.Transactions.getAll();
                 setTransactions(data);
             }
-            // if no filter, the filterItems method ignores. 
+            // Filter with param. Cannot use state variable unfortunately. 
             const data = await CashMapperDataProvider.Transactions.filterItems(transactions, filterParams);
             setTransactionsFiltered(data);
         }
         catch (error) {
-            console.log('fetchTransactions failed. ', error);
+            console.log('loadTransactions failed. ', error);
         }
     };
-
-    //const filterTransactions = async(filter) = > {
-    //    data = await CashMapperDataProvider.Transactions.filterItems(data, filterParams);
-    //    setTransactionsHandler(data);
-    //}
-
-
-
 
     // Fetch data when the component mounts.
     useEffect(() => {
@@ -74,7 +91,7 @@ const TransactionsPage = () => {
                 <h1>Transactions</h1>
                 <div className="input-group">
                     <label className="input-group-label" htmlFor="description">Search:</label>
-                    <input className="input-group-input large" type="text" id="description" />
+                    <input className="input-group-input large" type="text" id="description" onChange={handleFilterChange} />
                 </div>
                 <div className="Menu-Bar-Items">
                     <button className="btn-secondary menu">Import</button>

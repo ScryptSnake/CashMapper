@@ -107,34 +107,91 @@ const TransactionsApi = {
         }
     },
 
+
     filterItems: async (data, filter) => {
         // Filters a local array of transactions
         // data: the array
         // filter: the filter object
 
         // Make a copy
-        const results = data.slice();
+        let results = data.slice();
 
+        if (filter) {
+            if (filter.description) {
+                results = results.filter(transaction => {
+                    console.log('filter.description==' + filter.description)
+                    return transaction.description.toLowerCase().includes(filter.description)
+                });
+            } else {
+                console.log('description blank');
+            }
+
+            //if (filter.note) {
+            //    results = results.filter(transaction => {
+            //        return transaction.category.toLowerCase().includes(filter.note)
+            //    });
+            //}
+
+            //if (filter.category) {
+            //    results = results.filter(transaction => {
+            //        return transaction.category === filter.category
+            //    });
+            //}
+
+            //if (filter.dateMin) {
+            //    results = results.filter(transaction => {
+            //        return new Date(transaction.transactionDate) >= new Date(filter.dateMin)
+            //    });
+            //}
+
+            //if (filter.dateMax) {
+            //    results = results.filter(transaction => {
+            //        return new Date(transaction.transactionDate) <= new Date(filter.dateMax)
+            //    });
+            //}
+
+            //if (filter.valueMin) {
+            //    results = results.filter(transaction => {
+            //        return transaction.value >= filter.valueMin
+            //    });
+            //}
+
+            //if (filter.valueMax) {
+            //    results = results.filter(transaction => {
+            //        return transaction.value <= filter.valueMax
+            //    });
+            //}
+
+        }
         //sort by date ascending
         results.sort((a, b) => new Date(a.transactionDate) - new Date(b.transactionDate));
 
-        //if (!filter) {
-
-        //    if (filter.descriptionLike) {
-        //        results.filter(transaction => {
-        //            return transaction.description.toLowerCase().includes(descriptionLike)
-        //        });
-        //    }
-        //}
 
         return results;
 
 
+    },
+
+    // A template function for a filter object to be used with the filterItems function.
+    createFilter: (description, note, category, dateMin, dateMax, valueMin, valueMax) => {
+        return {
+            description: description,
+            note: note,
+            category: category,
+            dateMin: dateMin,
+            dateMax: dateMax,
+            valueMin: valueMin,
+            valueMax: valueMax
+        }
     }
 
 
 
 
 };
+
+
+
+
 
 export default TransactionsApi;
