@@ -8,7 +8,7 @@ import moment from 'moment';
 const TransactionsPage = () => {
     const [transactions, setTransactions] = useState([]); // From database.
     const [transactionsFiltered, setTransactionsFiltered] = useState([]); // Displayed transactions
-    const [filter, setFilter] = useState(); // the active filter on the transactions
+    const [filter, setFilter] = useState(CashMapperDataProvider.Transactions.createFilter()); // the active filter on the transactions
     const [refresh, setRefresh] = useState(false); // boolean whether the Transactions state should be re-fetched from db.
     const [showEdit, setShowEdit] = useState(false);
     const [closeEdit, setCloseEdit] = useState(true);
@@ -31,18 +31,14 @@ const TransactionsPage = () => {
 
         let updatedFilter;
 
-        if (!filter) {
-            // Create a blank filter object.
-            updatedFilter = CashMapperDataProvider.Transactions.createFilter();
-        }
         // Copy existing filter to variable
          updatedFilter = { ...filter }; 
 
         // Update specified field with value
         console.log(`"${fieldName} = ${fieldValue}"`)
         updatedFilter[fieldName] = fieldValue;
-
         setFilter(updatedFilter)
+
     };
 
 
@@ -51,6 +47,8 @@ const TransactionsPage = () => {
     useEffect(() => {
         const loadTransactions = async () => {
             try {
+
+                //console.log("Filter state = " + filter.categoryId) //this is late
 
                 let data;
 
@@ -103,7 +101,7 @@ const TransactionsPage = () => {
                     <button className="btn-secondary menu">Import</button>
                     <button className="btn-secondary menu">Export</button>
                     <button className="btn-secondary"
-                        onClick={() => { () => setSelectedTransaction(null); openEditHandler();}}>Add
+                        onClick={() => { setSelectedTransaction(null); openEditHandler() }}>Add
                     </button>
                 </div>
 
@@ -111,10 +109,10 @@ const TransactionsPage = () => {
             <div className="Filter-Menu">
                 <div className="input-group">
                     <label className="input-group-label medium" htmlFor="description">Search:</label>
-                    <input className="input-group-input medium" type="text" id="descriptionAndNote" value={filter.descriptionAndNote} onChange={handleFilterChange} />
+                    <input className="input-group-input medium" type="text" id="descriptionAndNote" value={filter.descriptionAndNote || ""} onChange={handleFilterChange} />
                     <label className="input-group-label" htmlFor="description">Category</label>
-                    <select className="input-group-input small" type="text" id="categoryId" value={filter.CategoryId}  onChange={handleFilterChange}>
-                        <option key={categoryId} value="">
+                    <select className="input-group-input small" type="text" id="categoryId" value={filter.categoryId || "[ ALL ]"}  onChange={handleFilterChange}>
+                        <option key="" value="">
                             [  ALL ]
                         </option>
                         {categories.map((category) => (

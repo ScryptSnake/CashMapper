@@ -125,8 +125,8 @@ const TransactionsApi = {
             }
 
             if (filter.categoryId) {
+                console.log("filter API found filter.categoryId = " + filter.categoryId)
                 results = results.filter(transaction => {
-                    console.log(filter.categoryId);
                     return Number(transaction.categoryId) === Number(filter.categoryId)
                 });
             }
@@ -157,7 +157,8 @@ const TransactionsApi = {
 
         }
         //sort by date ascending
-        results.sort((a, b) => new Date(a.transactionDate) - new Date(b.transactionDate));
+        results.sort((a, b) => new Date(a.transactionDate) - new Date(b.transactionDate)) ||
+        results.sort((a, b) => new Date(a.id) - new Date(b.id));
         return results;
 
 
