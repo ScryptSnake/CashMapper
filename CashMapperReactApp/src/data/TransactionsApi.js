@@ -60,7 +60,6 @@ const TransactionsApi = {
     },
 
 
-
     addItem: async (data) => {
         try {
             const response = await fetch('http://localhost:5009/api/transactions/', {
@@ -117,26 +116,20 @@ const TransactionsApi = {
         let results = data.slice();
 
         if (filter) {
-            if (filter.description) {
+            if (filter.descriptionAndNote) {
                 results = results.filter(transaction => {
-                    console.log('filter.description==' + filter.description)
-                    return transaction.description.toLowerCase().includes(filter.description)
+                    return new String(transaction.description).match(new RegExp(`${filter.descriptionAndNote}.*`, 'i')) ||
+                        new String(transaction.note).match(new RegExp(`${filter.descriptionAndNote}.*`, 'i')); 
+
                 });
-            } else {
-                console.log('description blank');
             }
 
-            //if (filter.note) {
-            //    results = results.filter(transaction => {
-            //        return transaction.category.toLowerCase().includes(filter.note)
-            //    });
-            //}
-
-            //if (filter.category) {
-            //    results = results.filter(transaction => {
-            //        return transaction.category === filter.category
-            //    });
-            //}
+            if (filter.categoryId) {
+                results = results.filter(transaction => {
+                    console.log(filter.categoryId);
+                    return Number(transaction.categoryId) === Number(filter.categoryId)
+                });
+            }
 
             //if (filter.dateMin) {
             //    results = results.filter(transaction => {
@@ -165,19 +158,16 @@ const TransactionsApi = {
         }
         //sort by date ascending
         results.sort((a, b) => new Date(a.transactionDate) - new Date(b.transactionDate));
-
-
         return results;
 
 
     },
 
     // A template function for a filter object to be used with the filterItems function.
-    createFilter: (description, note, category, dateMin, dateMax, valueMin, valueMax) => {
+    createFilter: (descriptionAndNote, categoryId, dateMin, dateMax, valueMin, valueMax) => {
         return {
-            description: description,
-            note: note,
-            category: category,
+            descriptionAndNote: descriptionAndNote,
+            categoryId: categoryId,
             dateMin: dateMin,
             dateMax: dateMax,
             valueMin: valueMin,

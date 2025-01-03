@@ -4,7 +4,7 @@ import CashMapperDataProvider from '../data/CashMapperDataProvider.js';
 import moment from 'moment';
 import CurrencyInput from 'react-currency-input-field'
 
-const EditTransaction = ({ showModal, closeModal, transaction, updateTransactions}) => {
+const EditTransaction = ({ showModal, closeModal, transaction, callback}) => {
 
     if (!showModal) return null; // Don't show if showModal is false
 
@@ -77,7 +77,7 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
         var data = await method(formData);
 
         closeModal();  // HIDE form.
-        updateTransactions(); // Update list on TransactionsPage
+        callback(); // Update list on TransactionsPage
     };
 
     // Validate form data
@@ -154,7 +154,6 @@ const EditTransaction = ({ showModal, closeModal, transaction, updateTransaction
                                         prefix="$"
                                         name="input-name"
                                         value={formData.value}
-                                        defaultValue={0}
                                         decimalsLimit={2}
                                         fixedDecimalLength={2}
                                         decimalScale={2}
