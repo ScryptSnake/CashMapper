@@ -57,6 +57,12 @@ body {
     margin: 5px;
     box-shadow: none ;
 }
+.btn-secondary.with-icon {
+    display: inline-flex; /* Use inline-flex to align icon and text */
+    align-items: center; /* Vertically center align the icon and text */
+    gap: 8px; /* Space between the icon and the text */
+    padding: 8px 12px;
+}
 
 .btn-primary:hover {
     border-color: white !important;
@@ -64,6 +70,26 @@ body {
 }
 .btn-primary:active {
     transform: translateY(2px);
+}
+
+.icon-button {
+    background-color: #1f2329;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    font-family: Calibri;
+    border-radius: 5px;
+    width: 100%;
+    height: 40px;
+    margin: 3px;
+}
+
+
+.Sidebar-Button-Icon {
+    height: 15px;
+    width: 15px;
+    margin: 10px;
 }
 
 .btn-secondary {
@@ -74,7 +100,7 @@ body {
     border-radius: 5px;
     border-style: solid;
     border-width: 1px;
-    margin: 5px;
+    margin: 2px;
     box-shadow: none;
 }
 .btn-secondary:hover {
@@ -83,6 +109,9 @@ body {
 .btn-secondary:active {
     transform: translateY(2px);
 }
+
+
+
 
 .input-group {
     display: flex;
@@ -127,22 +156,21 @@ body {
     min-width: 100px; /* Minimum width for the input */
 }
 
-    .input-group-input.small {
-        max-width: 150px; /* Max width for small fields */
-    }
+.input-group-input.small {
+    max-width: 150px; /* Max width for small fields */
+}
 
-    .input-group-input.medium {
-        max-width: 250px; /* Max width for large fields */
-    }
+.input-group-input.medium {
+    max-width: 250px; /* Max width for large fields */
+}
 
-    .input-group-input.large {
-        max-width: 500px; /* Max width for large fields */
-    }
+.input-group-input.large {
+    max-width: 500px; /* Max width for large fields */
+}
 
-    .input-group-input:hover {
-        border-color: white;
-    }
-
+.input-group-input:hover {
+    border-color: white;
+}
 
 
 

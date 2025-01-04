@@ -20,7 +20,7 @@
 .Menu-Bar-Items {
     display: flex;
     align-items: center; /* Vertically align items */
-    gap: 5px; /* Items spacing */
+    gap: 1px; /* Items spacing */
 }
 
 .Filter-Menu {

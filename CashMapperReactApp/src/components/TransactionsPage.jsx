@@ -95,10 +95,18 @@ const TransactionsPage = () => {
             <div className="Menu-Bar">
                 <h1>Transactions</h1>
                 <div className="Menu-Bar-Items">
-                    <button className="btn-secondary menu">Import</button>
-                    <button className="btn-secondary menu">Export</button>
-                    <button className="btn-secondary"
-                        onClick={() => { setSelectedTransaction(null); openEditHandler() }}>Add
+                    <button className="btn-secondary with-icon">
+                        <img src="./icons/upload-3-16.png"></img>
+                        Import
+                    </button>
+                    <button className="btn-secondary with-icon">
+                        <img src="./icons/download-16.png"></img>
+                        Download
+                    </button>
+                    <button className="btn-secondary with-icon"
+                        onClick={() => { setSelectedTransaction(null); openEditHandler() }}>
+                        <img src="./icons/plus-6-16.png"></img>
+                        
                     </button>
                 </div>
             </div>
