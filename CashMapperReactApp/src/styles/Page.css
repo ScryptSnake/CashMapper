@@ -1,7 +1,7 @@
 
 
 .Page {
-    background-image: linear-gradient(to right,#e4fed9,#d7fac6);
+    background-image: linear-gradient(to right,#e4fed9,#d0fbbc);
     border-radius: 10px;
     width: 100%;
     height: 100%;
@@ -25,7 +25,9 @@
 
 .Filter-Menu {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
     background-color: rgba(255,255,255,0.6);
     padding: 5px;
 }

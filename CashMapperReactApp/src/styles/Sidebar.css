@@ -27,13 +27,19 @@
     margin: 3px;
 }
 
+.Sidebar-Button label {
+    color:white;
+}
+
+
 .Sidebar-Button:hover {
     background-color: #383e45;
-    color: white;
 }
 
 .Sidebar-Button.active {
     border: 2px solid white;
+    background-color: #4eb24a;
+    color: white !important;
 }
 
 .Sidebar-Button-Icon {

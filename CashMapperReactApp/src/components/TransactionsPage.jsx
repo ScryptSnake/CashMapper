@@ -96,7 +96,6 @@ const TransactionsPage = () => {
         <div className="Page">
             <div className="Menu-Bar">
                 <h1>Transactions</h1>
-
                 <div className="Menu-Bar-Items">
                     <button className="btn-secondary menu">Import</button>
                     <button className="btn-secondary menu">Export</button>
@@ -104,27 +103,44 @@ const TransactionsPage = () => {
                         onClick={() => { setSelectedTransaction(null); openEditHandler() }}>Add
                     </button>
                 </div>
-
             </div>
             <div className="Filter-Menu">
-                <div className="input-group">
-                    <label className="input-group-label medium" htmlFor="description">Search:</label>
-                    <input className="input-group-input medium" type="text" id="descriptionAndNote" value={filter.descriptionAndNote || ""} onChange={handleFilterChange} />
-                    <label className="input-group-label" htmlFor="description">Category</label>
-                    <select className="input-group-input small" type="text" id="categoryId" value={filter.categoryId || "[ ALL ]"}  onChange={handleFilterChange}>
-                        <option key="" value="">
-                            [  ALL ]
+                    <label htmlFor="description">Search:</label>
+                <input
+                    className="input-group-input"
+                        type="text" id="descriptionAndNote"
+                        value={filter.descriptionAndNote || ""}
+                        onChange={handleFilterChange} />
+
+                <select
+                    className="input-group-input small"
+                    type="text" id="categoryId"
+                    value={filter.categoryId || "[ Category ]"}
+                    onChange={handleFilterChange}>
+                    <option key="" value="">
+                        [  Category ]
+                    </option>
+                    {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                            {category.name}
                         </option>
-                        {categories.map((category) => (
-                            <option key={category.id} value={category.id}>
-                                {category.name}
-                            </option>
-                        ))}
-                    </select>
+                    ))}
+                </select>
+                <input
+                    className="input-group-input small"
+                    type="date" id="dateMin"
+                    value={filter.dateMin || ""}
+                    onChange={handleFilterChange} />
+                <label> to </label>
+                <input
+                    className="input-group-input small"
+                    type="date" id="dateMax"
+                    value={filter.dateMax || ""}
+                    onChange={handleFilterChange} />
                 </div>
 
-            </div>
-            <div className="tbl-header">
+                  
+            <div className="table">
                 <table>
                     <thead>
                         <tr>
@@ -137,28 +153,25 @@ const TransactionsPage = () => {
                             <th>Value</th>
                         </tr>
                     </thead>
-                </table>
-            </div>
-
-            <div className="tbl-content">
-                <table className="table-custom">
-                <tbody>
+                    <tbody className="tbl-content">
                         {transactionsFiltered.map((transaction) => (
-                        <tr className="tbl-row" key={transaction.id}
-                            onClick={() => {setSelectedTransaction(transaction)}}
-                            onDoubleClick={openEditHandler}>
-                            <td>{transaction.id}</td>
-                            <td>{moment(transaction.transactionDate).format('M/D/YY')}</td>
-                            <td>{transaction.description}</td>
-                            <td>{transaction.source}</td>
-                            <td>{transaction.note}</td>
-                            <td>{findCategoryName(transaction.categoryId)}</td>
-                            <td>{formatter.format(transaction.value)}</td>
-                        </tr>
-                    ))}
+                            <tr className="tbl-row" key={transaction.id}
+                                onClick={() => { setSelectedTransaction(transaction) }}
+                                onDoubleClick={openEditHandler}>
+                                <td>{transaction.id}</td>
+                                <td>{moment(transaction.transactionDate).format('M/D/YY')}</td>
+                                <td>{transaction.description}</td>
+                                <td>{transaction.source}</td>
+                                <td>{transaction.note}</td>
+                                <td>{findCategoryName(transaction.categoryId)}</td>
+                                <td>{formatter.format(transaction.value)}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
+
+
 
 
             {/* Render EditTransaction if showEdit is true. */}
