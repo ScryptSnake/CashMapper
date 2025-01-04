@@ -2,7 +2,7 @@ import { json2csv} from 'json-2-csv';
 
 
 const TransactionsApi = {
-    getAll: async () => {
+    getAllAsync: async () => {
         try {
             const response = await fetch('http://localhost:5009/api/Transactions');
             if (!response.ok) {
@@ -19,7 +19,7 @@ const TransactionsApi = {
         }
     },
 
-    getSingle: async (id) => {
+    getSingleAsync: async (id) => {
         // id is int.
         try {
             const response = await fetch(`http://localhost:5009/api/transactions/${id}`);
@@ -34,7 +34,7 @@ const TransactionsApi = {
         }
     },
 
-    getMultiple: async (filterParams) => {
+    getMultipleAsync: async (filterParams) => {
         // filterParams is a kvp.
         // SEE filter for local filtering.
         try {
@@ -62,7 +62,7 @@ const TransactionsApi = {
     },
 
 
-    addItem: async (data) => {
+    addItemAsync: async (data) => {
         try {
             const response = await fetch('http://localhost:5009/api/transactions/', {
                 method: 'POST',
@@ -85,7 +85,7 @@ const TransactionsApi = {
         }
     },
 
-    updateItem: async (data) => {
+    updateItemAsync: async (data) => {
         try {
             const response = await fetch('http://localhost:5009/api/transactions/', {
                 method: 'PUT',
@@ -111,7 +111,7 @@ const TransactionsApi = {
     // Filters a local array of transactions
     // data: the array
     // filter: the filter object
-    filterItems: async (data, filter) => {
+    filterItemsAsync: async (data, filter) => {
         // Make a copy
         let results = data.slice();
 
@@ -173,7 +173,7 @@ const TransactionsApi = {
     },
 
     // Returns a blob of data in csv format
-    convertCsv: async (data) => {
+    convertCsvAsync: async (data) => {
         // get field names:
         if (data) {
             const csv = await json2csv(data);

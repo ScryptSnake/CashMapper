@@ -1,5 +1,5 @@
 const CategoriesApi = {
-    getAll: async () => {
+    getAllAsync: async () => {
         try {
             const response = await fetch('http://localhost:5009/api/Categories');
             if (!response.ok) {
@@ -13,7 +13,7 @@ const CategoriesApi = {
         }
     },
 
-    getSingle: async (idOrName) => {
+    getSingleAsync: async (idOrName) => {
         // idOrName: int id, or string name of category.
         try {
             const response = await fetch(`http://localhost:5009/api/Categories/${idOrName}`);
@@ -28,7 +28,7 @@ const CategoriesApi = {
         }
     },
 
-    addItem: async (data) => {
+    addItemAsync: async (data) => {
         try {
             const response = await fetch('http://localhost:5009/api/Categories/', {
                 method: 'POST',
@@ -51,7 +51,7 @@ const CategoriesApi = {
         }
     },
 
-    updateItem: async (data) => {
+    updateItemAsync: async (data) => {
         try {
             const response = await fetch('http://localhost:5009/api/Categories/', {
                 method: 'PUT',

@@ -12,17 +12,14 @@ const TransactionsPage = () => {
     const [refresh, setRefresh] = useState(false); // boolean whether the Transactions state should be re-fetched from db.
     const [showEdit, setShowEdit] = useState(false);
     const [closeEdit, setCloseEdit] = useState(true);
+
+
     const [selectedTransaction, setSelectedTransaction] = useState(null); // The active transaction in the table
-    const [categories, setCategories] = useState([]); // cache categories from db for search filter dropdown. 
+    const [categories, setCategories] = useState([]); // cache categories from db for search filter dropdown.
 
-    const openEditHandler = () => {
-        setCloseEdit(true);
-        setShowEdit(true);
-    }
 
-    const closeEditHandler = () => {
-        setShowEdit(false);
-        setCloseEdit(true);
+    const handleEditClick = (visible) => {
+        setShowEdit(visible);
     }
 
     const handleFilterChange = (e) => {
@@ -38,11 +35,10 @@ const TransactionsPage = () => {
         console.log(`"${fieldName} = ${fieldValue}"`)
         updatedFilter[fieldName] = fieldValue;
         setFilter(updatedFilter)
-
     };
 
     const handleDownload = async () => {
-        const file = await CashMapperDataProvider.Transactions.convertCsv(transactionsFiltered);
+        const file = await CashMapperDataProvider.Transactions.convertCsvAsync(transactionsFiltered);
         const url = URL.createObjectURL(file);
         const fileName = `Transactions_Export_${moment().format('YYYY-MM-DD').toString()}.csv`;
 
@@ -68,11 +64,11 @@ const TransactionsPage = () => {
                 if (transactions.length === 0 || refresh) {
 
                     // Cache categories for filter dropdown box
-                    let cats = await CashMapperDataProvider.Categories.getAll();
+                    let cats = await CashMapperDataProvider.Categories.getAllAsync();
                     
                     setCategories(cats);
 
-                    data = await CashMapperDataProvider.Transactions.getAll();
+                    data = await CashMapperDataProvider.Transactions.getAllAsync();
                     setTransactions(data); // Update state with all transactions
                 } else {
                     data = transactions; // Use already loaded transactions
@@ -119,7 +115,7 @@ const TransactionsPage = () => {
                         Download
                     </button>
                     <button className="btn-secondary with-icon"
-                        onClick={() => { setSelectedTransaction(null); openEditHandler() }}>
+                        onClick={() => { setSelectedTransaction(null); handleEditClick(true) }}>
                         <img src="./icons/plus-6-16.png"></img>
                         
                     </button>
@@ -211,10 +207,14 @@ const TransactionsPage = () => {
             {/* Render EditTransaction if showEdit is true. */}
             <EditTransaction
                 showModal={showEdit}
-                closeModal={closeEditHandler}
+                closeModal={() => { handleEditClick(false) }}
                 transaction={selectedTransaction}
                 callback={() => {setRefresh(true) }} //The callback is set to SetRefresh. When triggered, reload transactions from DB. See submitForm method in EditTransaction. 
             />
+
+           
+                
+                
 
         </div>
     );

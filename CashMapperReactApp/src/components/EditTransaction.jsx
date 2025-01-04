@@ -13,7 +13,7 @@ const EditTransaction = ({ showModal, closeModal, transaction, callback}) => {
         id: 0,
         flag: null,
         description: "[No description]",
-        source: "",
+        source: "[Manual Entry]",
         categoryId: 1,
         note: "",
         value: 0.00,
@@ -69,9 +69,9 @@ const EditTransaction = ({ showModal, closeModal, transaction, callback}) => {
             return;
         }
 
-        var method = CashMapperDataProvider.Transactions.addItem;
+        var method = CashMapperDataProvider.Transactions.addItemAsync;
         if (editMode) {
-            method = CashMapperDataProvider.Transactions.updateItem;
+            method = CashMapperDataProvider.Transactions.updateItemAsync;
         }
         // Execute delegate.
         var data = await method(formData);
@@ -96,7 +96,7 @@ const EditTransaction = ({ showModal, closeModal, transaction, callback}) => {
         // Note: wrap the DataFactory call inside async function (useEffect doesnt support async)
         const fetch = async () => {
             try {
-                const data = await CashMapperDataProvider.Categories.getAll();
+                const data = await CashMapperDataProvider.Categories.getAllAsync();
                 setCategoriesHandler(data); //update state
                 console.log(data); 
             } catch (error) {
