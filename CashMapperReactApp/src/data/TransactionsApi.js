@@ -106,12 +106,10 @@ const TransactionsApi = {
         }
     },
 
-
+    // Filters a local array of transactions
+    // data: the array
+    // filter: the filter object
     filterItems: async (data, filter) => {
-        // Filters a local array of transactions
-        // data: the array
-        // filter: the filter object
-
         // Make a copy
         let results = data.slice();
 
@@ -123,42 +121,38 @@ const TransactionsApi = {
 
                 });
             }
-
             if (filter.categoryId) {
                 console.log("filter API found filter.categoryId = " + filter.categoryId)
                 results = results.filter(transaction => {
                     return Number(transaction.categoryId) === Number(filter.categoryId)
                 });
             }
-
-            //if (filter.dateMin) {
-            //    results = results.filter(transaction => {
-            //        return new Date(transaction.transactionDate) >= new Date(filter.dateMin)
-            //    });
-            //}
-
-            //if (filter.dateMax) {
-            //    results = results.filter(transaction => {
-            //        return new Date(transaction.transactionDate) <= new Date(filter.dateMax)
-            //    });
-            //}
-
-            //if (filter.valueMin) {
-            //    results = results.filter(transaction => {
-            //        return transaction.value >= filter.valueMin
-            //    });
-            //}
-
-            //if (filter.valueMax) {
-            //    results = results.filter(transaction => {
-            //        return transaction.value <= filter.valueMax
-            //    });
-            //}
-
+            if (filter.dateMin) {
+                results = results.filter(transaction => {
+                    return new Date(transaction.transactionDate) >= new Date(filter.dateMin)
+                });
+            }
+            if (filter.dateMax) {
+                results = results.filter(transaction => {
+                    const maxDate = new Date(filter.dateMax);
+                    // Add 1 day to Date. No idea why it won't find values matching. Its NOT an hours issue.
+                    maxDate.setDate(maxDate.getDate() + 1);
+                    return new Date(transaction.transactionDate) <= maxDate
+                });
+            }
+            if (filter.valueMin) {
+                results = results.filter(transaction => {
+                    return Number(transaction.value) >= Number(filter.valueMin)
+                });
+            }
+            if (filter.valueMax) {
+                results = results.filter(transaction => {
+                    return Number(transaction.value) <= Number(filter.valueMax)
+                });
+            }
         }
-        //sort by date ascending
-        results.sort((a, b) => new Date(a.transactionDate) - new Date(b.transactionDate)) ||
-        results.sort((a, b) => new Date(a.id) - new Date(b.id));
+        //sort by date descending
+        results.sort((a, b) => new Date(b.transactionDate) - new Date(a.transactionDate))
         return results;
 
 

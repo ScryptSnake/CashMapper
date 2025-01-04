@@ -41,8 +41,6 @@ const TransactionsPage = () => {
 
     };
 
-
-
     // This is also a callback from the EditTransaction page.
     useEffect(() => {
         const loadTransactions = async () => {
@@ -105,16 +103,18 @@ const TransactionsPage = () => {
                 </div>
             </div>
             <div className="Filter-Menu">
-                    <label htmlFor="description">Search:</label>
+                    <label htmlFor="description">Filter:</label>
                 <input
                     className="input-group-input"
-                        type="text" id="descriptionAndNote"
-                        value={filter.descriptionAndNote || ""}
-                        onChange={handleFilterChange} />
-
+                    placeholder="Search transactions..."
+                    type="text"
+                    id="descriptionAndNote"
+                    value={filter.descriptionAndNote || ""}
+                    onChange={handleFilterChange} />
                 <select
                     className="input-group-input small"
-                    type="text" id="categoryId"
+                    type="text"
+                    id="categoryId"
                     value={filter.categoryId || "[ Category ]"}
                     onChange={handleFilterChange}>
                     <option key="" value="">
@@ -137,7 +137,21 @@ const TransactionsPage = () => {
                     type="date" id="dateMax"
                     value={filter.dateMax || ""}
                     onChange={handleFilterChange} />
-                </div>
+                <input
+                    className="input-group-input small"
+                    placeholder="Min Value"
+                    type="number" id="valueMin"
+                    value={filter.valueMin || ""}
+                    onChange={handleFilterChange} />
+                <label> to </label>
+                <input
+                    className="input-group-input small"
+                    placeholder="Max Value"
+                    type="number" id="valueMax"
+                    value={filter.valueMax || ""}
+                    onChange={handleFilterChange} />
+            </div>
+
 
                   
             <div className="table-container">
@@ -170,9 +184,6 @@ const TransactionsPage = () => {
                     </tbody>
                 </table>
             </div>
-
-
-
 
             {/* Render EditTransaction if showEdit is true. */}
             <EditTransaction
