@@ -41,6 +41,21 @@ const TransactionsPage = () => {
 
     };
 
+    const handleDownload = async () => {
+        const file = await CashMapperDataProvider.Transactions.convertCsv(transactionsFiltered);
+        const url = URL.createObjectURL(file);
+        const fileName = `Transactions_Export_${moment().format('YYYY-MM-DD').toString()}.csv`;
+
+        // temporary anchor element. 
+        const a = document.createElement('a')
+
+        a.href = url;
+        a.download = fileName;
+        a.click(); // Programatically click.
+
+        URL.revokeObjectURL(url);
+    }
+
     // This is also a callback from the EditTransaction page.
     useEffect(() => {
         const loadTransactions = async () => {
@@ -99,7 +114,7 @@ const TransactionsPage = () => {
                         <img src="./icons/upload-3-16.png"></img>
                         Import
                     </button>
-                    <button className="btn-secondary with-icon">
+                    <button className="btn-secondary with-icon" onClick={handleDownload}>
                         <img src="./icons/download-16.png"></img>
                         Download
                     </button>

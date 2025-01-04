@@ -1,3 +1,5 @@
+import { json2csv} from 'json-2-csv';
+
 
 const TransactionsApi = {
     getAll: async () => {
@@ -7,7 +9,7 @@ const TransactionsApi = {
                 throw new Error(`Failed to fetch transactions. Status: ${response.status}`);
             }
             const data = await response.json();
-            console.log('getAll transactions',data);
+            console.log('getAll transactions', data);
             return data;
 
 
@@ -55,7 +57,7 @@ const TransactionsApi = {
             const transactions = await response.json();
             return transactions;
         } catch (error) {
-            console.error(`Failed to get transactions with filter: ${filterParams.ToString()}`,error);
+            console.error(`Failed to get transactions with filter: ${filterParams.ToString()}`, error);
         }
     },
 
@@ -117,7 +119,7 @@ const TransactionsApi = {
             if (filter.descriptionAndNote) {
                 results = results.filter(transaction => {
                     return new String(transaction.description).match(new RegExp(`${filter.descriptionAndNote}.*`, 'i')) ||
-                        new String(transaction.note).match(new RegExp(`${filter.descriptionAndNote}.*`, 'i')); 
+                        new String(transaction.note).match(new RegExp(`${filter.descriptionAndNote}.*`, 'i'));
 
                 });
             }
@@ -168,9 +170,24 @@ const TransactionsApi = {
             valueMin: valueMin,
             valueMax: valueMax
         }
+    },
+
+    // Returns a blob of data in csv format
+    convertCsv: async (data) => {
+        // get field names:
+        if (data) {
+            const csv = await json2csv(data);
+
+            const file = new Blob([csv], { type: 'text/csv' });
+
+            return file;
+        }
+
+
+
+
+
     }
-
-
 
 
 };
