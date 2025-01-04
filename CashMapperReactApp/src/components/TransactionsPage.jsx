@@ -140,7 +140,7 @@ const TransactionsPage = () => {
                 </div>
 
                   
-            <div className="table">
+            <div className="table-container">
                 <table>
                     <thead>
                         <tr>
