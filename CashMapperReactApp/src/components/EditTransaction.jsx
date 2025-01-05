@@ -34,7 +34,6 @@ export const EditTransaction = ({ showModal, closeModal, transaction, callback})
     }
 
     const setShowConfirmationHandler = (visible) => {
-        console.log("SETTING VISIBLE =" + visible)
         setShowConfirmation(visible)
     }
 
@@ -212,9 +211,10 @@ export const EditTransaction = ({ showModal, closeModal, transaction, callback})
                                 </div>
 
                                 <div className="modal-footer">
-                                    <button type="button" className="btn tertiary with-icon" onClick={() => { setShowConfirmationHandler(true)}}>
+                                    {/*Delete button - show only if edit mode. */}
+                                    {editMode && <button type="button" className="btn tertiary with-icon" onClick={() => { setShowConfirmationHandler(true) }}>
                                         <img src="./icons/x-black-16.png"></img>
-                                    </button>
+                                    </button>}
                                     <div className="h-filler"></div>
                                     <button type="button" className="btn secondary" onClick={closeModal}>Cancel</button>
                                     <button type="submit" className="btn primary">{editMode ? 'Save' : 'Add'}</button>

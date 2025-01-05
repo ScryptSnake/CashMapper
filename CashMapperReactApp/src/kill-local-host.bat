@@ -6,4 +6,6 @@ for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":5175"') do (
 )
 
 echo All processes on port 5175 have been terminated.
+
 pause
+

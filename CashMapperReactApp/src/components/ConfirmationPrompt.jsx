@@ -8,10 +8,8 @@ export const ConfirmationPrompt = ({ showModal, closeModal, message, callback}) 
 
 
     const handleFormChange = (e) => {
-
-        // WHY DOES THIS CLOSE BOTH FORMS
         closeModal();
-        if (e.target.type === "confirm") {
+        if (e.target.id === "confirm") {
             callback();
         }
     };
@@ -33,8 +31,8 @@ export const ConfirmationPrompt = ({ showModal, closeModal, message, callback}) 
                     <hr className="modal-divider" />
                     <div className="input-group">
                         <div className="h-filler"></div>
-                        <button type="button" className="btn secondary" onClick={closeModal}>Cancel</button>
-                        <button type="confirm" className="btn primary" onClick={handleFormClose}>Yes</button>
+                        <button className="btn secondary" onClick={closeModal}>Cancel</button>
+                        <button id="confirm" className="btn primary" onClick={handleFormChange}>Yes</button>
                     </div>
                 </div>
             </div>
