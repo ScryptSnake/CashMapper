@@ -116,8 +116,8 @@ const ImportTransactions = ({ showModal, closeModal, callback}) => {
                                 </div>
 
                                 <div className="modal-footer">
-                                    <button type="button" className="btn-secondary" onClick={closeModal}>Cancel</button>
-                                    <button type="submit" className="btn-primary">Import</button>
+                                    <button type="button" className="btn secondary" onClick={closeModal}>Cancel</button>
+                                    <button type="submit" className="btn primary">Import</button>
                                 </div>
                             </form>
 

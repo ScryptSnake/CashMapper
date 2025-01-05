@@ -1,5 +1,4 @@
 import '../styles/Page.css';
-import CashMapperDataProvider from '../data/CashMapperDataProvider.js';
 import React, { useState, useEffect } from 'react';
 import EditTransaction from '../components/EditTransaction';
 import ImportTransactions from '../components/ImportTransactions';
@@ -112,15 +111,15 @@ const TransactionsPage = () => {
             <div className="Menu-Bar">
                 <h1>Transactions</h1>
                 <div className="Menu-Bar-Items">
-                    <button className="btn-secondary with-icon" onClick={handleDownload}>
+                    <button className="btn secondary with-icon" onClick={handleDownload}>
                         <img src="./icons/download-16.png"></img>
                         Download
                     </button>
-                    <button className="btn-secondary with-icon" onClick={() => { handleImportClick(true) }}>
+                    <button className="btn secondary with-icon" onClick={() => { handleImportClick(true) }}>
                         <img src="./icons/upload-3-16.png"></img>
                         Import
                     </button>
-                    <button className="btn-secondary with-icon"
+                    <button className="btn secondary with-icon"
                         onClick={() => { setSelectedTransaction(null); handleEditClick(true) }}>
                         <img src="./icons/plus-6-16.png"></img>
                         
