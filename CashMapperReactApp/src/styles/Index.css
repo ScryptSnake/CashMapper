@@ -45,28 +45,30 @@ body {
     min-height: 100vh;
 }
 
+
 .btn {
     font-size: 14px;
+    font-family: Calibri;
     padding: 8px 12px 8px 12px;
     background-color: #a7f5b5;
-    border-color: #a7f5b5 ;
-    color: black;
+    border: 1px solid white;
+    color: white;
     border-radius: 5px ;
-    border-style: solid; 
-    border-width: 1px ;
     margin: 5px;
     box-shadow: none ;
 }
     .btn.primary {
         background-color: #a7f5b5;
+        color: black;
     }
 
     .btn.secondary {
         background-color: #1f2329;
     }
 
-    .btn-tertiary {
+    .btn.tertiary {
         background-color: #ff9494;
+        color: black;
     }
 
     .btn:active{
@@ -75,20 +77,17 @@ body {
 
     .btn:hover {
         border-color: white !important;
-        filter: saturate(1.5) brightness(1.1); 
+        filter: saturate(1.5) brightness(1.2); 
     }
 
     .btn.with-icon {
-        background-color: #1f2329;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         align-items: center;
         font-family: Calibri;
         border-radius: 5px;
-        width: 100%;
-        height: 40px;
-        margin: 3px;
+        gap: 5px;
     }
 
 .input-group {
@@ -150,5 +149,12 @@ body {
     border-color: white;
 }
 
+/*A horizontal spacer to fill gaps.*/
+.h-filler{
+    width: 100%;
+}
 
-
+/*A vert spacer to fill gaps*/
+.v-filler {
+    height: 100%;
+}

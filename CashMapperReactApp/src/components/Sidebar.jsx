@@ -1,5 +1,4 @@
 import '../styles/Sidebar.css';
-import '../index.css';
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 

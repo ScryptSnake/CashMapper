@@ -1,5 +1,6 @@
 import '../styles/Page.css';
 import React, { useState, useEffect } from 'react';
+import CashMapperDataProvider from '../data/CashMapperDataProvider.js';
 import EditTransaction from '../components/EditTransaction';
 import ImportTransactions from '../components/ImportTransactions';
 import '../styles/Table.css';

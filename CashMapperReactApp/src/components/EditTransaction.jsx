@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Modal.css';
-import './Index.css';
 import CashMapperDataProvider from '../data/CashMapperDataProvider.js';
 import moment from 'moment';
 import CurrencyInput from 'react-currency-input-field'
@@ -197,7 +196,10 @@ const EditTransaction = ({ showModal, closeModal, transaction, callback}) => {
                                 </div>
 
                                 <div className="modal-footer">
-                                    <button type="button" className="btn tertiary"/>
+                                    <button type="button" className="btn tertiary with-icon">
+                                        <img src="./icons/x-black-16.png"></img>
+                                    </button>
+                                    <div className="h-filler"></div>
                                     <button type="button" className="btn secondary" onClick={closeModal}>Cancel</button>
                                     <button type="submit" className="btn primary">{editMode ? 'Save' : 'Add'}</button>
                                 </div>

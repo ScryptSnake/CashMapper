@@ -1,6 +1,5 @@
 import './styles/App.css';
 import './styles/Index.css';
-import CashMapperDataProvider from './data/CashMapperDataProvider.js';
 import Sidebar from './components/Sidebar';
 import HomePage from './components/HomePage';
 import TransactionsPage from './components/TransactionsPage';
