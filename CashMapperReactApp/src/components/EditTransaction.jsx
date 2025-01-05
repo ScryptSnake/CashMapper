@@ -139,7 +139,7 @@ export const EditTransaction = ({ showModal, closeModal, transaction, callback})
                             <form onSubmit={submitFormData}>
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="description">Description</label>
-                                    <input className="input-group-input" type="text"
+                                    <input className="input-group-input large" type="text"
                                         id="description" value={formData.description} onChange={handleFormChange} />
                                 </div>
 
@@ -180,7 +180,7 @@ export const EditTransaction = ({ showModal, closeModal, transaction, callback})
 
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="note">Notes</label>
-                                    <textarea className="input-group-input"
+                                    <textarea className="input-group-input large"
                                         id="note" value={formData.note} onChange={handleFormChange} />
                                 </div>
 
@@ -188,12 +188,12 @@ export const EditTransaction = ({ showModal, closeModal, transaction, callback})
 
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="source">Source</label>
-                                    <input className="input-group-input medium" type="text"
+                                    <input className="input-group-input small" type="text"
                                         id="source" value={formData.source} onChange={handleFormChange} />
                                 </div>
 
                                 <div className="input-group">
-                                    <label className="input-group-label" htmlFor="source">Flag</label>
+                                    <label className="input-group-label" htmlFor="flag">Flag</label>
                                     <input className="input-group-input small" type="text"
                                         id="flag" value={formData.flag} onChange={handleFormChange} />
                                 </div>

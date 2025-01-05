@@ -108,7 +108,7 @@ export const ImportTransactions = ({ showModal, closeModal, callback}) => {
                                 <hr className="modal-divider" />
                                 <div className="input-group">
                                     <label className="input-group-label" htmlFor="results">Results</label>
-                                    <textarea className="input-group-input"
+                                    <textarea className="input-group-input large"
                                         id="results" onChange={handleFormChange} disabled={true} value={JSON.stringify(results)} />
                                 </div>
 

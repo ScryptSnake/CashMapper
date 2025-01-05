@@ -1,0 +1,20 @@
+
+.settings-layout {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    height: 700px;
+    width: 1000px;
+}
+
+.side-panel {
+    display: flex;
+    flex-direction: column;
+    background-color: #cacaca;
+    margin-right: 10px;
+    justify-items: center;
+    width: 200px;
+
+}

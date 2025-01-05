@@ -3,16 +3,21 @@ import './styles/Index.css';
 import Sidebar from './components/Sidebar';
 import HomePage from './components/HomePage';
 import { TransactionsPage } from './components/TransactionsPage';
-import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
-
+import { SettingsDialog } from './components/SettingsDialog';
+import React, { useState, useEffect } from 'react';
 function App() {
+
+    const [openSettings, setOpenSettings] = useState(false); // Open settings form
+
+
+
     return (
         <Router> {/* Wrap everything in Router to enable routing */}
             <div className="Main-Window">
                 <div className="Header">
                     <button className="Header-Button">
-                        <img src=".\icons\settings-4-32.png" className="Sidebar-Button-Icon" />
+                        <img src=".\icons\settings-4-32.png" className="Sidebar-Button-Icon" onClick={() => {setOpenSettings(true) } } />
                     </button>
                 </div>
 
@@ -36,6 +41,14 @@ function App() {
                 <footer className="Footer">
                 </footer>
             </div>
+
+            <SettingsDialog
+                showModal={openSettings}
+                closeModal={() => {setOpenSettings(false)} }
+            />
+
+
+
         </Router>
     );
 }

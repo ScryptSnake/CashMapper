@@ -15,7 +15,7 @@
 .modal {
     display: flex;
     flex-direction: column;
-    position: fixed;
+    position:fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -23,8 +23,8 @@
     background-image: linear-gradient(to bottom,#1f2329,#343b44);
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 800px;
     justify-content: center;
+    width: auto;
 }
 
 .modal.small{
@@ -33,7 +33,7 @@
 
 /* Modal content */
 .modal-dialog {
-    padding: 30px;
+    padding: 20px 12px 12px 12px;
 }
 
 

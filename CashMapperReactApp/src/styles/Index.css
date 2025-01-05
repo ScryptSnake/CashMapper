@@ -128,21 +128,19 @@ body {
     margin: 5px;
     border: 1px solid #ccc;
     border-radius: 0 4px 4px 0;
-    flex: 1; /* This ensures the input grows to fill available space */
     font-size: 14px;
-    min-width: 100px; /* Minimum width for the input */
 }
 
 .input-group-input.small {
-    max-width: 150px; /* Max width for small fields */
+    width: 150px; /* Max width for small fields */
 }
 
 .input-group-input.medium {
-    max-width: 250px; /* Max width for large fields */
+    width: 250px; /* Max width for large fields */
 }
 
 .input-group-input.large {
-    max-width: 500px; /* Max width for large fields */
+    width: 500px; /* Max width for large fields */
 }
 
 .input-group-input:hover {
