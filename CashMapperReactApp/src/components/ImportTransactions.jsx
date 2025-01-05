@@ -47,8 +47,6 @@ export const ImportTransactions = ({ showModal, closeModal, callback}) => {
     // Submit data from form
     const handleFormClose = () => {
 
-        e.preventDefault(); // prevent app from re-render.
-
         setFormData([]);
         setResults([]);
         closeModal();  // HIDE form.

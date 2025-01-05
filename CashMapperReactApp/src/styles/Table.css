@@ -2,6 +2,7 @@
 .table-container{
     height: 85%;
     overflow: auto;
+    border-bottom: 5px solid gray;
 }
 
 table {

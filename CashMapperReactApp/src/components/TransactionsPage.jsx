@@ -21,6 +21,7 @@ export const TransactionsPage = () => {
 
 
     const handleImportClick = (visible) => {
+        console.log("Closing import: " + visible)
         setShowImport(visible);
     }
 
