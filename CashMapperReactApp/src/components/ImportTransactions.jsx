@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Modal.css';
 import CashMapperDataProvider from '../data/CashMapperDataProvider.js';
-import moment from 'moment';
-import CurrencyInput from 'react-currency-input-field'
 
-const ImportTransactions = ({ showModal, closeModal, callback}) => {
+
+export const ImportTransactions = ({ showModal, closeModal, callback}) => {
 
     if (!showModal) return null; // Don't show if showModal is false
 
@@ -116,7 +115,7 @@ const ImportTransactions = ({ showModal, closeModal, callback}) => {
                                 </div>
 
                                 <div className="modal-footer">
-                                    <button type="button" className="btn secondary" onClick={closeModal}>Cancel</button>
+                                    <button type="button" className="btn secondary" onClick={handleFormClose}>Cancel</button>
                                     <button type="submit" className="btn primary">Import</button>
                                 </div>
                             </form>
@@ -128,5 +127,3 @@ const ImportTransactions = ({ showModal, closeModal, callback}) => {
         </div>
     );
 };
-
-export default ImportTransactions;

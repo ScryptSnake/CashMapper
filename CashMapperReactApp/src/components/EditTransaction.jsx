@@ -3,8 +3,9 @@ import '../styles/Modal.css';
 import CashMapperDataProvider from '../data/CashMapperDataProvider.js';
 import moment from 'moment';
 import CurrencyInput from 'react-currency-input-field'
+import { ConfirmationPrompt } from '../components/ConfirmationPrompt';
 
-const EditTransaction = ({ showModal, closeModal, transaction, callback}) => {
+export const EditTransaction = ({ showModal, closeModal, transaction, callback}) => {
 
     if (!showModal) return null; // Don't show if showModal is false
 
@@ -25,12 +26,27 @@ const EditTransaction = ({ showModal, closeModal, transaction, callback}) => {
     const [editMode, setEditMode] = useState(false); // True = edit, false = new record.
     const [formData, setFormData] = useState(defaultTransaction);
     const [categories, setCategories] = useState([]);
+    const [showConfirmation, setShowConfirmation] = useState(false); // For prompting delete transaction.
 
     // Handlers
     const setCategoriesHandler = (data) => {
         setCategories(data);
     }
 
+    const setShowConfirmationHandler = (visible) => {
+        console.log("SETTING VISIBLE =" + visible)
+        setShowConfirmation(visible)
+    }
+
+    // Callback from confirmation form.
+    const handleDelete = () => {
+        const action = async () => {
+            return await CashMapperDataProvider.Transactions.deleteItemAsync();
+        }
+        action();
+        closeModal();
+        callback();
+    }
 
     // set the formDara state. Called from Input changed event. 
     const handleFormChange = (e) => {
@@ -196,7 +212,7 @@ const EditTransaction = ({ showModal, closeModal, transaction, callback}) => {
                                 </div>
 
                                 <div className="modal-footer">
-                                    <button type="button" className="btn tertiary with-icon">
+                                    <button type="button" className="btn tertiary with-icon" onClick={() => { setShowConfirmationHandler(true)}}>
                                         <img src="./icons/x-black-16.png"></img>
                                     </button>
                                     <div className="h-filler"></div>
@@ -209,8 +225,15 @@ const EditTransaction = ({ showModal, closeModal, transaction, callback}) => {
                     </div>
                 </div>
             </div>
+
+            <ConfirmationPrompt
+                showModal={showConfirmation}
+                closeModal={() => { setShowConfirmationHandler(false) }}
+                message={"Are you sure you want to delete this Transaction?"}
+                callback={handleDelete}
+            />
         </div>
+
+
     );
 };
-
-export default EditTransaction;

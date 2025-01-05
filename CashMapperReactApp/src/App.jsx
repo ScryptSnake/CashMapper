@@ -2,7 +2,7 @@ import './styles/App.css';
 import './styles/Index.css';
 import Sidebar from './components/Sidebar';
 import HomePage from './components/HomePage';
-import TransactionsPage from './components/TransactionsPage';
+import { TransactionsPage } from './components/TransactionsPage';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
 

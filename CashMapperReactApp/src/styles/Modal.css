@@ -8,6 +8,7 @@
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
+    pointer-events: none; /*CRITICAL TO PREVENTING FORM FROM HIDING WHEN CLICKED OUTSIDE EXTENTS!*/
 }
 
 /* Modal */
@@ -26,10 +27,16 @@
     justify-content: center;
 }
 
+.modal.small{
+    width: 400px;
+}
+
 /* Modal content */
 .modal-dialog {
     padding: 30px;
 }
+
+
 
 .modal-header {
     display: flex;

@@ -1,12 +1,12 @@
 import '../styles/Page.css';
 import React, { useState, useEffect } from 'react';
 import CashMapperDataProvider from '../data/CashMapperDataProvider.js';
-import EditTransaction from '../components/EditTransaction';
-import ImportTransactions from '../components/ImportTransactions';
+import { EditTransaction } from '../components/EditTransaction';
+import { ImportTransactions } from '../components/ImportTransactions';
 import '../styles/Table.css';
 import moment from 'moment';
 
-const TransactionsPage = () => {
+export const TransactionsPage = () => {
     const [transactions, setTransactions] = useState([]); // From database.
     const [transactionsFiltered, setTransactionsFiltered] = useState([]); // Displayed transactions
     const [filter, setFilter] = useState(CashMapperDataProvider.Transactions.createFilter()); // the active filter on the transactions
@@ -229,4 +229,3 @@ const TransactionsPage = () => {
     );
 };
 
-export default TransactionsPage;

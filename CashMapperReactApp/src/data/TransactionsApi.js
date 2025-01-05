@@ -116,6 +116,12 @@ const TransactionsApi = {
         }
     },
 
+
+    deleteItemAsync: async () => {
+        return;
+    },
+
+
     // Filters a local array of transactions
     // data: the array
     // filter: the filter object
