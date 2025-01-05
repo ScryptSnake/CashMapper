@@ -85,6 +85,14 @@ const TransactionsApi = {
         }
     },
 
+    // Insert multiple transactions, like from an import operation. 
+    bulkInsertAsync: async (data) => {
+
+        return
+    },
+
+
+
     updateItemAsync: async (data) => {
         try {
             const response = await fetch('http://localhost:5009/api/transactions/', {

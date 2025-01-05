@@ -2,6 +2,7 @@ import '../styles/Page.css';
 import CashMapperDataProvider from '../data/CashMapperDataProvider.js';
 import React, { useState, useEffect } from 'react';
 import EditTransaction from '../components/EditTransaction';
+import ImportTransactions from '../components/ImportTransactions';
 import '../styles/Table.css';
 import moment from 'moment';
 
@@ -11,12 +12,17 @@ const TransactionsPage = () => {
     const [filter, setFilter] = useState(CashMapperDataProvider.Transactions.createFilter()); // the active filter on the transactions
     const [refresh, setRefresh] = useState(false); // boolean whether the Transactions state should be re-fetched from db.
     const [showEdit, setShowEdit] = useState(false);
-    const [closeEdit, setCloseEdit] = useState(true);
+    const [showImport, setShowImport] = useState(false);
+
 
 
     const [selectedTransaction, setSelectedTransaction] = useState(null); // The active transaction in the table
     const [categories, setCategories] = useState([]); // cache categories from db for search filter dropdown.
 
+
+    const handleImportClick = (visible) => {
+        setShowImport(visible);
+    }
 
     const handleEditClick = (visible) => {
         setShowEdit(visible);
@@ -75,7 +81,7 @@ const TransactionsPage = () => {
                 }
 
                 // Filter the transactions
-                const filteredData = await CashMapperDataProvider.Transactions.filterItems(data, filter);
+                const filteredData = await CashMapperDataProvider.Transactions.filterItemsAsync(data, filter);
                 setRefresh(false); // Turn off refresh
                 setTransactionsFiltered(filteredData);
             } catch (error) {
@@ -106,13 +112,13 @@ const TransactionsPage = () => {
             <div className="Menu-Bar">
                 <h1>Transactions</h1>
                 <div className="Menu-Bar-Items">
-                    <button className="btn-secondary with-icon">
-                        <img src="./icons/upload-3-16.png"></img>
-                        Import
-                    </button>
                     <button className="btn-secondary with-icon" onClick={handleDownload}>
                         <img src="./icons/download-16.png"></img>
                         Download
+                    </button>
+                    <button className="btn-secondary with-icon" onClick={() => { handleImportClick(true) }}>
+                        <img src="./icons/upload-3-16.png"></img>
+                        Import
                     </button>
                     <button className="btn-secondary with-icon"
                         onClick={() => { setSelectedTransaction(null); handleEditClick(true) }}>
@@ -190,7 +196,7 @@ const TransactionsPage = () => {
                         {transactionsFiltered.map((transaction) => (
                             <tr className="tbl-row" key={transaction.id}
                                 onClick={() => { setSelectedTransaction(transaction) }}
-                                onDoubleClick={openEditHandler}>
+                                onDoubleClick={() => { setShowEdit(true) }}>
                                 <td>{transaction.id}</td>
                                 <td>{moment(transaction.transactionDate).format('M/D/YY')}</td>
                                 <td>{transaction.description}</td>
@@ -212,10 +218,13 @@ const TransactionsPage = () => {
                 callback={() => {setRefresh(true) }} //The callback is set to SetRefresh. When triggered, reload transactions from DB. See submitForm method in EditTransaction. 
             />
 
-           
+            <ImportTransactions
+                showModal={showImport}
+                closeModal={() => { handleImportClick(false) }}
+                callback={() => {null } }
+            />
                 
-                
-
+         
         </div>
     );
 };

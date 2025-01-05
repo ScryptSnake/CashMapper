@@ -11,7 +11,7 @@ const ImportsApi = {
 
     parseAsync: async (sourceId, data) => {
 
-        return
+        return ["Fake","Data","Here"]
     }
 
 
