@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CategoriesSettings } from '../components/CategoriesSettings';
 import { Sidebar } from '../components/Sidebar';
 import '../styles/Modal.css';
 import '../styles/Page.css'
@@ -44,7 +45,12 @@ export const SettingsDialog = ({ showModal, closeModal, message, callback }) => 
                                 />
                         </div>
                                 <div className="Page">
-                                    <h1>hello world</h1>
+                            <CategoriesSettings
+                                
+                            >
+                            </CategoriesSettings>
+
+
                                 </div>
                         
                     </div>
