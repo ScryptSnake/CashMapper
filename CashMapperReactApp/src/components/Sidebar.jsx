@@ -3,53 +3,40 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 
-const Sidebar = ({ onButtonClick }) => {
+export const Sidebar = ({buttons, onButtonClick }) => {
 
-    const [activeButton, setActiveButton] = useState('');
-
-    const handleButtonClick = (buttonName) => {
-        setActiveButton(buttonName);
-        onButtonClick(buttonName);
+    if (!buttons) {
+        console.error("No button options passed to sidebar component.",buttons)
     }
+    console.log("BUTTONS = " + JSON.stringify(buttons))
+    const [activeButton, setActiveButton] = useState(0);
 
+    const handleButtonClick = (index) => {
+        setActiveButton(index);
+        onButtonClick(index);
+    }
     return (
         <div className="Sidebar">
-            <div className="Icon-Container">
-                <img className="Icon" src="./logo.png" alt="logo" />
-            </div>
-            <h1>CashMapper</h1>
-            <NavLink to="/home" className="Sidebar-Button" activeClassName="input-group-input"
-                onClick={() => handleButtonClick('Home')}>
-                <img src="./icons/home-4-32.png" alt="icon" className="Sidebar-Button-Icon" />
-                <label>Home</label>
-            </NavLink>
-            <NavLink to="/transactions" className="Sidebar-Button" activeClassName="active"
-                onClick={() => handleButtonClick('Transactions')}>
-                <img src="./icons/list-2-32.png" alt="icon" className="Sidebar-Button-Icon" />
-                <label>Transactions</label>
-            </NavLink>
-            <NavLink to="/income" className="Sidebar-Button" activeClassName="active"
-                onClick={() => handleButtonClick('Income')}>
-                <img src="./icons/money-2-32.png" alt="icon" className="Sidebar-Button-Icon" />
-                <label>Income</label>
-            </NavLink>
-            <NavLink to="/cashflow" className="Sidebar-Button" activeClassName="active"
-                onClick={() => handleButtonClick('Cash Flow')}>
-                <img src="./icons/line-32.png" alt="icon" className="Sidebar-Button-Icon" />
-                <label>Cash Flow</label>
-            </NavLink>
-            <NavLink to="/budget" className="Sidebar-Button" activeClassName="active"
-                onClick={() => handleButtonClick('Budget')}>
-                <img src="./icons/minus-6-32.png" alt="icon" className="Sidebar-Button-Icon" />
-                <label>Budget</label>
-            </NavLink>
-            <NavLink to="/expenses" className="Sidebar-Button" activeClassName="active"
-                onClick={() => handleButtonClick('Expenses')}>
-                <img src="./icons/negative-dynamic-32.png" alt="icon" className="Sidebar-Button-Icon" />
-                <label>Expenses</label>
-            </NavLink>
+            {buttons.map((button, index) => (
+
+                button.navUrl ? (
+
+                <NavLink
+                    className="Sidebar-Button"
+                    to={button.navUrl || "#"}
+                    key={index}
+                    activeClassName="input-group-input"
+                    onClick={() => { handleButtonClick(index) }}
+                >
+                    <img src={button.imageSource} className="Sidebar-Button-Icon"></img>
+                    <label>{button.caption}</label>
+                    {console.log("RENDERING: " + button.caption)}
+                </NavLink>
+                ) : (
+
+                        <
+                )
+            ))}
         </div>
     );
 };
-
-export default Sidebar;

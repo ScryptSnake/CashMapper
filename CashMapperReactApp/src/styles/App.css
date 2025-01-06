@@ -20,14 +20,13 @@ body, html {
     background-color: #1f2329;
 }
 
-
 .Header 
 {
     display: flex;
     flex-direction: row; /* Arrange items in a row */
     justify-content: flex-end; /* Align items to the right */
     align-items: center; /* Vertically center items */
-    height: 50px; /* Set the height for the header */
+    height: auto;
     gap: 5px; /* Space between buttons */
     padding: 10px;
 }
@@ -36,8 +35,8 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30px;
-    width: 30px;
+    height: 10px;
+    width: 10px;
     background-color: #1f2329;
     border-color: white;
 }
@@ -69,8 +68,30 @@ body, html {
     overflow: hidden;
 }
 
-/* A 'page' lives here. See /styles */
-.Content {
+/*Sidebar lives here*/
+.Left-Content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px
+}
+
+.Icon-Container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center the icon horizontally */
+    align-items: center; /* Center the icon vertically */
+    height:50px;
+    width: auto;
+    margin-bottom: 35px;
+}
+
+.Icon {
+    object-fit:contain;
+}
+
+/* A 'page' lives here*/
+.Right-Content {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -80,16 +101,4 @@ body, html {
     height: 100%;
     padding-left: 15px;
     overflow: hidden;
-}
-
-.Textbox {
-    background-color: #1f2329;
-    font-family: Calibri;
-    font-size: 12px;
-}
-
-.Separator {
-    height: 2px; /* Thickness of the line */
-    background-color: #7ef193; /* Color of the line */
-    margin: 20px 0; /* Space around the separator */
 }

@@ -22,8 +22,16 @@ a:hover {
 }
 
 
-label{
+.label-primary {
     color: black;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.label-secondary {
+    color: white;
+    font-size: 20px;
+    padding: 10px;
 }
 
 
@@ -49,7 +57,7 @@ body {
 .btn {
     font-size: 14px;
     font-family: Calibri;
-    padding: 8px 12px 8px 12px;
+    padding: 6px 14px 6px 14px;
     background-color: #a7f5b5;
     border: 1px solid white;
     color: white;
