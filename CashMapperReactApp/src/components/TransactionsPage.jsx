@@ -14,20 +14,9 @@ export const TransactionsPage = () => {
     const [showEdit, setShowEdit] = useState(false);
     const [showImport, setShowImport] = useState(false);
 
-
-
     const [selectedTransaction, setSelectedTransaction] = useState(null); // The active transaction in the table
     const [categories, setCategories] = useState([]); // cache categories from db for search filter dropdown.
 
-
-    const handleImportClick = (visible) => {
-        console.log("Closing import: " + visible)
-        setShowImport(visible);
-    }
-
-    const handleEditClick = (visible) => {
-        setShowEdit(visible);
-    }
 
     const handleFilterChange = (e) => {
         const fieldName = e.target.id; // prop name
@@ -117,12 +106,12 @@ export const TransactionsPage = () => {
                         <img src="./icons/download-16.png"></img>
                         Download
                     </button>
-                    <button className="btn secondary with-icon" onClick={() => { handleImportClick(true) }}>
+                    <button className="btn secondary with-icon" onClick={() => { setShowImport(true) }}>
                         <img src="./icons/upload-3-16.png"></img>
                         Import
                     </button>
                     <button className="btn secondary with-icon"
-                        onClick={() => { setSelectedTransaction(null); handleEditClick(true) }}>
+                        onClick={() => { setSelectedTransaction(null); setShowEdit(true) }}>
                         <img src="./icons/plus-6-16.png"></img>
                         
                     </button>
@@ -214,14 +203,14 @@ export const TransactionsPage = () => {
             {/* Render EditTransaction if showEdit is true. */}
             <EditTransaction
                 showModal={showEdit}
-                closeModal={() => { handleEditClick(false) }}
+                closeModal={() => { setShowEdit(false) }}
                 transaction={selectedTransaction}
                 callback={() => {setRefresh(true) }} //The callback is set to SetRefresh. When triggered, reload transactions from DB. See submitForm method in EditTransaction. 
             />
 
             <ImportTransactions
                 showModal={showImport}
-                closeModal={() => { handleImportClick(false) }}
+                closeModal={() => { setShowImport(false) }}
                 callback={() => {null } }
             />
                 
