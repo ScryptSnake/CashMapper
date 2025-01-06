@@ -5,7 +5,7 @@ import '../styles/Page.css'
 import '../styles/Settings.css'
 
 
-export const SettingsDialog    = ({ showModal, closeModal, message, callback }) => {
+export const SettingsDialog = ({ showModal, closeModal, message, callback }) => {
     // callback = fired when YES is clicked.
     if (!showModal) return null; // Don't show if showModal is false
 
@@ -16,10 +16,12 @@ export const SettingsDialog    = ({ showModal, closeModal, message, callback }) 
         { caption: "User", navUrl: null, imageSource: "./icons/list-2-32.png" },
     ]
 
+    const style = { backgroundImage: 'none', backgroundColor: 'gray'}
+
     const handleFormChange = (e) => {
         closeModal();
         if (e.target.id === "confirm") {
-            callback();
+            callback(); 
         }
     };
 
@@ -27,25 +29,26 @@ export const SettingsDialog    = ({ showModal, closeModal, message, callback }) 
         <div>
             {/* Backdrop overlay */}
             <div className="modal-backdrop" onClick={closeModal}></div>
-            <div className="modal">
-                <div className="modal-dialog">
-                    <div className="modal-header">
-                        <h2>Settings</h2>
-                        <div className="h-filler"></div>
-                        <button type="button" onClick={closeModal}>X</button>
-                    </div>
-                    <div className="settings-layout">
-                        <Sidebar
-                            buttons={sidebarButtons}
-                        />
-                        <div className="Page">
-                            <h1>hello world</h1>
+                <div className="modal">
+                    <div className="modal-dialog">
+                        <div className="modal-header">
+                            <h2>Settings</h2>
+                            <div className="h-filler"></div>
+                            <button type="button" onClick={closeModal}>X</button>
                         </div>
+                        <div className="settings-layout">
+                             <div className="settings-left-content">
+                                <Sidebar
+                                    buttons={sidebarButtons}
+                                    style={style}
+                                />
+                        </div>
+                                <div className="Page">
+                                    <h1>hello world</h1>
+                                </div>
+                        
                     </div>
-
-
-                    
-                </div>
+               </div>
             </div>
         </div>
     );

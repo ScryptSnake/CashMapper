@@ -9,12 +9,9 @@
     width: 1000px;
 }
 
-.side-panel {
+.settings-left-content {
     display: flex;
-    flex-direction: column;
-    background-color: #cacaca;
-    margin-right: 10px;
-    justify-items: center;
     width: 200px;
+    padding-right: 10px;
 
 }

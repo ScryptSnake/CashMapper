@@ -51,7 +51,7 @@ tr {
 }
 
 tr:hover{
-    background-color: #d2fbbf !important;
+    background-color: #a2a99f !important;
 }
 
 tr:nth-child(even) {
