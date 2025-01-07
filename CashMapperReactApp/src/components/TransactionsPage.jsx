@@ -172,7 +172,7 @@ export const TransactionsPage = () => {
                 data={transactionsFiltered}
                 headers={{ transactionDate: "Date", categoryId: "Category", dateCreated: null, dateModified: null }}
                 sortOrder={["id", "transactionDate", "description", "note", "source", "categoryId", "flag", "value"]}
-                onClick={() => { setSelectedTransaction(transaction) }}
+                onClick={setSelectedTransaction} // set state directly. Uses 'record' for clicked value
                 onDoubleClick={() => { setShowEdit(true) }}
 
             />

@@ -6,7 +6,7 @@ import { EditTransaction } from '../components/EditTransaction';
 import { ImportTransactions } from '../components/ImportTransactions';
 import moment from 'moment';
 
-export const TableComponent = ({ data = [], headers = {}, sortOrder=[], onClick, onDoubleClick, style }) => {
+export const TableComponent = ({ data = [], keyField = "id", headers = {}, sortOrder = [], transform = {}, onClick, onDoubleClick}) => {
     const [columnNames, setColumnNames] = useState([])
     const [tableData, setTableData] = useState([])
 
@@ -24,6 +24,20 @@ export const TableComponent = ({ data = [], headers = {}, sortOrder=[], onClick,
         return sorted;
 
     }
+
+
+    const handleClick = (id) => {
+        const record = data.find(record => record.id === id);
+        //console.log("", record)
+        onClick(record); //call the callback.
+    }
+
+    const handleDoubleClick = (id) => {
+        const record = data.find(record => record.id === id);
+        console.log(record) //this works fine
+        onDoubleClick(record); //call the callback.
+    }
+
 
     useEffect(() => {
         const transformData = data.map(item => {
@@ -78,15 +92,23 @@ export const TableComponent = ({ data = [], headers = {}, sortOrder=[], onClick,
 
                 <tbody className="tbl-content">
                     {tableData.map((dataItem, index) => (
-                        <tr className="tbl-row" key={index}
-                            onClick={() => { onClick(dataItem) }}
-                            onDoubleClick={() => { onDoubleClick(dataItem) }}>
-                            {Object.keys(dataItem).map((key, index) => (
+                        <tr
+                            className="tbl-row"
+                            key={dataItem[keyField]}
+                            onClick={() => {
+                                const id = dataItem[keyField]; // the unique key id passed by prop
+                                handleClick(id);
+                            }}
+                            onDoubleClick={() => {
+                                const id = dataItem[keyField]; // the unique key id passed by prop
+                                onDoubleClick(id); // Corrected handler for double-click
+                            }}
+                        >
+                            {Object.keys(dataItem).map((key) => (
                                 <td key={key}>{dataItem[key]}</td>
-
                             ))}
                         </tr>
-                    ))};
+                    ))}
                 </tbody>
             </table>
         </div>
