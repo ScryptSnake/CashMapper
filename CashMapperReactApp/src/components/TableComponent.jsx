@@ -6,49 +6,62 @@ import { EditTransaction } from '../components/EditTransaction';
 import { ImportTransactions } from '../components/ImportTransactions';
 import moment from 'moment';
 
-export const TableComponent = ({ data = [], hideKeys = [], headers, onClick, onDoubleClick, style }) => {
+export const TableComponent = ({ data = [], headers = {}, sortOrder=[], onClick, onDoubleClick, style }) => {
     const [columnNames, setColumnNames] = useState([])
     const [tableData, setTableData] = useState([])
 
+
+    // Sort data provided.
+    // obj = object to sort keys
+    // sort = array of string values represents keys in each object in data.
+    const sortObjectKeysWithArray = (obj, sortKeys) => {
+        let sorted = {}
+        let sortObject = {}
+        sortKeys.forEach(value => {
+            sortObject[value] = null;
+        })
+        sorted = Object.assign(sortObject, obj);
+        return sorted;
+
+    }
+
     useEffect(() => {
-        const newData = data.map(item => {
-            const newItem = { ...item }; 
-            const properties = Object.keys(item);
-            console.log("PROPERTIES=" + properties);
+        const transformData = data.map(item => {
+            const newItem = sortObjectKeysWithArray(item, sortOrder) 
+            const transformedItem = {}
+            const properties = Object.keys(newItem); 
 
+            // loop through propnames.
             for (let i = 0; i < properties.length; i++) {
-                const propertyName = properties[i]; 
-                console.log("KEY IS====" + propertyName);
+                const propertyName = properties[i];
 
-   
-                if (hideKeys.includes(propertyName)) {
-                    console.log("DELETING");
-                    delete newItem[propertyName];
-                    continue;
-                }
-
-                if (headers && headers.length > 0) {
-                    if (headers.includes(propertyName)) {
-                        const keyIndex = properties.indexOf(propertyName); 
-                        const newHeader = headers[keyIndex]; 
-                        newItem[newHeader] = newItem[propertyName]; 
-                        delete newItem[propertyName]; 
+                if (headers && propertyName in headers) {
+                    const newHeader = headers[propertyName];
+                    if (!newHeader) {
+                        // if user passes null, it will "hide" the prop.
+                        continue
+                    } else {
+                        // Otherwise, rename
+                        transformedItem[newHeader] = newItem[propertyName];
                     }
+                } else {
+                    transformedItem[propertyName] = newItem[propertyName];
                 }
             }
-            return newItem;
+            return transformedItem; // Return the transformed item
         });
 
-        // Assuming filtered is an array of objects, get column names from the first object
-        if (newData.length > 0) {
-            const filteredColumnNames = Object.keys(newData[0]);
-            setColumnNames(filteredColumnNames); // Set column names from the first item
-        } else {
-            setColumnNames([]); // If no data, reset column names
-        }
-        setTableData(newData); // Set the updated table data
 
-    }, [data, hideKeys, headers]);
+        if (transformData.length > 0) {
+            const filteredColumnNames = Object.keys(transformData[0]);
+            setTableData(transformData); 
+            setColumnNames(filteredColumnNames); 
+        } else {
+            setTableData([]); 
+            setColumnNames([]); 
+        }
+
+    }, [data, headers]);
 
 
 

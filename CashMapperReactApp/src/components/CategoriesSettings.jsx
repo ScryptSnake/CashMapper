@@ -48,7 +48,8 @@ export const CategoriesSettings = ({}) => {
 
             <TableComponent
                 data={categories}
-                hideKeys={["dateModified", "dateCreated"] }
+                headers={{ categoryType: "Type", dateCreated: "Created", dateModified: null, flag: null, id:null }}
+                sortOrder={["name","categoryType","dateCreated"] }
                 
 
             />
