@@ -3,7 +3,7 @@ import '../styles/Page.css';
 import CashMapperDataProvider from '../data/CashMapperDataProvider'
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-
+import { TableComponent } from '../components/TableComponent';
 
 /**
  * Sidebar
@@ -46,33 +46,40 @@ export const CategoriesSettings = ({}) => {
                 </button>
             </div>
 
+            <TableComponent
+                data={categories}
+                hideKeys={["dateModified", "dateCreated"] }
+                
 
-            <div className="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Flag</th>
+            />
 
-                        </tr>
-                    </thead>
-                    <tbody className="tbl-content">
-                        {categories.map((category) => (
-                            <tr className="tbl-row" key={category.id}
-                                onClick={() => { setSelectedCategory(category) }}
-                                >
-                                <td>{category.id}</td>
-                                <td>{category.name}</td>
-                                <td>{category.category_type || '[No Type]'}</td>
-                                <td>{category.flag}</td>
+
+            {/*<div className="table-container">*/}
+            {/*    <table>*/}
+            {/*        <thead>*/}
+            {/*            <tr>*/}
+            {/*                <th>Id</th>*/}
+            {/*                <th>Name</th>*/}
+            {/*                <th>Type</th>*/}
+            {/*                <th>Flag</th>*/}
+
+            {/*            </tr>*/}
+            {/*        </thead>*/}
+            {/*        <tbody className="tbl-content">*/}
+            {/*            {categories.map((category) => (*/}
+            {/*                <tr className="tbl-row" key={category.id}*/}
+            {/*                    onClick={() => { setSelectedCategory(category) }}*/}
+            {/*                    >*/}
+            {/*                    <td>{category.id}</td>*/}
+            {/*                    <td>{category.name}</td>*/}
+            {/*                    <td>{category.category_type || '[No Type]'}</td>*/}
+            {/*                    <td>{category.flag}</td>*/}
              
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            {/*                </tr>*/}
+            {/*            ))}*/}
+            {/*        </tbody>*/}
+            {/*    </table>*/}
+            {/*</div>*/}
         </div>
     );
 };
