@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import CashMapperDataProvider from '../data/CashMapperDataProvider.js';
 import { EditTransaction } from '../components/EditTransaction';
 import { ImportTransactions } from '../components/ImportTransactions';
+import { TableComponent } from '../components/TableComponent';
 import '../styles/Table.css';
 import moment from 'moment';
 
@@ -167,38 +168,46 @@ export const TransactionsPage = () => {
                     onChange={handleFilterChange} />
             </div>
 
+            <TableComponent
+                data={transactionsFiltered}
+                headers={{ transactionDate: "Date", categoryId: "Category", dateCreated: null, dateModified: null }}
+                sortOrder={["id", "transactionDate", "description", "note", "source", "categoryId", "flag", "value"]}
+                onClick={() => { setSelectedTransaction(transaction) }}
+                onDoubleClick={() => { setShowEdit(true) }}
+
+            />
 
                   
-            <div className="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Source</th>
-                            <th>Note</th>
-                            <th>Category Id</th>
-                            <th>Value</th>
-                        </tr>
-                    </thead>
-                    <tbody className="tbl-content">
-                        {transactionsFiltered.map((transaction) => (
-                            <tr className="tbl-row" key={transaction.id}
-                                onClick={() => { setSelectedTransaction(transaction) }}
-                                onDoubleClick={() => { setShowEdit(true) }}>
-                                <td>{transaction.id}</td>
-                                <td>{moment(transaction.transactionDate).format('M/D/YY')}</td>
-                                <td>{transaction.description}</td>
-                                <td>{transaction.source}</td>
-                                <td>{transaction.note}</td>
-                                <td>{findCategoryName(transaction.categoryId)}</td>
-                                <td>{formatter.format(transaction.value)}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            {/*<div className="table-container">*/}
+            {/*    <table>*/}
+            {/*        <thead>*/}
+            {/*            <tr>*/}
+            {/*                <th>Id</th>*/}
+            {/*                <th>Date</th>*/}
+            {/*                <th>Description</th>*/}
+            {/*                <th>Source</th>*/}
+            {/*                <th>Note</th>*/}
+            {/*                <th>Category Id</th>*/}
+            {/*                <th>Value</th>*/}
+            {/*            </tr>*/}
+            {/*        </thead>*/}
+            {/*        <tbody className="tbl-content">*/}
+            {/*            {transactionsFiltered.map((transaction) => (*/}
+            {/*                <tr className="tbl-row" key={transaction.id}*/}
+            {/*                    onClick={() => { setSelectedTransaction(transaction) }}*/}
+            {/*                    onDoubleClick={() => { setShowEdit(true) }}>*/}
+            {/*                    <td>{transaction.id}</td>*/}
+            {/*                    <td>{moment(transaction.transactionDate).format('M/D/YY')}</td>*/}
+            {/*                    <td>{transaction.description}</td>*/}
+            {/*                    <td>{transaction.source}</td>*/}
+            {/*                    <td>{transaction.note}</td>*/}
+            {/*                    <td>{findCategoryName(transaction.categoryId)}</td>*/}
+            {/*                    <td>{formatter.format(transaction.value)}</td>*/}
+            {/*                </tr>*/}
+            {/*            ))}*/}
+            {/*        </tbody>*/}
+            {/*    </table>*/}
+            {/*</div>*/}
 
             {/* Render EditTransaction if showEdit is true. */}
             <EditTransaction

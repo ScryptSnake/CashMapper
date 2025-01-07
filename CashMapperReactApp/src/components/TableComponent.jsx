@@ -77,8 +77,8 @@ export const TableComponent = ({ data = [], headers = {}, sortOrder=[], onClick,
                 </thead>
 
                 <tbody className="tbl-content">
-                    {tableData.map((dataItem) => (
-                        <tr className="tbl-row" key={dataItem.id}
+                    {tableData.map((dataItem, index) => (
+                        <tr className="tbl-row" key={index}
                             onClick={() => { onClick(dataItem) }}
                             onDoubleClick={() => { onDoubleClick(dataItem) }}>
                             {Object.keys(dataItem).map((key, index) => (
