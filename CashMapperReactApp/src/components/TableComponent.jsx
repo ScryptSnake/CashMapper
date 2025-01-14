@@ -43,6 +43,7 @@ export const TableComponent = ({ data = [], keyField = "id", headers = {}, colum
 
     const handleClick = (id) => {
         const record = data.find(record => record.id === id);
+        console.log(id)
         onClick(record); //call the callback.
     }
 
@@ -55,6 +56,7 @@ export const TableComponent = ({ data = [], keyField = "id", headers = {}, colum
         // Sets the table data based on props that transform the data
         // Transforms include:  sorting, transforming the value, renaming or hiding columns 
         const transformData = data.map(item => {
+
             // sort the data based on column order.
             const newItem = sortObjectKeysWithArray(item, columnOrder) 
             const transformedItem = {}
@@ -63,7 +65,6 @@ export const TableComponent = ({ data = [], keyField = "id", headers = {}, colum
             // loop through propnames (keys)
             for (let i = 0; i < properties.length; i++) {
                 const propertyName = properties[i];
-
                 // Run value transforms if provided:
                 if (propertyName in transform) {
                     newItem[propertyName] = transform[propertyName](newItem[propertyName])
@@ -85,6 +86,14 @@ export const TableComponent = ({ data = [], keyField = "id", headers = {}, colum
             return transformedItem; // Return the transformed item
         });
 
+
+        // Perform a check:
+        if (keyField in headers) {
+            if (!headers[keyField]) {
+                console.error("TableComponent: keyField provided is set to null in headers. Please provide a different unique key.")
+            }
+        }
+
         if (transformData.length > 0) {
             const filteredColumnNames = Object.keys(transformData[0]);
             setTableData(transformData); 
@@ -95,8 +104,6 @@ export const TableComponent = ({ data = [], keyField = "id", headers = {}, colum
         }
 
     }, [data, headers]);
-
-
 
 
     return (

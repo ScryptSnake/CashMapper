@@ -4,6 +4,7 @@ import CashMapperDataProvider from '../data/CashMapperDataProvider'
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { TableComponent } from '../components/TableComponent';
+import { ListboxComponent } from '../components/ListboxComponent';
 import moment from 'moment';
 
 
@@ -40,12 +41,20 @@ export const CategoriesSettings = ({}) => {
                 </button>
             </div>
 
-            <TableComponent
+            <ListboxComponent
                 data={categories}
-                headers={{ categoryType: "Type", dateCreated: "Created", dateModified: null, flag: null, id: null }}
-                sortOrder={["name", "categoryType", "dateCreated"]}
-                transform={{ dateCreated: (value) => moment(value).format('M/D/YY hh:mm A')} }
+                headers={{categoryType: "Type", dateCreated: "Created", dateModified: null, flag: null, id: null }}
+                sortOrder={["id","name", "categoryType", "dateCreated"]}
+                transform={{ dateCreated: (value) => moment(value).format('M/D/YY hh:mm A') }}
+                keyField={"name" }
             />
+
+            {/*<TableComponent*/}
+            {/*    data={categories}*/}
+            {/*    headers={{ categoryType: "Type", dateCreated: "Created", dateModified: null, flag: null, id: null }}*/}
+            {/*    sortOrder={["name", "categoryType", "dateCreated"]}*/}
+            {/*    transform={{ dateCreated: (value) => moment(value).format('M/D/YY hh:mm A')} }*/}
+            {/*/>*/}
 
         </div>
     );
