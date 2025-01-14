@@ -6,14 +6,30 @@ import { EditTransaction } from '../components/EditTransaction';
 import { ImportTransactions } from '../components/ImportTransactions';
 import moment from 'moment';
 
-export const TableComponent = ({ data = [], keyField = "id", headers = {}, sortOrder = [], transform = {}, onClick, onDoubleClick}) => {
+
+
+// A components that displays data in a table.
+// data:  the underlying array of data. [required]
+// keyField: a unique identifer key for each object in the data array. [required]
+// headers: change the name of columns. Optionally ignore columns by setting to null. Must be original column names in data array. [optional]
+// columnOrder:  list of columns to be ordered. Must be original column names in data array. [optional]
+// transform: modifies the value associated with the field. [optional]
+
+//Ex:
+//data = { transactionsFiltered }
+//headers = {{ transactionDate: "Date", categoryId: "Category", dateCreated: null, dateModified: null }}
+//columnOrder = { ["id", "transactionDate", "description", "note", "source", "categoryId", "flag", "value"]}
+//onClick = { myClickHandler }
+//onDoubleClick = {myDoubleClickHandler}
+//transform = {{
+//    transactionDate: (value) => moment(value).format('M/D/YY')
+
+export const TableComponent = ({ data = [], keyField = "id", headers = {}, columnOrder = [], transform = {}, onClick, onDoubleClick}) => {
     const [columnNames, setColumnNames] = useState([])
     const [tableData, setTableData] = useState([])
 
 
-    // Sort data provided.
-    // obj = object to sort keys
-    // sort = array of string values represents keys in each object in data.
+    // This method sorts a JS object's properties (keys) based on a list of keys provided
     const sortObjectKeysWithArray = (obj, sortKeys) => {
         let sorted = {}
         let sortObject = {}
@@ -22,33 +38,37 @@ export const TableComponent = ({ data = [], keyField = "id", headers = {}, sortO
         })
         sorted = Object.assign(sortObject, obj);
         return sorted;
-
     }
 
 
     const handleClick = (id) => {
         const record = data.find(record => record.id === id);
-        //console.log("", record)
         onClick(record); //call the callback.
     }
 
     const handleDoubleClick = (id) => {
         const record = data.find(record => record.id === id);
-        console.log(record) //this works fine
         onDoubleClick(record); //call the callback.
     }
 
-
     useEffect(() => {
+        // Sets the table data based on props that transform the data
+        // Transforms include:  sorting, transforming the value, renaming or hiding columns 
         const transformData = data.map(item => {
-            const newItem = sortObjectKeysWithArray(item, sortOrder) 
+            // sort the data based on column order.
+            const newItem = sortObjectKeysWithArray(item, columnOrder) 
             const transformedItem = {}
             const properties = Object.keys(newItem); 
 
-            // loop through propnames.
+            // loop through propnames (keys)
             for (let i = 0; i < properties.length; i++) {
                 const propertyName = properties[i];
 
+                // Run value transforms if provided:
+                if (propertyName in transform) {
+                    newItem[propertyName] = transform[propertyName](newItem[propertyName])
+                }
+                // Rename or remove columns
                 if (headers && propertyName in headers) {
                     const newHeader = headers[propertyName];
                     if (!newHeader) {
@@ -64,7 +84,6 @@ export const TableComponent = ({ data = [], keyField = "id", headers = {}, sortO
             }
             return transformedItem; // Return the transformed item
         });
-
 
         if (transformData.length > 0) {
             const filteredColumnNames = Object.keys(transformData[0]);

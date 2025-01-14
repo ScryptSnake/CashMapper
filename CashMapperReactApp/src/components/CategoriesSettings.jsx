@@ -4,22 +4,16 @@ import CashMapperDataProvider from '../data/CashMapperDataProvider'
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { TableComponent } from '../components/TableComponent';
+import moment from 'moment';
 
-/**
- * Sidebar
- * 
- * A reusable sidebar component that renders buttons provided by prop.
- * - buttons (array):  Buttons to be added. Structure:  {caption, navUrl (optional), imageSource (optional) }
- * - onButtonClick:  Callback when button is selected. Provides index of button selected. 
- * - style:  optional in-line style to override Sidebar default css.
- */
+
 export const CategoriesSettings = ({}) => {
-    // style:  an optional css style to override the sidebar style. 
-
-
     const [activeButton, setActiveButton] = useState(0);
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState();
+
+
+
 
     // Load categories on load.
     useEffect(() => {
@@ -50,37 +44,9 @@ export const CategoriesSettings = ({}) => {
                 data={categories}
                 headers={{ categoryType: "Type", dateCreated: "Created", dateModified: null, flag: null, id: null }}
                 sortOrder={["name", "categoryType", "dateCreated"]}
-                style={{ width: "100px" } }
-
+                transform={{ dateCreated: (value) => moment(value).format('M/D/YY hh:mm A')} }
             />
 
-
-            {/*<div className="table-container">*/}
-            {/*    <table>*/}
-            {/*        <thead>*/}
-            {/*            <tr>*/}
-            {/*                <th>Id</th>*/}
-            {/*                <th>Name</th>*/}
-            {/*                <th>Type</th>*/}
-            {/*                <th>Flag</th>*/}
-
-            {/*            </tr>*/}
-            {/*        </thead>*/}
-            {/*        <tbody className="tbl-content">*/}
-            {/*            {categories.map((category) => (*/}
-            {/*                <tr className="tbl-row" key={category.id}*/}
-            {/*                    onClick={() => { setSelectedCategory(category) }}*/}
-            {/*                    >*/}
-            {/*                    <td>{category.id}</td>*/}
-            {/*                    <td>{category.name}</td>*/}
-            {/*                    <td>{category.category_type || '[No Type]'}</td>*/}
-            {/*                    <td>{category.flag}</td>*/}
-             
-            {/*                </tr>*/}
-            {/*            ))}*/}
-            {/*        </tbody>*/}
-            {/*    </table>*/}
-            {/*</div>*/}
         </div>
     );
 };

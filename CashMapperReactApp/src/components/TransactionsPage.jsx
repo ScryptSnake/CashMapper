@@ -171,43 +171,11 @@ export const TransactionsPage = () => {
             <TableComponent
                 data={transactionsFiltered}
                 headers={{ transactionDate: "Date", categoryId: "Category", dateCreated: null, dateModified: null }}
-                sortOrder={["id", "transactionDate", "description", "note", "source", "categoryId", "flag", "value"]}
+                columnOrder={["id", "transactionDate", "description", "note", "source", "categoryId", "flag", "value"]}
                 onClick={setSelectedTransaction} // set state directly. Uses 'record' for clicked value
                 onDoubleClick={() => { setShowEdit(true) }}
-
+                transform={{ transactionDate: (value) => moment(value).format('M/D/YY'), categoryId: (value) => findCategoryName(value) }}
             />
-
-                  
-            {/*<div className="table-container">*/}
-            {/*    <table>*/}
-            {/*        <thead>*/}
-            {/*            <tr>*/}
-            {/*                <th>Id</th>*/}
-            {/*                <th>Date</th>*/}
-            {/*                <th>Description</th>*/}
-            {/*                <th>Source</th>*/}
-            {/*                <th>Note</th>*/}
-            {/*                <th>Category Id</th>*/}
-            {/*                <th>Value</th>*/}
-            {/*            </tr>*/}
-            {/*        </thead>*/}
-            {/*        <tbody className="tbl-content">*/}
-            {/*            {transactionsFiltered.map((transaction) => (*/}
-            {/*                <tr className="tbl-row" key={transaction.id}*/}
-            {/*                    onClick={() => { setSelectedTransaction(transaction) }}*/}
-            {/*                    onDoubleClick={() => { setShowEdit(true) }}>*/}
-            {/*                    <td>{transaction.id}</td>*/}
-            {/*                    <td>{moment(transaction.transactionDate).format('M/D/YY')}</td>*/}
-            {/*                    <td>{transaction.description}</td>*/}
-            {/*                    <td>{transaction.source}</td>*/}
-            {/*                    <td>{transaction.note}</td>*/}
-            {/*                    <td>{findCategoryName(transaction.categoryId)}</td>*/}
-            {/*                    <td>{formatter.format(transaction.value)}</td>*/}
-            {/*                </tr>*/}
-            {/*            ))}*/}
-            {/*        </tbody>*/}
-            {/*    </table>*/}
-            {/*</div>*/}
 
             {/* Render EditTransaction if showEdit is true. */}
             <EditTransaction
