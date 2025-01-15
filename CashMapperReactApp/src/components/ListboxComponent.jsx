@@ -7,8 +7,6 @@ import { ImportTransactions } from '../components/ImportTransactions';
 import { TableComponent } from '../components/TableComponent';
 import moment from 'moment';
 
-
-
 // A components that displays data in a table.
 // data:  the underlying array of data. [required]
 // keyField: a unique identifer key for each object in the data array. [required]
@@ -25,16 +23,17 @@ import moment from 'moment';
 //transform = {{
 //    transactionDate: (value) => moment(value).format('M/D/YY')
 
-export const ListboxComponent = ({ data = [], keyField = "id", headers = {}, columnOrder = [], transform = {}, onClick, onDoubleClick}) => {
+export const ListboxComponent = ({ data = [], keyField = "id", headers = {}, columnOrder = [], transform = {}}) => {
 
 
     const [activeRow, setActiveRow] = useState(null);
 
 
 
-    const onClickHandler = (id) => {
+    const onClickHandler = (record) => {
         // store key field (id) in active row variable for highlighting
-        setActiveRow(id)
+        console.log("Clicked: " + JSON.stringify(record))
+        setActiveRow(record)
         // call the parent's callback
         //onClick(id);
 
@@ -57,19 +56,16 @@ export const ListboxComponent = ({ data = [], keyField = "id", headers = {}, col
         `;
 
 
-
     useEffect(() => {
         console.log("effect")
         if (activeRow) {
             console.log("active")
-            const row = document.querySelector(`tr[data-key]='${activeRow}']`)
+            const row = document.querySelector(`.tbl-row[data-key="${activeRow}"]`)
             if (row) {
                 row.classList.add('highlighted'); // add the css style.
             }
         }
     },[activeRow])
-
-
 
 
     return (
@@ -81,7 +77,7 @@ export const ListboxComponent = ({ data = [], keyField = "id", headers = {}, col
                 columnOrder={columnOrder}
                 transform={transform}
                 onClick={onClickHandler}
-                onDoubleClick={onDoubleClickHandler }
+                onDoubleClick={onDoubleClickHandler}
             />
 
 

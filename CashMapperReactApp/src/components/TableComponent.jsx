@@ -28,7 +28,6 @@ export const TableComponent = ({ data = [], keyField = "id", headers = {}, colum
     const [columnNames, setColumnNames] = useState([])
     const [tableData, setTableData] = useState([])
 
-
     // This method sorts a JS object's properties (keys) based on a list of keys provided
     const sortObjectKeysWithArray = (obj, sortKeys) => {
         let sorted = {}
@@ -42,13 +41,13 @@ export const TableComponent = ({ data = [], keyField = "id", headers = {}, colum
 
 
     const handleClick = (id) => {
-        const record = data.find(record => record.id === id);
-        console.log(id)
+        const record = data.find(record => record[keyField] === id);
+        console.log("Sending: " + id)
         onClick(record); //call the callback.
     }
 
     const handleDoubleClick = (id) => {
-        const record = data.find(record => record.id === id);
+        const record = data.find(record => record[keyField] === id);
         onDoubleClick(record); //call the callback.
     }
 
