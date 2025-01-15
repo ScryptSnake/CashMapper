@@ -41,12 +41,13 @@ export const CategoriesSettings = ({}) => {
                 </button>
             </div>
 
-            <ListboxComponent
+            <TableComponent
                 data={categories}
-                headers={{categoryType: "Type", dateCreated: "Created", dateModified: null, flag: null, id: null }}
-                sortOrder={["id","name", "categoryType", "dateCreated"]}
+                headers={{ categoryType: "Type", dateCreated: "Created", dateModified: null, flag: null, id: null }}
+                sortOrder={["id", "name", "categoryType", "dateCreated"]}
                 transform={{ dateCreated: (value) => moment(value).format('M/D/YY hh:mm A') }}
                 keyField={"name"}
+                allowSelect={true }
             />
 
             {/*<TableComponent*/}

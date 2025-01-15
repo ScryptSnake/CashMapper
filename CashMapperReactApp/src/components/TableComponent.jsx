@@ -1,6 +1,6 @@
 import '../styles/Page.css';
 import '../styles/Table.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CashMapperDataProvider from '../data/CashMapperDataProvider.js';
 import { EditTransaction } from '../components/EditTransaction';
 import { ImportTransactions } from '../components/ImportTransactions';
@@ -14,6 +14,7 @@ import moment from 'moment';
 // headers: change the name of columns. Optionally ignore columns by setting to null. Must be original column names in data array. [optional]
 // columnOrder:  list of columns to be ordered. Must be original column names in data array. [optional]
 // transform: modifies the value associated with the field. [optional]
+// allowSelect: styles the active row. 
 
 //Ex:
 //data = { transactionsFiltered }
@@ -24,9 +25,16 @@ import moment from 'moment';
 //transform = {{
 //    transactionDate: (value) => moment(value).format('M/D/YY')
 
-export const TableComponent = ({ data = [], keyField = "id", headers = {}, columnOrder = [], transform = {}, onClick, onDoubleClick}) => {
+export const TableComponent = ({ data = [], keyField = "id", headers = {}, columnOrder = [], transform = {}, onClick, onDoubleClick, allowSelect}) => {
     const [columnNames, setColumnNames] = useState([])
     const [tableData, setTableData] = useState([])
+
+    const rowRefs = useRef({}) //references to row elements to stylize with allowSelect
+    const firstRender = useRef(true); // track the components first render
+
+    const [activeRowObject, setActiveRowObject] = useState(null);
+    const [oldRowObject, setOldRowObject] = useState(null);
+
 
     // This method sorts a JS object's properties (keys) based on a list of keys provided
     const sortObjectKeysWithArray = (obj, sortKeys) => {
@@ -42,7 +50,8 @@ export const TableComponent = ({ data = [], keyField = "id", headers = {}, colum
 
     const handleClick = (id) => {
         const record = data.find(record => record[keyField] === id);
-        console.log("Sending: " + id)
+        setOldRowObject(activeRowObject)
+        setActiveRowObject(record)
         onClick(record); //call the callback.
     }
 
@@ -51,9 +60,61 @@ export const TableComponent = ({ data = [], keyField = "id", headers = {}, colum
         onDoubleClick(record); //call the callback.
     }
 
+    const handleRowRef = (id, element) => {
+        if (rowRefs) {
+            if (element) {
+                if (!rowRefs.current) {
+                    rowRefs.current = {}; // Ensure rowRefs.current is initialized
+                }
+                rowRefs.current[id] = element; // Store the row element in the rowRefs object
+            } else {
+                if (rowRefs.current) {
+                    delete rowRefs.current[id]; // Remove it when the row is unmounted
+                }
+            }
+        }
+    };
+
+
+    // Selects the first row on load.
     useEffect(() => {
-        // Sets the table data based on props that transform the data
-        // Transforms include:  sorting, transforming the value, renaming or hiding columns 
+
+        if (data.length == 0) {
+            setOldRowObject(null)
+            setActiveRowObject
+        }
+
+            if (firstRender.current) {
+                // On first render, set the first item as active row
+                setOldRowObject(null)
+                setActiveRowObject(data[0]);
+                }
+        }, [data]);
+
+
+
+
+    // Enables formatting of the active row (allowSelect)
+    useEffect(() => {
+        if (allowSelect && activeRowObject) {
+            const key = activeRowObject[keyField];
+            // Apply the style to the row in the parent
+            if (rowRefs.current[key]) {
+                rowRefs.current[key].style.setProperty('background-color', '#ABFFBD', 'important');
+                rowRefs.current[key].style.setProperty('font-weight', 'bold', 'important');
+                if (oldRowObject) {
+                    const oldKey = oldRowObject[keyField];
+                    rowRefs.current[oldKey].style.backgroundColor = '';
+                    rowRefs.current[oldKey].style.setProperty('font-weight', '', 'important');
+                }
+            }
+        }
+    }, [activeRowObject]);
+
+
+    // Sets the table data based on props that transform the data
+    // Transforms include:  sorting, transforming the value, renaming or hiding columns 
+    useEffect(() => {
         const transformData = data.map(item => {
 
             // sort the data based on column order.
@@ -85,14 +146,13 @@ export const TableComponent = ({ data = [], keyField = "id", headers = {}, colum
             return transformedItem; // Return the transformed item
         });
 
-
         // Perform a check:
         if (keyField in headers) {
             if (!headers[keyField]) {
                 console.error("TableComponent: keyField provided is set to null in headers. Please provide a different unique key.")
             }
         }
-
+        // Set states
         if (transformData.length > 0) {
             const filteredColumnNames = Object.keys(transformData[0]);
             setTableData(transformData); 
@@ -120,6 +180,7 @@ export const TableComponent = ({ data = [], keyField = "id", headers = {}, colum
                         <tr
                             className="tbl-row"
                             key={dataItem[keyField]}
+                            ref={(el) => handleRowRef(dataItem[keyField], el)}
                             onClick={() => {
                                 const id = dataItem[keyField]; // the unique key id passed by prop
                                 handleClick(id);

@@ -175,6 +175,7 @@ export const TransactionsPage = () => {
                 onClick={setSelectedTransaction} // set state directly. Uses 'record' for clicked value
                 onDoubleClick={() => { setShowEdit(true) }}
                 transform={{ transactionDate: (value) => moment(value).format('M/D/YY'), categoryId: (value) => findCategoryName(value) }}
+                allowSelect={true }
             />
 
             {/* Render EditTransaction if showEdit is true. */}
