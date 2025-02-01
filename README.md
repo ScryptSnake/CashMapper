@@ -40,7 +40,7 @@ are categorized, others simply help keep track of financial information. These i
     The sum of these items' value for a given *Income Profile* should result to the profile's NET income. 
     Items could mirror a user's paystub breakdown. 
     For example: "STATE TAXES" may be an item. "WAGES" may be another item. Income Items serve as a way
-    for a user to have an overview of how their .NET income is computed for a given profile.
+    for a user to have an overview of how their net income is computed.
 
 - **Expense Items**: An anticipated expense, defined with a monthly-value. 
     This type of item is not confined to any profile, but is defined with a *category* 
